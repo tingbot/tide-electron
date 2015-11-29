@@ -1,0 +1,26 @@
+{
+  "name": "tide-power",
+  "version": "0.0.1",
+  "description": "An Electron based IDE for TingBot",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atom/electron-quick-start.git"
+  },
+  "keywords": [
+    "Electron",
+    "TingBot"
+  ],
+  "author": "rob4001",
+  "license": "GNU GPL 3.0",
+  "bugs": {
+    "url": "https://github.com/atom/electron-quick-start/issues"
+  },
+  "homepage": "https://github.com/atom/electron-quick-start#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^0.35.0"
+  }
+}

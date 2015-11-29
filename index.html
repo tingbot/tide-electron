@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Tide Power</title>
+    <style media="screen">
+      #editor {
+        position: relative;
+        width: 80%;
+
+      }
+
+      body {
+        margin: 0px
+      }
+
+      #sidebar {
+
+    background:#000;
+}
+
+.top {
+    position:absolute;
+    left:0; right:0;
+    height: 20px;
+}
+.left {
+    position:absolute;
+    left:0; top:20px; bottom: 0;
+    width: 20%;
+}
+.main {
+    position: absolute;
+    left:20%; top:20px; right:0; bottom:0;
+}
+    </style>
+  </head>
+
+  <body>
+    <div class="top" id="top-menu">
+      <button type="button" name="start" onclick="startTest()">Start</button>
+      <button type="button" name="pause">Pause</button>
+      <select class="" name="simulator">
+        <option value="simulate">Simulation</option>
+        <option value="tingbot">TingBot</option>
+      </select>
+    </div>
+    <div class="left" id="sidebar"></div>
+    <div class="main" id="editor">some text</div>
+    <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="ace/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
+    <script src="ace/mode-python.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    const ipcRenderer = require('electron').ipcRenderer;
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+      var PythonMode = ace.require("ace/mode/python").Mode;
+      editor.session.setMode(new PythonMode());
+
+      editor.setShowPrintMargin(false);
+
+      ipcRenderer.on('resize',function(event,newSize){
+        console.log("resizerec:"+JSON.stringify(newSize));
+        document.getElementById("editor").style.height=(newSize[1]-45)+"px";
+      });
+
+
+    function startTest(){
+      console.log("Clicked");
+
+
+      console.log(ipcRenderer.send('startTest'));
+
+    }
+    </script>
+  </body>
+
+</html>
