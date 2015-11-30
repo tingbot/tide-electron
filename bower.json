@@ -1,0 +1,29 @@
+{
+  "name": "tide-power",
+  "description": "An Electron based IDE for TingBot",
+  "main": "main.js",
+  "authors": [
+    "rob4001"
+  ],
+  "license": "GPL-3.0",
+  "keywords": [
+    "Electron",
+    "TingBot"
+  ],
+  "homepage": "https://github.com/Rob4001/TidePower",
+  "moduleType": [
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ace-builds": "git+https://github.com/ajaxorg/ace-builds.git#~1.2.2",
+    "jquery": "~2.1.4"
+  }
+}

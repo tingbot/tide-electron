@@ -3,11 +3,11 @@
 
   <head>
     <title>Tide Power</title>
+    <!-- TODO: Export this to external file -->
     <style media="screen">
       #editor {
         position: relative;
         width: 80%;
-
       }
 
       body {
@@ -15,24 +15,31 @@
       }
 
       #sidebar {
+        background: #000;
+      }
 
-    background:#000;
-}
+      .top {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 20px;
+      }
 
-.top {
-    position:absolute;
-    left:0; right:0;
-    height: 20px;
-}
-.left {
-    position:absolute;
-    left:0; top:20px; bottom: 0;
-    width: 20%;
-}
-.main {
-    position: absolute;
-    left:20%; top:20px; right:0; bottom:0;
-}
+      .left {
+        position: absolute;
+        left: 0;
+        top: 20px;
+        bottom: 0;
+        width: 20%;
+      }
+
+      .main {
+        position: absolute;
+        left: 20%;
+        top: 20px;
+        right: 0;
+        bottom: 0;
+      }
     </style>
   </head>
 
@@ -47,11 +54,20 @@
     </div>
     <div class="left" id="sidebar"></div>
     <div class="main" id="editor">some text</div>
-    <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="ace/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
-    <script src="ace/mode-python.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- SCRIPTS -->
+    <script src="bower_components/ace-builds/src/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/ace-builds/src/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/ace-builds/src/mode-python.js" type="text/javascript" charset="utf-8"></script>
+
+
+
     <script>
-    const ipcRenderer = require('electron').ipcRenderer;
+      //TODO: Export this to external file
+      // Make contact with the rest of the app
+      const ipcRenderer = require('electron').ipcRenderer;
+
+      // Setup our editor
       var editor = ace.edit("editor");
       editor.setTheme("ace/theme/monokai");
       var PythonMode = ace.require("ace/mode/python").Mode;
@@ -59,19 +75,20 @@
 
       editor.setShowPrintMargin(false);
 
-      ipcRenderer.on('resize',function(event,newSize){
-        console.log("resizerec:"+JSON.stringify(newSize));
-        document.getElementById("editor").style.height=(newSize[1]-45)+"px";
+      // Ensures editor is the right size
+      ipcRenderer.on('resize', function(event, newSize) {
+        console.log("resizerec:" + JSON.stringify(newSize));
+        document.getElementById("editor").style.height = (newSize[1] - 45) + "px";
       });
 
+      // Start implementing UI callbacks
+      function startTest() {
+        console.log("Clicked");
 
-    function startTest(){
-      console.log("Clicked");
 
+        console.log(ipcRenderer.send('startTest'));
 
-      console.log(ipcRenderer.send('startTest'));
-
-    }
+      }
     </script>
   </body>
 
