@@ -42,11 +42,6 @@ app.on('ready', function() {
     mainWindow = null;
   });
 
-  mainWindow.on('resize', function(){
-    console.log("resize");
-    mainWindow.webContents.send('resize',mainWindow.getSize());
-  });
-
   var minutes = 5,
     the_interval = minutes * 60 * 1000;
   setInterval(function() {
@@ -59,6 +54,10 @@ app.on('ready', function() {
     console.log("received");
     var subpy = require('child_process').spawn('python', ['./test.py']);
     event.returnValue = "derp";
+  });
+
+  ipcMain.on('fileAdd', function(event,file){
+
   });
 
 

@@ -8,10 +8,12 @@
       #editor {
         position: relative;
         width: 80%;
+        height: 100%;
       }
 
       body {
         margin: 0px
+
       }
 
       #sidebar {
@@ -31,6 +33,7 @@
         top: 20px;
         bottom: 0;
         width: 20%;
+        color: white;
       }
 
       .main {
@@ -59,7 +62,7 @@
     <script src="bower_components/ace-builds/src/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/ace-builds/src/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/ace-builds/src/mode-python.js" type="text/javascript" charset="utf-8"></script>
-
+    <script>window.$ = window.jQuery = require('./bower_components/jquery/dist/jquery.min.js');</script>
 
 
     <script>
@@ -75,11 +78,9 @@
 
       editor.setShowPrintMargin(false);
 
-      // Ensures editor is the right size
-      ipcRenderer.on('resize', function(event, newSize) {
-        console.log("resizerec:" + JSON.stringify(newSize));
-        document.getElementById("editor").style.height = (newSize[1] - 45) + "px";
-      });
+      $('#editor').height(window.innerHeight- $('#top-menu').height() );
+
+
 
       // Start implementing UI callbacks
       function startTest() {
@@ -89,6 +90,58 @@
         console.log(ipcRenderer.send('startTest'));
 
       }
+
+
+      // Start Sidebar control
+      var holder = document.getElementById('sidebar');
+      holder.ondragover = function() {
+        return false;
+      };
+      holder.ondragleave = holder.ondragend = function() {
+        return false;
+      };
+      holder.ondrop = function(e) {
+        e.preventDefault();
+        var file = e.dataTransfer.files[0];
+        console.log(file);
+        console.log('File you dragged here is', file.path);
+        ipcRenderer.send("fileAdd", file);
+
+        return false;
+      };
+
+      // directory stuff
+      var fs = require('fs');
+
+      //load specific .tingapp into the view
+      function loadTingapp(dir) {
+        //we need to get a look at the files in that folder
+        fs.readdir(dir, function(err, files) {
+          for (var i in files) {
+            if (err) throw err;
+            console.log(files[i]);
+
+            $('#sidebar').append("<dir class='treefile' data-path="+dir+"/"+files[i]+">"+files[i]+"</dir>");
+          }
+
+          $('.treefile').on('click',function(){
+            console.log($(this));
+            openFile($(this).data("path"));
+          });
+        });
+
+      }
+
+
+
+      function openFile(path){//TODO: Check if image or something other than python
+          console.log("Opening"+ path);
+          fs.readFile(path,function(err,data){
+            editor.setValue(data.toString(),1);
+          });
+      }
+
+      loadTingapp(__dirname + "/default.tingapp");
     </script>
   </body>
 
