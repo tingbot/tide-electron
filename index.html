@@ -78,8 +78,12 @@
 
       editor.setShowPrintMargin(false);
 
+      // Ensures editor is the right size
       $('#editor').height(window.innerHeight- $('#top-menu').height() );
 
+      ipcRenderer.on('resize', function(event, newSize) {
+        $('#editor').height(window.innerHeight- $('#top-menu').height() );
+      });
 
 
       // Start implementing UI callbacks

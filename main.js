@@ -42,6 +42,10 @@ app.on('ready', function() {
     mainWindow = null;
   });
 
+  mainWindow.on('resize', function(){
+    mainWindow.webContents.send('resize',mainWindow.getSize());
+  });
+
   var minutes = 5,
     the_interval = minutes * 60 * 1000;
   setInterval(function() {
