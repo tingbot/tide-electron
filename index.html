@@ -13,7 +13,6 @@
 
       body {
         margin: 0px
-
       }
 
       #sidebar {
@@ -62,7 +61,9 @@
     <script src="bower_components/ace-builds/src/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/ace-builds/src/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/ace-builds/src/mode-python.js" type="text/javascript" charset="utf-8"></script>
-    <script>window.$ = window.jQuery = require('./bower_components/jquery/dist/jquery.min.js');</script>
+    <script>
+      window.$ = window.jQuery = require('./bower_components/jquery/dist/jquery.min.js');
+    </script>
 
 
     <script>
@@ -79,10 +80,10 @@
       editor.setShowPrintMargin(false);
 
       // Ensures editor is the right size
-      $('#editor').height(window.innerHeight- $('#top-menu').height() );
+      $('#editor').height(window.innerHeight - $('#top-menu').height());
 
       ipcRenderer.on('resize', function(event, newSize) {
-        $('#editor').height(window.innerHeight- $('#top-menu').height() );
+        $('#editor').height(window.innerHeight - $('#top-menu').height());
       });
 
 
@@ -116,6 +117,21 @@
 
       // directory stuff
       var fs = require('fs');
+      var current_app = require('temp').path()+".tingapp";
+
+      var ncp = require('ncp').ncp;
+
+      ncp.limit = 16;
+
+      function saveDir(source, destination,cb) {
+        ncp(source, destination, function(err) {
+          if (err) {
+            return console.error(err);
+          }
+          console.log(destination);
+          cb(destination);
+        });
+      }
 
       //load specific .tingapp into the view
       function loadTingapp(dir) {
@@ -125,10 +141,10 @@
             if (err) throw err;
             console.log(files[i]);
 
-            $('#sidebar').append("<dir class='treefile' data-path="+dir+"/"+files[i]+">"+files[i]+"</dir>");
+            $('#sidebar').append("<dir class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</dir>");
           }
 
-          $('.treefile').on('click',function(){
+          $('.treefile').on('click', function() {
             console.log($(this));
             openFile($(this).data("path"));
           });
@@ -138,14 +154,14 @@
 
 
 
-      function openFile(path){//TODO: Check if image or something other than python
-          console.log("Opening"+ path);
-          fs.readFile(path,function(err,data){
-            editor.setValue(data.toString(),1);
-          });
+      function openFile(path) { //TODO: Check if image or something other than python
+        console.log("Opening" + path);
+        fs.readFile(path, function(err, data) {
+          editor.setValue(data.toString(), 1);
+        });
       }
+      saveDir(__dirname + "/default.tingapp", current_app,loadTingapp);
 
-      loadTingapp(__dirname + "/default.tingapp");
     </script>
   </body>
 

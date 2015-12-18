@@ -1,6 +1,6 @@
 var app = require('app'); // Module to control application life.
 var BrowserWindow = require('browser-window'); // Module to create native browser window.
-var dns = require('dns');
+var mdns = require('multicast-dns')();
 
 const ipcMain = require('electron').ipcMain;
 
@@ -46,7 +46,7 @@ app.on('ready', function() {
     mainWindow.webContents.send('resize',mainWindow.getSize());
   });
 
-  var minutes = 5,
+  var minutes = 1,
     the_interval = minutes * 60 * 1000;
   setInterval(function() {
     console.log("I am doing my 5 minutes check for new tingbots");
@@ -56,7 +56,7 @@ app.on('ready', function() {
 
   ipcMain.on('startTest', function(event, arg) {
     console.log("received");
-    var subpy = require('child_process').spawn('python', ['./test.py']);
+    var subpy = require('child_process').spawn('vendor/tbtool', ['simulate','./test.py']);
     event.returnValue = "derp";
   });
 
@@ -67,15 +67,19 @@ app.on('ready', function() {
 
 });
 
+mdns.on('response', function(response) {
+  console.log('got a response packet:', response);
+});
+
 function updateDNS(){
-  dns.resolveSrv("_tingbot-ssh._tcp", function(err,addresses) {
-      if (err) console.log(err);
-      console.log(addresses);
-      for(var a in addresses){
-        console.log(addresses[a]);
-        dns.resolve(addresses[a].name,function(err,result){
-          console.log(result);
-        });
-      }
-  });
+  mdns.query({
+  questions:[{
+    name: '_tingbot._tcp',
+    type: 'SRV'
+  }]
+});
+
+function setupTempFile(){
+
+}
 }
