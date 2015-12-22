@@ -1,6 +1,6 @@
-# Tide Power
+# Tide
 
-A cross-platform IDE for Tingbot
+A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://github.com/atom/electron).
 
 ## To run
 
