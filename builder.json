@@ -1,6 +1,6 @@
 {
   "osx" : {
-    "title": "TidePower",
+    "title": "TideElectron",
     "background": "assets/osx/installer.png",
     "icon": "assets/osx/mount.icns",
     "icon-size": 80,
@@ -10,7 +10,7 @@
     ]
   },
   "win" : {
-    "title" : "TidePower",
+    "title" : "TideElectron",
     "version" : "0.0.0.1",
     "icon" : "assets/win/icon.ico"
   }

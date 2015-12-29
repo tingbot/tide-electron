@@ -1,16 +1,16 @@
 {
-  "name": "tide-power",
+  "name": "tide-electron",
   "description": "An Electron based IDE for TingBot",
   "main": "main.js",
   "authors": [
     "rob4001"
   ],
-  "license": "GPL-3.0",
+  "license": "BSD-2-Clause",
   "keywords": [
     "Electron",
     "TingBot"
   ],
-  "homepage": "https://github.com/Rob4001/TidePower",
+  "homepage": "https://github.com/tingbot/tide-electron",
   "moduleType": [
     "node"
   ],
