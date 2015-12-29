@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "ace-builds": "git+https://github.com/ajaxorg/ace-builds.git#~1.2.2",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "fontawesome": "4.5.0"
   }
 }

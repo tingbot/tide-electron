@@ -49,7 +49,7 @@ app.on('ready', function() {
   var minutes = 1,
     the_interval = minutes * 60 * 1000;
   setInterval(function() {
-    console.log("I am doing my 5 minutes check for new tingbots");
+    console.log("I am doing my 1 minute check for new tingbots");
     updateDNS();
   }, the_interval);
   updateDNS();

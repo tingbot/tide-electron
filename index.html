@@ -5,6 +5,11 @@
     <title>Tide Electron</title>
     <!-- TODO: Export this to external file -->
     <style media="screen">
+    @font-face {
+    font-family: FontAwesome;
+    src: url('./bower_components/fontawesome/fonts/fontawesome-webfont.woff');
+}
+
       #editor {
         position: relative;
         width: 80%;
@@ -42,6 +47,66 @@
         right: 0;
         bottom: 0;
       }
+
+      .filetree input[type="checkbox"] {
+        display: none;
+      }
+
+      .filetree ul {
+        height: 0;
+        overflow: hidden;
+      }
+
+      .filetree > li input:checked ~ ul {
+        height: auto;
+      }
+
+      .filetree li {
+        list-style: none;
+      }
+
+      .filetree label {
+        padding-left: 20px;
+        line-height: 33px;
+        display: inline-block;
+        position: relative;
+      }
+      /**
+ * Icon
+ * */
+
+      .filetree label:before {
+        content: "\F07B";
+   font-family: FontAwesome;
+   left:-5px;
+   position:absolute;
+   top:0;
+      }
+
+      .filetree input[type="checkbox"] + label {
+        background-position: 0 0;
+        width: 33px;
+        height: 33px;
+      }
+
+      .filetree input[type="checkbox"]:checked + label {
+        background-position: 0 -33px;
+        width: 30px;
+        height: 30px;
+      }
+
+      @media screen and (-webkit-min-device-pixel-ratio: 1.0),
+      screen and (min--moz-device-pixel-ratio: 1.0),
+      screen and (-o-min-device-pixel-ratio: 100/100),
+      screen and (min-device-pixel-ratio: 1.0),
+      screen and (min-resolution: 1.0dppx) {
+        filetree label {
+          background-image: url('./icon/sprite/icon.png');
+          -webkit-background-size: 33px 63px;
+          -moz-background-size: 33px 63px;
+          background-size: 33px 63px;
+        }
+      }
     </style>
   </head>
 
@@ -54,7 +119,11 @@
         <option value="tingbot">TingBot</option>
       </select>
     </div>
-    <div class="left" id="sidebar"></div>
+    <div class="left" id="sidebar">
+      <ul class="filetree" id="filetree">
+
+      </ul>
+    </div>
     <div class="main" id="editor">some text</div>
 
     <!-- SCRIPTS -->
@@ -78,6 +147,8 @@
       editor.session.setMode(new PythonMode());
 
       editor.setShowPrintMargin(false);
+
+      editor.$blockScrolling = Infinity
 
       // Ensures editor is the right size
       $('#editor').height(window.innerHeight - $('#top-menu').height());
@@ -117,31 +188,38 @@
 
       // directory stuff
       var fs = require('fs');
-      var current_app = require('temp').path()+".tingapp";
-
+      var current_app = require('temp').path() + "/new.tingapp";
+      var path = require('path');
       var ncp = require('ncp').ncp;
 
       ncp.limit = 16;
 
-      function saveDir(source, destination,cb) {
-        ncp(source, destination, function(err) {
-          if (err) {
-            return console.error(err);
-          }
-          console.log(destination);
-          cb(destination);
+      function saveDir(source, destination, cb) {
+        var destpath = path.parse(destination);
+        fs.mkdir(destpath.dir,function(){
+          ncp(source, destination, function(err) {
+            if (err) {
+              return console.error(err);
+            }
+            console.log(destination);
+            cb(destination);
+          });
         });
+
       }
 
       //load specific .tingapp into the view
       function loadTingapp(dir) {
         //we need to get a look at the files in that folder
+        var apppath = path.parse(dir);
         fs.readdir(dir, function(err, files) {
+          $('#filetree').append("<li><input type='checkbox' id='level1-1'><label for='level1-1'>"+apppath.base+"</label><ul id='app'></ul></li>");
+
           for (var i in files) {
             if (err) throw err;
             console.log(files[i]);
-
-            $('#sidebar').append("<dir class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</dir>");
+            $('#app').append("<dir class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</dir>");
+            //$('#filetree').append("<dir class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</dir>");
           }
 
           $('.treefile').on('click', function() {
@@ -160,8 +238,7 @@
           editor.setValue(data.toString(), 1);
         });
       }
-      saveDir(__dirname + "/default.tingapp", current_app,loadTingapp);
-
+      saveDir(__dirname + "/default.tingapp", current_app, loadTingapp);
     </script>
   </body>
 
