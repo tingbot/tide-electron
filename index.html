@@ -139,6 +139,8 @@
       // Make contact with the rest of the app
       const ipcRenderer = require('electron').ipcRenderer;
 
+      var current_app = require('temp').path() + "/new.tingapp";
+
       // Setup our editor
       var editor = ace.edit("editor");
       editor.setTheme("ace/theme/monokai");
@@ -162,16 +164,14 @@
           for(var i in tingbots){
             $('#simulator').append("<option value='"+tingbots[i].address+"'>"+tingbots[i].name+"</option>");
           }
-          console.log(tingbots);
+
       });
 
 
       // Start implementing UI callbacks
       function startTest() {
-        console.log("Clicked");
-
-
-        console.log(ipcRenderer.send('startTest'));
+        var tingbot = $('#simulator').val();
+        console.log(ipcRenderer.send('startTest',tingbot,current_app));
 
       }
 
@@ -196,7 +196,7 @@
 
       // directory stuff
       var fs = require('fs');
-      var current_app = require('temp').path() + "/new.tingapp";
+
       var path = require('path');
       var ncp = require('ncp').ncp;
 

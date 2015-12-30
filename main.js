@@ -56,9 +56,17 @@ app.on('ready', function() {
   }, the_interval);
   updateDNS();
 
-  ipcMain.on('startTest', function(event, arg) {
-    console.log("received");
-    var subpy = require('child_process').spawn('vendor/tbtool', ['simulate','./test.py']);
+  ipcMain.on('startTest', function(event, tingbot,dir) {
+
+
+    console.log("received "+tingbot);
+
+    if(tingbot == "simulate"){
+      var subpy = require('child_process').spawn('vendor/tbtool', ['simulate',dir]);
+    }else{
+      var subpy = require('child_process').spawn('vendor/tbtool', ['run',tingbot,dir]);
+    }
+
     event.returnValue = "derp";
   });
 
