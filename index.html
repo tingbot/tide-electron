@@ -154,7 +154,7 @@
       $('#editor').height(window.innerHeight - $('#top-menu').height());
 
       ipcRenderer.on('resize', function(event, newSize) {
-        $('#editor').height(window.innerHeight - $('#top-menu').height());
+          $('#editor').height(newSize[1] - $('#top-menu').height());
       });
 
 

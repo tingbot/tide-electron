@@ -32,7 +32,7 @@ app.on('ready', function() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
@@ -46,10 +46,10 @@ app.on('ready', function() {
     mainWindow.webContents.send('resize',mainWindow.getSize());
   });
 
-  var minutes = 1,
+  var minutes = 5,
     the_interval = minutes * 60 * 1000;
   setInterval(function() {
-    console.log("I am doing my 1 minute check for new tingbots");
+    console.log("I am doing my 5 minutes check for new tingbots");
     updateDNS();
   }, the_interval);
   updateDNS();
@@ -69,13 +69,27 @@ app.on('ready', function() {
 
 mdns.on('response', function(response) {
   console.log('got a response packet:', response);
+  for(var i in response.answers){
+    if(response.answers[i].type == 'SRV'){
+      console.log('IDENTIFIED TINGBOT:' + JSON.stringify(response.answers[i].data));
+    }
+    if(response.answers[i].type == 'A'){
+      console.log('IDENTIFIED TINGBOT ADDRESS:' + JSON.stringify(response.answers[i].data));
+    }
+  }
+});
+
+mdns.on('query', function(response) {
+  console.log('got a query packet:', response);
+
 });
 
 function updateDNS(){
+  console.log("DNS Ping");
   mdns.query({
   questions:[{
-    name: '_tingbot._tcp',
-    type: 'SRV'
+    name: '_tingbot-ssh._tcp.local',
+    type: 'PTR'
   }]
 });
 
