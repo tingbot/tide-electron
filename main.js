@@ -11,6 +11,8 @@ require('crash-reporter').start();
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow = null;
 
+var tingbots = [];
+
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
   // On OS X it is common for applications and their menu bar
@@ -64,24 +66,26 @@ app.on('ready', function() {
 
   });
 
+  mainWindow.webContents.on('did-finish-load',function(){
+    mainWindow.webContents.send('refreshTingBots',tingbots);
+  });
+
 
 });
 
 mdns.on('response', function(response) {
   console.log('got a response packet:', response);
+  if(response.questions[0].name == "_tingbot-ssh._tcp.local"){
   for(var i in response.answers){
     if(response.answers[i].type == 'SRV'){
-      console.log('IDENTIFIED TINGBOT:' + JSON.stringify(response.answers[i].data));
+      console.log('IDENTIFIED TINGBOT SRV:' + JSON.stringify(response.answers[i].data));
     }
     if(response.answers[i].type == 'A'){
-      console.log('IDENTIFIED TINGBOT ADDRESS:' + JSON.stringify(response.answers[i].data));
+      console.log('IDENTIFIED TINGBOT:' + response.answers[i].name + "@" + response.answers[i].data);
+      addTingBot(response.answers[i].name,response.answers[i].data);
     }
   }
-});
-
-mdns.on('query', function(response) {
-  console.log('got a query packet:', response);
-
+}
 });
 
 function updateDNS(){
@@ -92,8 +96,18 @@ function updateDNS(){
     type: 'PTR'
   }]
 });
+}
 
 function setupTempFile(){
 
 }
+function addTingBot(name,address){
+  for(var i in tingbots){
+    if(tingbots[i].address == address ){
+      mainWindow.webContents.send('refreshTingBots',tingbots);
+      return;
+    }
+  }
+  tingbots.push({name: name, address: address});
+  mainWindow.webContents.send('refreshTingBots',tingbots);
 }

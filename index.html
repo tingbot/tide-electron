@@ -114,9 +114,8 @@
     <div class="top" id="top-menu">
       <button type="button" name="start" onclick="startTest()">Start</button>
       <button type="button" name="upload">Upload</button>
-      <select class="" name="simulator">
+      <select id="simulator" class="" name="simulator">
         <option value="simulate">Simulation</option>
-        <option value="tingbot">TingBot</option>
       </select>
     </div>
     <div class="left" id="sidebar">
@@ -155,6 +154,15 @@
 
       ipcRenderer.on('resize', function(event, newSize) {
           $('#editor').height(newSize[1] - $('#top-menu').height());
+      });
+
+      ipcRenderer.on('refreshTingBots', function(event, tingbots) {
+          $('#simulator').html("");
+          $('#simulator').append("<option value='simulate'>Simulation</option>");
+          for(var i in tingbots){
+            $('#simulator').append("<option value='"+tingbots[i].address+"'>"+tingbots[i].name+"</option>");
+          }
+          console.log(tingbots);
       });
 
 
