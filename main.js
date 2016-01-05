@@ -1,6 +1,7 @@
 var app = require('app'); // Module to control application life.
 var BrowserWindow = require('browser-window'); // Module to create native browser window.
 var mdns = require('multicast-dns')();
+var tbtool = require('./app/tbtool');
 
 const ipcMain = require('electron').ipcMain;
 
@@ -61,13 +62,9 @@ app.on('ready', function() {
 
     console.log("received "+tingbot);
 
-    if(tingbot == "simulate"){
-      var subpy = require('child_process').spawn('vendor/tbtool', ['simulate',dir]);
-    }else{
-      var subpy = require('child_process').spawn('vendor/tbtool', ['run',tingbot,dir]);
-    }
+    tbtool.start(tingbot,dir);
 
-    event.returnValue = "derp";
+
   });
 
   ipcMain.on('fileAdd', function(event,file){
@@ -82,7 +79,7 @@ app.on('ready', function() {
 });
 
 mdns.on('response', function(response) {
-  console.log('got a response packet:', response);
+  //console.log('got a response packet:', response);
   if(response.questions[0].name == "_tingbot-ssh._tcp.local"){
   for(var i in response.answers){
     if(response.answers[i].type == 'SRV'){
