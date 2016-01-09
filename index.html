@@ -5,47 +5,105 @@
     <title>Tide Electron</title>
     <!-- TODO: Export this to external file -->
     <style media="screen">
-    @font-face {
-    font-family: FontAwesome;
-    src: url('./bower_components/fontawesome/fonts/fontawesome-webfont.woff');
-}
+      @font-face {
+        font-family: FontAwesome;
+        src: url('./bower_components/fontawesome/fonts/fontawesome-webfont.woff');
+      }
 
-      #editor {
-        position: relative;
-        width: 80%;
+      /* The following rule disables elastic scrolling on Mac */
+      html, body {
         height: 100%;
+        overflow: hidden;
       }
 
       body {
-        margin: 0px
+        margin: 0px;
+        font: menu; /* this chooses the system font */
+        font-size: 12px;
+      }
+
+      #editor {
+        position: absolute;
+        width: 80%;
+        top: 40px;
+        bottom: 0;
+        right: 0;
+      }
+
+      input, textarea, keygen, select, button, option {
+        /* Work around atom/electron#3305 */
+        font-family: inherit !important;
       }
 
       #sidebar {
-        background: #000;
+        background: #333434;
+        border: 1px solid #222;
       }
 
       .top {
         position: absolute;
         left: 0;
         right: 0;
-        height: 20px;
+        height: 26px;
+        background-color: #2B2B2B;
+        padding: 7px 10px;
       }
 
       .left {
         position: absolute;
         left: 0;
-        top: 20px;
+        top: 40px;
         bottom: 0;
-        width: 20%;
+        width: 180px;
         color: white;
+        box-sizing: border-box;
       }
 
       .main {
         position: absolute;
-        left: 20%;
-        top: 20px;
+        left: 180px;
+        top: 40px;
         right: 0;
         bottom: 0;
+      }
+
+      .run-button, .upload-button {
+        height: 28px;
+        width: 28px;
+        background-color: #ed1c4b;
+        border: none;
+        margin-left: 5px;
+      }
+
+      .run-button:active, .upload-button:active {
+        background-color: #861027;
+      }
+
+      .run-button[disabled], .upload-button[disabled] {
+        background-color: rgba(255,255,255,0.1);
+      }
+
+      .run-button {
+        -webkit-mask-box-image: url(./img/run.png);
+      }
+
+      .upload-button {
+        -webkit-mask-box-image: url(./img/upload.png);
+      }
+
+      #device-list {
+        position: absolute;
+        right: 10px;
+        top: 9px;
+        -webkit-appearance: menulist-button;
+        height: 20px;
+        font-size: 12px;
+      }
+
+      .filetree {
+        padding: 0;
+        padding-left: 6px;
+        margin: 0;
       }
 
       .filetree input[type="checkbox"] {
@@ -55,6 +113,7 @@
       .filetree ul {
         height: 0;
         overflow: hidden;
+        padding-left: 0;
       }
 
       .filetree > li input:checked ~ ul {
@@ -72,15 +131,15 @@
         position: relative;
       }
       /**
- * Icon
- * */
+       * Icon
+       * */
 
       .filetree label:before {
         content: "\F07B";
-   font-family: FontAwesome;
-   left:-5px;
-   position:absolute;
-   top:0;
+        font-family: FontAwesome;
+        left: 2px;
+        position: absolute;
+        top: 0;
       }
 
       .filetree input[type="checkbox"] + label {
@@ -93,6 +152,25 @@
         background-position: 0 -33px;
         width: 30px;
         height: 30px;
+      }
+
+      .treefile {
+        position: relative;
+        padding-left: 35px;
+        line-height: 30px;
+        z-index: 1;
+      }
+
+      .treefile::before {
+        content: "\f0f6";
+        font-family: FontAwesome;
+        left: 20px;
+        position: absolute;
+        top: 0;
+      }
+
+      .treefile.selected {
+        background-color: rgba(0,0,0,0.4);
       }
 
       @media screen and (-webkit-min-device-pixel-ratio: 1.0),
@@ -112,10 +190,10 @@
 
   <body>
     <div class="top" id="top-menu">
-      <button type="button" name="start" onclick="startTest()">Start</button>
-      <button type="button" name="upload">Upload</button>
-      <select id="simulator" class="" name="simulator">
-        <option value="simulate">Simulation</option>
+      <button type="button" class="run-button" name="start" onclick="startTest()"></button>
+      <button type="button" class="upload-button" name="upload" disabled></button>
+      <select id="device-list" name="device-list">
+        <option value="simulate">Simulator</option>
       </select>
     </div>
     <div class="left" id="sidebar">
@@ -151,18 +229,18 @@
 
       editor.$blockScrolling = Infinity
 
-      // Ensures editor is the right size
-      $('#editor').height(window.innerHeight - $('#top-menu').height());
+      // // Ensures editor is the right size
+      // $('#editor').height(window.innerHeight - $('#top-menu').height());
 
-      ipcRenderer.on('resize', function(event, newSize) {
-          $('#editor').height(newSize[1] - $('#top-menu').height());
-      });
+      // ipcRenderer.on('resize', function(event, newSize) {
+      //     $('#editor').height(newSize[1] - $('#top-menu').height());
+      // });
 
       ipcRenderer.on('refreshTingBots', function(event, tingbots) {
-          $('#simulator').html("");
-          $('#simulator').append("<option value='simulate'>Simulation</option>");
+          $('#device-list').html("");
+          $('#device-list').append("<option value='simulate'>Tingbot Simulator</option>");
           for(var i in tingbots){
-            $('#simulator').append("<option value='"+tingbots[i].address+"'>"+tingbots[i].name+"</option>");
+            $('#device-list').append("<option value='"+tingbots[i].address+"'>"+tingbots[i].name+"</option>");
           }
 
       });
@@ -170,7 +248,7 @@
 
       // Start implementing UI callbacks
       function startTest() {
-        var tingbot = $('#simulator').val();
+        var tingbot = $('#device-list').val();
         console.log(ipcRenderer.send('startTest',tingbot,current_app));
 
       }
@@ -226,12 +304,14 @@
           for (var i in files) {
             if (err) throw err;
             console.log(files[i]);
-            $('#app').append("<dir class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</dir>");
+            $('#app').append("<li class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</li>");
             //$('#filetree').append("<dir class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</dir>");
           }
 
           $('.treefile').on('click', function() {
             console.log($(this));
+            $('.treefile').removeClass('selected');
+            $(this).addClass('selected');
             openFile($(this).data("path"));
           });
         });
