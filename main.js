@@ -79,18 +79,22 @@ app.on('ready', function() {
 });
 
 mdns.on('response', function(response) {
-  //console.log('got a response packet:', response);
-  if(response.questions[0].name == "_tingbot-ssh._tcp.local"){
-  for(var i in response.answers){
-    if(response.answers[i].type == 'SRV'){
-      console.log('IDENTIFIED TINGBOT SRV:' + JSON.stringify(response.answers[i].data));
-    }
-    if(response.answers[i].type == 'A'){
-      console.log('IDENTIFIED TINGBOT:' + response.answers[i].name + "@" + response.answers[i].data);
-      addTingBot(response.answers[i].name,response.answers[i].data);
+  console.log('got a response packet:', response);
+  if (response.questions.length == 0) {
+    return;
+  }
+
+  if(response.questions[0].name == "_tingbot-ssh._tcp.local") {
+    for(var i in response.answers){
+      if(response.answers[i].type == 'SRV'){
+        console.log('IDENTIFIED TINGBOT SRV:' + JSON.stringify(response.answers[i].data));
+      }
+      if(response.answers[i].type == 'A'){
+        console.log('IDENTIFIED TINGBOT:' + response.answers[i].name + "@" + response.answers[i].data);
+        addTingBot(response.answers[i].name,response.answers[i].data);
+      }
     }
   }
-}
 });
 
 function updateDNS(){
