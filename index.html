@@ -9,16 +9,18 @@
         font-family: FontAwesome;
         src: url('./bower_components/fontawesome/fonts/fontawesome-webfont.woff');
       }
-
       /* The following rule disables elastic scrolling on Mac */
-      html, body {
+
+      html,
+      body {
         height: 100%;
         overflow: hidden;
       }
 
       body {
         margin: 0px;
-        font: menu; /* this chooses the system font */
+        font: menu;
+        /* this chooses the system font */
         font-size: 12px;
       }
 
@@ -29,7 +31,12 @@
         right: 0;
       }
 
-      input, textarea, keygen, select, button, option {
+      input,
+      textarea,
+      keygen,
+      select,
+      button,
+      option {
         /* Work around atom/electron#3305 */
         font-family: inherit !important;
       }
@@ -66,7 +73,8 @@
         bottom: 0;
       }
 
-      .run-button, .upload-button {
+      .run-button,
+      .upload-button {
         height: 28px;
         width: 28px;
         background-color: #ed1c4b;
@@ -74,12 +82,14 @@
         margin-left: 5px;
       }
 
-      .run-button:active, .upload-button:active {
+      .run-button:active,
+      .upload-button:active {
         background-color: #861027;
       }
 
-      .run-button[disabled], .upload-button[disabled] {
-        background-color: rgba(255,255,255,0.1);
+      .run-button[disabled],
+      .upload-button[disabled] {
+        background-color: rgba(255, 255, 255, 0.1);
       }
 
       .run-button {
@@ -133,13 +143,13 @@
        * Icon
        * */
 
-       .filetree > li input:checked ~ label:before {
-         content: "\F07C";
-         font-family: FontAwesome;
-         left: 2px;
-         position: absolute;
-         top: 0;
-       }
+      .filetree > li input:checked ~ label:before {
+        content: "\F07C";
+        font-family: FontAwesome;
+        left: 2px;
+        position: absolute;
+        top: 0;
+      }
 
       .filetree label:before {
         content: "\F07B";
@@ -177,7 +187,7 @@
       }
 
       .treefile.selected {
-        background-color: rgba(0,0,0,0.4);
+        background-color: rgba(0, 0, 0, 0.4);
       }
 
       @media screen and (-webkit-min-device-pixel-ratio: 1.0),
@@ -193,13 +203,13 @@
         }
       }
 
-      #dragbar{
-   background-color:black;
-   height:100%;
-   float: right;
-   width: 3px;
-   cursor: col-resize;
-}
+      #dragbar {
+        background-color: black;
+        height: 100%;
+        float: right;
+        width: 3px;
+        cursor: col-resize;
+      }
     </style>
   </head>
 
@@ -212,10 +222,8 @@
       </select>
     </div>
     <div class="left" id="sidebar">
-      <ul class="filetree" id="filetree">
-
-      </ul>
       <div id="dragbar"></div>
+      <ul class="filetree" id="filetree"></ul>
     </div>
     <div class="main" id="editor">some text</div>
 
@@ -253,11 +261,11 @@
       // });
 
       ipcRenderer.on('refreshTingBots', function(event, tingbots) {
-          $('#device-list').html("");
-          $('#device-list').append("<option value='simulate'>Tingbot Simulator</option>");
-          for(var i in tingbots){
-            $('#device-list').append("<option value='"+tingbots[i].address+"'>"+tingbots[i].name+"</option>");
-          }
+        $('#device-list').html("");
+        $('#device-list').append("<option value='simulate'>Tingbot Simulator</option>");
+        for (var i in tingbots) {
+          $('#device-list').append("<option value='" + tingbots[i].address + "'>" + tingbots[i].name + "</option>");
+        }
 
       });
 
@@ -265,7 +273,7 @@
       // Start implementing UI callbacks
       function startTest() {
         var tingbot = $('#device-list').val();
-        console.log(ipcRenderer.send('startTest',tingbot,current_app));
+        console.log(ipcRenderer.send('startTest', tingbot, current_app));
 
       }
 
@@ -298,7 +306,7 @@
 
       function saveDir(source, destination, cb) {
         var destpath = path.parse(destination);
-        fs.mkdir(destpath.dir,function(){
+        fs.mkdir(destpath.dir, function() {
           ncp(source, destination, function(err) {
             if (err) {
               return console.error(err);
@@ -315,7 +323,7 @@
         //we need to get a look at the files in that folder
         var apppath = path.parse(dir);
         fs.readdir(dir, function(err, files) {
-          $('#filetree').append("<li><input type='checkbox' id='level1-1'><label for='level1-1'>"+apppath.base+"</label><ul id='app'></ul></li>");
+          $('#filetree').append("<li><input type='checkbox' id='level1-1'><label for='level1-1'>" + apppath.base + "</label><ul id='app'></ul></li>");
 
           for (var i in files) {
             if (err) throw err;
@@ -346,20 +354,20 @@
 
       // DragBar
 
-      $('#dragbar').mousedown(function(e){
+      $('#dragbar').mousedown(function(e) {
 
         e.preventDefault();
 
-        $(document).mousemove(function(e){
-          $('#sidebar').css("width",e.pageX+2);
-          $('.main').css("left",e.pageX+2);
-       });
+        $(document).mousemove(function(e) {
+          $('#sidebar').css("width", e.pageX + 2);
+          $('.main').css("left", e.pageX + 2);
+        });
 
-    });
-   $(document).mouseup(function(e){
+      });
+      $(document).mouseup(function(e) {
 
-       $(document).unbind('mousemove');
-       });
+        $(document).unbind('mousemove');
+      });
     </script>
   </body>
 
