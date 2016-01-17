@@ -134,6 +134,14 @@
        * Icon
        * */
 
+       .filetree > li input:checked ~ label:before {
+         content: "\F07C";
+         font-family: FontAwesome;
+         left: 2px;
+         position: absolute;
+         top: 0;
+       }
+
       .filetree label:before {
         content: "\F07B";
         font-family: FontAwesome;
@@ -305,7 +313,6 @@
             if (err) throw err;
             console.log(files[i]);
             $('#app').append("<li class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</li>");
-            //$('#filetree').append("<dir class='treefile' data-path=" + dir + "/" + files[i] + ">" + files[i] + "</dir>");
           }
 
           $('.treefile').on('click', function() {

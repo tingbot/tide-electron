@@ -5,14 +5,14 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "clean": "rm -rf ./dist",
-    "clean:lin": "rm -rf ./dist/lin",
-    "clean:osx": "rm -rf ./dist/osx",
-    "clean:win": "rm -rf ./dist/win",
+    "clean": "rm -rf ./build",
+    "clean:lin": "rm -rf ./build/lin",
+    "clean:osx": "rm -rf ./build/osx",
+    "clean:win": "rm -rf ./build/win",
     "build": "npm run clean && npm run build:osx && npm run build:win && npm run build:lin",
-    "build:lin": "npm run clean:lin && electron-packager ./ \"TideElectron\" --out=dist/lin --platform=linux --arch=x64 --version=0.35.2 --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=dist",
-    "build:osx": "npm run clean:osx && electron-packager ./ \"TideElectron\" --out=dist/osx --platform=darwin --arch=x64 --version=0.35.2 --icon=assets/osx/tide.icns --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=dist",
-    "build:win": "npm run clean:win && electron-packager ./ \"TideElectron\" --out=dist/win --platform=win32 --arch=ia32 --version=0.35.2 --icon=assets/win/icon.ico --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=dist"
+    "build:lin": "npm run clean:lin && electron-packager ./ \"TideElectron\" --out=build/lin --platform=linux --arch=x64 --version=0.35.2 --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=build/",
+    "build:osx": "npm run clean:osx && electron-packager ./ \"TideElectron\" --out=build/osx --platform=darwin --arch=x64 --version=0.35.2 --icon=assets/osx/tide.icns --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=build/",
+    "build:win": "npm run clean:win && electron-packager ./ \"TideElectron\" --out=build/win --platform=win32 --arch=ia32 --version=0.35.2 --icon=assets/win/icon.ico --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=build/"
   },
   "repository": {
     "type": "git",
