@@ -24,7 +24,6 @@
 
       #editor {
         position: absolute;
-        width: 80%;
         top: 40px;
         bottom: 0;
         right: 0;
@@ -193,6 +192,14 @@
           background-size: 33px 63px;
         }
       }
+
+      #dragbar{
+   background-color:black;
+   height:100%;
+   float: right;
+   width: 3px;
+   cursor: col-resize;
+}
     </style>
   </head>
 
@@ -208,6 +215,7 @@
       <ul class="filetree" id="filetree">
 
       </ul>
+      <div id="dragbar"></div>
     </div>
     <div class="main" id="editor">some text</div>
 
@@ -334,6 +342,24 @@
         });
       }
       saveDir(__dirname + "/default.tingapp", current_app, loadTingapp);
+
+
+      // DragBar
+
+      $('#dragbar').mousedown(function(e){
+
+        e.preventDefault();
+
+        $(document).mousemove(function(e){
+          $('#sidebar').css("width",e.pageX+2);
+          $('.main').css("left",e.pageX+2);
+       });
+
+    });
+   $(document).mouseup(function(e){
+
+       $(document).unbind('mousemove');
+       });
     </script>
   </body>
 
