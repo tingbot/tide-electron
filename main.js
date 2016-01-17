@@ -1,9 +1,9 @@
 var app = require('app'); // Module to control application life.
 var BrowserWindow = require('browser-window'); // Module to create native browser window.
-var mdns = require('multicast-dns')();
 var tbtool = require('./app/tbtool');
 
 const ipcMain = require('electron').ipcMain;
+var tingbots = require('./app/tingbots');
 
 // Report crashes to our server.
 require('crash-reporter').start();
@@ -12,7 +12,7 @@ require('crash-reporter').start();
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow = null;
 
-var tingbots = [];
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -49,13 +49,7 @@ app.on('ready', function() {
     mainWindow.webContents.send('resize',mainWindow.getSize());
   });
 
-  var minutes = 5,
-    the_interval = minutes * 60 * 1000;
-  setInterval(function() {
-    console.log("I am doing my 5 minutes check for new tingbots");
-    updateDNS();
-  }, the_interval);
-  updateDNS();
+
 
   ipcMain.on('startTest', function(event, tingbot,dir) {
 
@@ -72,51 +66,15 @@ app.on('ready', function() {
   });
 
   mainWindow.webContents.on('did-finish-load',function(){
+    mainWindow.webContents.send('refreshTingBots',tingbots.getTingbots());
+  });
+  tingbots.on('update',function(tingbots){
     mainWindow.webContents.send('refreshTingBots',tingbots);
   });
 
-
 });
 
-mdns.on('response', function(response) {
-  console.log('got a response packet:', response);
-  if (response.questions.length == 0) {
-    return;
-  }
-
-  if(response.questions[0].name == "_tingbot-ssh._tcp.local") {
-    for(var i in response.answers){
-      if(response.answers[i].type == 'SRV'){
-        console.log('IDENTIFIED TINGBOT SRV:' + JSON.stringify(response.answers[i].data));
-      }
-      if(response.answers[i].type == 'A'){
-        console.log('IDENTIFIED TINGBOT:' + response.answers[i].name + "@" + response.answers[i].data);
-        addTingBot(response.answers[i].name,response.answers[i].data);
-      }
-    }
-  }
-});
-
-function updateDNS(){
-  console.log("DNS Ping");
-  mdns.query({
-  questions:[{
-    name: '_tingbot-ssh._tcp.local',
-    type: 'PTR'
-  }]
-});
-}
 
 function setupTempFile(){
 
-}
-function addTingBot(name,address){
-  for(var i in tingbots){
-    if(tingbots[i].address == address ){
-      mainWindow.webContents.send('refreshTingBots',tingbots);
-      return;
-    }
-  }
-  tingbots.push({name: name, address: address});
-  mainWindow.webContents.send('refreshTingBots',tingbots);
 }
