@@ -62,23 +62,7 @@ holder.ondrop = function(e) {
 var fs = require('fs');
 
 var path = require('path');
-var ncp = require('ncp').ncp;
 
-ncp.limit = 16;
-
-function saveDir(source, destination, cb) {
-  var destpath = path.parse(destination);
-  fs.mkdir(destpath.dir, function() {
-    ncp(source, destination, function(err) {
-      if (err) {
-        return console.error(err);
-      }
-      console.log(destination);
-      cb(destination);
-    });
-  });
-
-}
 
 
 
