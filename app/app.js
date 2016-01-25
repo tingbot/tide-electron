@@ -3,17 +3,10 @@
 const ipcRenderer = require('electron').ipcRenderer;
 var TingAppNav = require("./app/tingappnav");
 var TingApp = require("./app/tingapp");
+var Editor = require("./app/editor");
 
+var editor = new Editor();
 
-// Setup our editor
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
-var PythonMode = ace.require("ace/mode/python").Mode;
-editor.session.setMode(new PythonMode());
-
-editor.setShowPrintMargin(false);
-
-editor.$blockScrolling = Infinity;
 
 // // Ensures editor is the right size
 // $('#editor').height(window.innerHeight - $('#top-menu').height());
@@ -87,7 +80,7 @@ current_app.copy(temp_path);
 
 tingappnav.addApp(current_app);
 
-tingappnav.on('fileOpen',openFile);
+tingappnav.on('fileOpen',editor.openFile);
 
 // DragBar
 
