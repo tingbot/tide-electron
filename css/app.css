@@ -1,0 +1,205 @@
+@font-face {
+  font-family: FontAwesome;
+  src: url('../bower_components/fontawesome/fonts/fontawesome-webfont.woff');
+}
+/* The following rule disables elastic scrolling on Mac */
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0px;
+  font: menu;
+  /* this chooses the system font */
+  font-size: 12px;
+}
+
+#editor {
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  right: 0;
+}
+
+input,
+textarea,
+keygen,
+select,
+button,
+option {
+  /* Work around atom/electron#3305 */
+  font-family: inherit !important;
+}
+
+#sidebar {
+  background: #333434;
+  border: 1px solid #222;
+}
+
+.top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26px;
+  background-color: #2B2B2B;
+  padding: 7px 10px;
+}
+
+.left {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  bottom: 0;
+  width: 180px;
+  color: white;
+  box-sizing: border-box;
+}
+
+.main {
+  position: absolute;
+  left: 180px;
+  top: 40px;
+  right: 0;
+  bottom: 0;
+}
+
+.run-button,
+.upload-button {
+  height: 28px;
+  width: 28px;
+  background-color: #ed1c4b;
+  border: none;
+  margin-left: 5px;
+}
+
+.run-button:active,
+.upload-button:active {
+  background-color: #861027;
+}
+
+.run-button[disabled],
+.upload-button[disabled] {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.run-button {
+  -webkit-mask-box-image: url(../img/run.png);
+}
+
+.upload-button {
+  -webkit-mask-box-image: url(../img/upload.png);
+}
+
+#device-list {
+  position: absolute;
+  right: 10px;
+  top: 9px;
+  -webkit-appearance: menulist-button;
+  height: 20px;
+  font-size: 12px;
+}
+
+.filetree {
+  padding: 0;
+  padding-left: 6px;
+  margin: 0;
+}
+
+.filetree input[type="checkbox"] {
+  display: none;
+}
+
+.filetree ul {
+  height: 0;
+  overflow: hidden;
+  padding-left: 0;
+}
+
+.filetree > li input:checked ~ ul {
+  height: auto;
+}
+
+.filetree li {
+  list-style: none;
+}
+
+.filetree label {
+  padding-left: 20px;
+  line-height: 33px;
+  display: inline-block;
+  position: relative;
+}
+/**
+ * Icon
+ * */
+
+.filetree > li input:checked ~ label:before {
+  content: "\F07C";
+  font-family: FontAwesome;
+  left: 2px;
+  position: absolute;
+  top: 0;
+}
+
+.filetree label:before {
+  content: "\F07B";
+  font-family: FontAwesome;
+  left: 2px;
+  position: absolute;
+  top: 0;
+}
+
+.filetree input[type="checkbox"] + label {
+  background-position: 0 0;
+  width: 33px;
+  height: 33px;
+}
+
+.filetree input[type="checkbox"]:checked + label {
+  background-position: 0 -33px;
+  width: 30px;
+  height: 30px;
+}
+
+.treefile {
+  position: relative;
+  padding-left: 35px;
+  line-height: 30px;
+  z-index: 1;
+}
+
+.treefile::before {
+  content: "\f0f6";
+  font-family: FontAwesome;
+  left: 20px;
+  position: absolute;
+  top: 0;
+}
+
+.treefile.selected {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.0),
+screen and (min--moz-device-pixel-ratio: 1.0),
+screen and (-o-min-device-pixel-ratio: 100/100),
+screen and (min-device-pixel-ratio: 1.0),
+screen and (min-resolution: 1.0dppx) {
+  filetree label {
+    background-image: url('./icon/sprite/icon.png');
+    -webkit-background-size: 33px 63px;
+    -moz-background-size: 33px 63px;
+    background-size: 33px 63px;
+  }
+}
+
+#dragbar {
+  background-color: black;
+  height: 100%;
+  float: right;
+  width: 3px;
+  cursor: col-resize;
+}

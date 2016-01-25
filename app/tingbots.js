@@ -1,4 +1,5 @@
 "use strict";
+
 const EventEmitter = require('events');
 var mdns = require('multicast-dns')();
 
