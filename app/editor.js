@@ -18,7 +18,7 @@ function Editor(){
     fs.readFile(path, function(err, data) {
       editor.setValue(data.toString(), 1);
     });
-  }
+  };
 }
 
 module.exports=Editor;
