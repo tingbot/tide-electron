@@ -1,33 +1,15 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <title>Tide Electron</title>
-    <link rel="stylesheet" href="css/app.css" media="screen" title="no title" charset="utf-8">
-  </head>
+<head>
+  <title>Tide Electron</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
 
-  <body>
-    <div class="top" id="top-menu">
-      <button type="button" class="run-button" name="start" onclick="startTest()"></button>
-      <button type="button" class="upload-button" name="upload" disabled></button>
-      <select id="device-list" name="device-list">
-        <option value="simulate">Simulator</option>
-      </select>
-    </div>
-    <div class="left" id="sidebar">
-      <div id="dragbar"></div>
-      <ul class="filetree" id="filetree"></ul>
-    </div>
-    <div class="main" id="editor">some text</div>
-
-    <!-- SCRIPTS -->
-    <script src="bower_components/ace-builds/src/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="bower_components/ace-builds/src/theme-monokai.js" type="text/javascript" charset="utf-8"></script>
-    <script src="bower_components/ace-builds/src/mode-python.js" type="text/javascript" charset="utf-8"></script>
-    <script>
-      window.$ = window.jQuery = require('./bower_components/jquery/dist/jquery.min.js');
-    </script>
-    <script src="app/app.js" charset="utf-8"></script>
-  </body>
+<body>
+  <app></app>
+  <script>window.$ = window.jQuery = require('jquery')</script>
+  <script src="build.js"></script>
+</body>
 
 </html>

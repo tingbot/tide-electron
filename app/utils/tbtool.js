@@ -1,7 +1,7 @@
 "use strict";
-
-var spawn = require('child_process').spawn;
-var spawnSync = require('child_process').spawnSync;
+import {spawn,spawnSync} from 'child_process'
+// var spawn = require('child_process').spawn;
+// var spawnSync = require('child_process').spawnSync;
 var current = null;
 var requirements_met = check_requirements();
 
@@ -19,10 +19,12 @@ function start(tingbot,dir){
   }
 
   if(tingbot == "simulate"){
-    current = spawn('vendor/tbtool', ['simulate',dir]);
+    current = spawn('tbtool', ['simulate',dir]);
+      console.log("Spawned");
   }else{
-    current = spawn('vendor/tbtool', ['run',tingbot,dir]);
+    current = spawn('tbtool', ['run',tingbot,dir]);
   }
+
 }
 
 function check_requirements(){
@@ -50,7 +52,7 @@ function check_requirements(){
 
 
   if(missing.length > 0){
-    console.error("You are missing: " + missing.toString() + ". Code execution disabled");
+    alert("You are missing: " + missing.toString() + ". Code execution disabled");
     return false;
   }
   return true;
