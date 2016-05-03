@@ -11,6 +11,9 @@
   import ControlBar from './components/ControlBar.vue'
   import Editor from './components/Editor.vue'
 
+  import TbTool from './utils/tbtool.js'
+  import fileWatcher from './utils/filewatcher.js'
+
   export default {
   components: {
     Sidebar,
@@ -22,6 +25,23 @@
       files: [{name:"test.py",path:"test.py"},{name:"test2.img"}],
       devices: [{name:"TestBot"}]
     }
+  },
+  events:{
+    run: function(device){
+      TbTool.start(device,"./default.tingapp");
+    },
+
+  },
+  methods:{
+    updateFiles: function(files){
+      console.log(this.files);
+      this.files = files;
+
+    }
+  },
+  created: function(){
+    fileWatcher.setup('./default.tingapp',this.updateFiles);
+
   }
 
 }
