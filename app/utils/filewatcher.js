@@ -33,7 +33,8 @@ import FS from 'fs'
             for (var i in array) {
                 console.log(array[i]);
                 files.push({
-                    name: array[i]
+                    name: array[i],
+                    path: folder+"/"+array[i]
                 });
             }
             callback(files);

@@ -14,6 +14,8 @@
   import TbTool from './utils/tbtool.js'
   import fileWatcher from './utils/filewatcher.js'
 
+  var folder = './default.tingapp'
+
   export default {
   components: {
     Sidebar,
@@ -28,9 +30,11 @@
   },
   events:{
     run: function(device){
-      TbTool.start(device,"./default.tingapp");
+      TbTool.start(device,folder);
     },
-
+    fileClicked: function(filename){
+      this.$broadcast('openFile',filename);
+    }
   },
   methods:{
     updateFiles: function(files){
@@ -40,7 +44,7 @@
     }
   },
   created: function(){
-    fileWatcher.setup('./default.tingapp',this.updateFiles);
+    fileWatcher.setup(folder,this.updateFiles);
 
   }
 
