@@ -5,7 +5,11 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 ## To run
 
 * bower install
-* npm install && npm start
+* npm install
+* webpack
+* npm start
+
+When developing, it's handy to use `webpack --watch --progress` and `npm start` at the same time in separate tabs. Code changes can then be reloaded without restarting the app (View > Reload).
 
 ## Contributing
 
