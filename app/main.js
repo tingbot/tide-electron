@@ -1,7 +1,16 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import {default as TingappVue} from './Tingapp.vue';
+import {Tingapp, TingappFile} from './tingapp.js';
 
-new Vue({
+var newApp = new Tingapp([
+    new TingappFile('main.py'),
+    new TingappFile('image.jpg')
+]);
+
+window.vueInstance = new Vue({
   el: 'body',
-  components: { App }
+  template: "<app :model='model'></app>",
+  components: { app: TingappVue },
+  data: { model: newApp.viewModel },
+  replace: false,
 })

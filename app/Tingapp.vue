@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <control-bar :devices='devices'></control-bar>
-    <sidebar :files='files'></sidebar>
+    <sidebar :files='model.files'></sidebar>
     <editor></editor>
   </div>
 </template>
@@ -12,18 +12,12 @@
   import Editor from './components/Editor.vue'
 
   export default {
-  components: {
-    Sidebar,
-    ControlBar,
-    Editor
-  },
-  data (){
-    return {
-      files: [{name:"test.py",path:"test.py"},{name:"test2.img"}],
-      devices: [{name:"TestBot"}]
+    props: ['model'],
+    components: {
+      Sidebar,
+      ControlBar,
+      Editor
     }
   }
-
-}
 
 </script>
