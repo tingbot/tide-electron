@@ -11,7 +11,7 @@ export default {
   props: ['files'],
   methods: {
     fileclicked: function(event){
-      alert(event.target.getAttribute('data-path'))
+      this.$dispatch('fileClicked',event.target.getAttribute('data-path'));
     }
   }
 }

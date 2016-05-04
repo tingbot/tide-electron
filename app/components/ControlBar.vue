@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import TbTool from '../utils/tbtool.js'
+
   export default {
     props: ['devices'],
     data () {
@@ -20,8 +20,7 @@
     },
     methods: {
       start: function(){
-
-        TbTool.start(this.selectedDevice,"./default.tingapp");
+        this.$dispatch('run',this.selectedDevice);
       }
     },
     // watch: {
