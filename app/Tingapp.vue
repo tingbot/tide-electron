@@ -22,26 +22,26 @@
       Sidebar,
       ControlBar,
       Editor
-    }
-  },
-  events:{
-    run: function(device){
-      TbTool.start(device,folder);
     },
-    fileClicked: function(filename){
-      this.$broadcast('openFile',filename);
-    }
-  },
-  methods:{
-    updateFiles: function(files){
-      console.log(this.files);
-      this.files = files;
+    events:{
+      run: function(device){
+        TbTool.start(device,folder);
+      },
+      fileClicked: function(filename){
+        this.$broadcast('openFile',filename);
+      }
+    },
+    methods:{
+      updateFiles: function(files){
+        console.log(this.files);
+        this.files = files;
+
+      }
+    },
+    created: function(){
+      fileWatcher.setup(folder,this.updateFiles);
 
     }
-  },
-  created: function(){
-    fileWatcher.setup(folder,this.updateFiles);
-
   }
 
 </script>
