@@ -11,6 +11,6 @@ window.vueInstance = new Vue({
   el: 'body',
   template: "<app :model='model'></app>",
   components: { app: TingappVue },
-  data: { model: newApp.viewModel },
+  data: { model: newApp },
   replace: false,
 })

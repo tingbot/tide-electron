@@ -5,15 +5,6 @@ class Tingapp {
         this.viewModel = {};
         this.files = files;
     }
-
-    get files() {
-        return this._files;
-    }
-
-    set files(newFiles) {
-        this._files = newFiles;
-        this.viewModel['files'] = newFiles;
-    }
 }
 
 class TingappFile {
