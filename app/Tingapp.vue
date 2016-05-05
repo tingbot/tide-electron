@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <control-bar :devices='devices'></control-bar>
-    <sidebar :files='model.files'></sidebar>
+    <sidebar :files='tingapp.files'></sidebar>
     <editor></editor>
   </div>
 </template>
@@ -17,7 +17,7 @@
   var folder = './default.tingapp'
 
   export default {
-    props: ['model'],
+    props: ['tingapp'],
     components: {
       Sidebar,
       ControlBar,

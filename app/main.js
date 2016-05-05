@@ -5,18 +5,17 @@ import {ipcRenderer} from 'electron';
 
 let vm = window.vueInstance = new Vue({
   el: 'body',
-  template: "<app :model='model'></app>",
+  template: "<app :tingapp='tingapp'></app>",
   components: { app: TingappVue },
-  data: { model: { files: [] }},
+  data: { tingapp: { files: [] }},
   replace: false,
 })
 
 ipcRenderer.on('new-document', function () {
-    vm.model = Tingapp.newDocument();
+    vm.tingapp = Tingapp.newDocument();
 })
 
 ipcRenderer.on('open-document', function (event, path) {
-    console.log(path);
-    vm.model = Tingapp.openDocument(path);
+    vm.tingapp = Tingapp.openDocument(path);
 })
 
