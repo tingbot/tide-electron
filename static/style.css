@@ -37,6 +37,7 @@ option {
 #sidebar {
   background: #333434;
   border: 1px solid #222;
+  outline: none;
 }
 
 .top {
@@ -132,13 +133,63 @@ option {
   display: inline-block;
   position: relative;
 }
+
+.file-row {
+  padding: 2px;
+  cursor: default;
+}
+
+.file-row.selected {
+  background-color: #5A5A5A;
+}
+
+:focus .file-row.selected {
+  background-color: #0069d9;
+}
+
 /**
- * Icon
+ * Disclosure triangle
  * */
 
-.filetree > li input:checked ~ label:before {
-  content: "\F07C";
+.file-disclosure-triangle {
+  width: 10px;
+  display: inline-block;
+  transition: transform 0.2s;
+  visibility: hidden;
+}
+
+.is-folder > .file-disclosure-triangle {
+  visibility: visible;
+}
+
+.file-disclosure-triangle:before {
+  content: " \f0da";
   font-family: FontAwesome;
+}
+
+.folder-open > .file-disclosure-triangle {
+  transform: rotate(90deg) translate(3px, 0);
+}
+
+/**
+ * File icon
+ * */
+
+.file-icon {
+  width: 15px;
+  display: inline-block;
+}
+
+.file-icon:before {
+  content: "\f1c9";
+  font-family: FontAwesome;
+}
+
+.is-folder > .file-icon:before {
+  content: "\f114";
+}
+
+.filetree > li input:checked ~ label:before {
   left: 2px;
   position: absolute;
   top: 0;

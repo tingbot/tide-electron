@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <control-bar :devices='devices'></control-bar>
-    <sidebar :files='tingapp.files'></sidebar>
+    <sidebar :root='tingapp.root'></sidebar>
     <editor></editor>
   </div>
 </template>

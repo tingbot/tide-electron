@@ -7,7 +7,7 @@ let vm = window.vueInstance = new Vue({
   el: 'body',
   template: "<app :tingapp='tingapp'></app>",
   components: { app: TingappVue },
-  data: { tingapp: { files: [] }},
+  data: { tingapp: { root: { files:[] } }},
   replace: false,
 })
 
