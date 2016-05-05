@@ -20,7 +20,7 @@ body {
 #editor {
   position: absolute;
   top: 40px;
-  bottom: 0;
+  bottom: 20px;
   right: 0;
 }
 
@@ -53,7 +53,7 @@ option {
   position: absolute;
   left: 0;
   top: 40px;
-  bottom: 0;
+  bottom: 20px;
   width: 180px;
   color: white;
   box-sizing: border-box;
@@ -64,7 +64,18 @@ option {
   left: 180px;
   top: 40px;
   right: 0;
+  bottom: 20px;
+}
+
+.bottom {
+  position: absolute;
   bottom: 0;
+  height: 20px;
+  left: 0;
+  right: 0;
+  background-color: #e0214b;
+  border: 1px solid rgba(0,0,0,0.2);
+  box-sizing: border-box;
 }
 
 .run-button,

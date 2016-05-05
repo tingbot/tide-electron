@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <control-bar :devices='devices'></control-bar>
-    <sidebar :root='tingapp.root'></sidebar>
+    <sidebar :root='tingapp.root' tabindex=0></sidebar>
     <editor></editor>
+    <div class="bottom"></div>
   </div>
 </template>
 
