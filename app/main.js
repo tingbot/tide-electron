@@ -2,10 +2,7 @@ import Vue from 'vue';
 import {default as TingappVue} from './Tingapp.vue';
 import {Tingapp, TingappFile} from './tingapp.js';
 
-var newApp = new Tingapp([
-    new TingappFile('main.py'),
-    new TingappFile('image.jpg')
-]);
+var newApp = new Tingapp('./default.tingapp');
 
 window.vueInstance = new Vue({
   el: 'body',
