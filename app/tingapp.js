@@ -1,9 +1,24 @@
 import path from 'path';
 import fs from 'fs';
+import fsextra from 'fs-extra';
+import {remote} from 'electron';
 
 class Tingapp {
     constructor(path) {
         this.root = new TingappRootFolder(path);
+    }
+
+    static newDocument() {
+        const tempDir = remote.app.getPath('temp');
+
+        const newDocumentPath = path.join(tempDir, 'untitled.tingapp');
+        fsextra.copySync('./default.tingapp', newDocumentPath);
+
+        return new Tingapp(newDocumentPath);
+    }
+
+    static openDocument(path) {
+        return new Tingapp(path);
     }
 
     get files() {
