@@ -4,7 +4,6 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 
 ## To run
 
-* bower install
 * npm install
 * webpack
 * npm start
