@@ -13,7 +13,6 @@
   import Editor from './components/Editor.vue'
 
   import TbTool from './utils/tbtool.js'
-  import fileWatcher from './utils/filewatcher.js'
 
   var folder = './default.tingapp'
 
