@@ -54,7 +54,6 @@
     "vue-html-loader": "~1.2.2",
     "vue-loader": "~8.2.3",
     "vue-style-loader": "~1.0.0",
-    "watch": "^0.18.0",
     "webpack": "~1.13.0",
     "webpack-dev-server": "~1.14.1"
   }
