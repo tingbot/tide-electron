@@ -189,15 +189,28 @@ option {
 .file-icon {
   width: 15px;
   display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  font: normal normal normal 14px/1 FontAwesome;
 }
 
 .file-icon:before {
-  content: "\f1c9";
-  font-family: FontAwesome;
+  content: "\f016";
 }
 
-.is-folder > .file-icon:before {
+.file-icon.file-icon-folder:before {
   content: "\f114";
+}
+
+.file-icon.file-icon-code:before {
+  content: "\f1c9";
+}
+
+.file-icon.file-icon-image:before {
+  content: "\f1c5";
+}
+
+.file-icon.file-icon-text:before {
+  content: "\f0f6";
 }
 
 .filetree > li input:checked ~ label:before {
