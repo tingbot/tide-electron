@@ -6,10 +6,10 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 
 ### Windows
 
-This project uses Python 2.7 and some modules. For now, these have to be manually installed.  
+This project uses Node.js, Python 2.7 and some modules. For now, these have to be manually installed.  
 
-* If you don't have nodejs on your system you can download nodejs from: https://nodejs.org/en/
-* First we need to install python 2.7.* from: https://www.python.org/  
+* Download Node.js from: https://nodejs.org/en/
+* Install python 2.7.* from: https://www.python.org/  
   **IMPORTANT:** During the installation there is an opt-in to add Python to the path variable. You have to do this otherwise the project can't find Python. If you get errors later call ``setx PATH "%PATH%;C:\Python33\Scripts"`` from the terminal. This will add Python to your path.
 * Install pygame from http://pygame.org/download.shtml
 * To get the 'tingbot-python' module you need to have pip. Pip is a package manager for Python which should be installed with Python.  
