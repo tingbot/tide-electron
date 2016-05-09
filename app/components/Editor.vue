@@ -15,21 +15,21 @@
     ready: function () {
       // Setup our editor
       editor = ace.edit("editor");
-     editor.setTheme("ace/theme/monokai");
-     editor.getSession().setMode("ace/mode/python");
-
-     editor.setShowPrintMargin(false);
-
-     editor.$blockScrolling = Infinity;
-   },
-   events:{
-     openFile: function(path){
-       console.log("Opening" + path);
-       FS.readFile(path, function(err, data) {
-         editor.setValue(data.toString(), 1);
-       });
-     }
-   }
+      editor.setTheme("ace/theme/monokai");
+      editor.getSession().setMode("ace/mode/python");
+ 
+      editor.setShowPrintMargin(false);
+ 
+      editor.$blockScrolling = Infinity;
+    },
+    events: {
+      openFile: function(path){
+        console.log("Opening" + path);
+        FS.readFile(path, function(err, data) {
+          editor.setValue(data.toString(), 1);
+        });
+      }
+    }
  }
 
 
