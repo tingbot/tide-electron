@@ -116,7 +116,7 @@ option {
 
 .filetree {
   padding: 0;
-  padding-left: 6px;
+  padding-left: 17px;
   margin: 0;
 }
 
@@ -163,23 +163,25 @@ option {
  * */
 
 .file-disclosure-triangle {
-  width: 10px;
   display: inline-block;
-  transition: transform 0.2s;
+  font: normal normal normal 14px/1 FontAwesome;
+  -webkit-font-smoothing: antialiased;
+  padding: 0 4px;
+  
   visibility: hidden;
+  transition: transform 0.2s;
+}
+
+.file-disclosure-triangle:before {
+  content: " \f0da";
 }
 
 .is-folder > .file-disclosure-triangle {
   visibility: visible;
 }
 
-.file-disclosure-triangle:before {
-  content: " \f0da";
-  font-family: FontAwesome;
-}
-
 .folder-open > .file-disclosure-triangle {
-  transform: rotate(90deg) translate(3px, 0);
+  transform: rotate(90deg);
 }
 
 /**
@@ -189,15 +191,28 @@ option {
 .file-icon {
   width: 15px;
   display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  font: normal normal normal 14px/1 FontAwesome;
 }
 
 .file-icon:before {
-  content: "\f1c9";
-  font-family: FontAwesome;
+  content: "\f016";
 }
 
-.is-folder > .file-icon:before {
+.file-icon.file-icon-folder:before {
   content: "\f114";
+}
+
+.file-icon.file-icon-code:before {
+  content: "\f1c9";
+}
+
+.file-icon.file-icon-image:before {
+  content: "\f1c5";
+}
+
+.file-icon.file-icon-text:before {
+  content: "\f0f6";
 }
 
 .filetree > li input:checked ~ label:before {

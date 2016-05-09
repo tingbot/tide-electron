@@ -36,6 +36,10 @@ class TingappFile {
         return path.join(this.parent.path, this.name);
     }
 
+    get type() {
+        return 'file';
+    }
+
     wasRemoved() {
         this.parent = null;
     }
@@ -44,6 +48,25 @@ class TingappFile {
 class TingappRegularFile extends TingappFile {
     constructor(name, parent) {
         super(name, parent);
+    }
+
+    get type() {
+        const file_type_map = {
+            '.jpg': 'image',
+            '.jpeg': 'image',
+            '.gif': 'image',
+            '.png': 'image',
+            '.py': 'code',
+            '.txt': 'text',
+            '.csv': 'text',
+        }
+        const extension = path.extname(this.name);
+
+        if (extension in file_type_map) {
+            return file_type_map[extension];
+        }
+
+        return 'file';
     }
 
     // callback takes two arguments, (err, data)
@@ -58,6 +81,10 @@ class TingappFolder extends TingappFile {
         this.files = [];
         this._reloadFiles();
         this._startWatching();
+    }
+
+    get type() {
+        return 'folder';
     }
 
     _startWatching() {
