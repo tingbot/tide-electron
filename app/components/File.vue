@@ -43,16 +43,15 @@
         if (this.isFolder) {
           this.toggleFolderOpen(event);
         } else {
-          this.$dispatch('fileClicked', this.file.path);
+          this.$dispatch('fileClicked', this.file);
           event.stopPropagation();
         }
       }
     },
     events: {
-      openFile: function(filename) {
-        console.log('opening', filename, 'this', this.file.path);
-
-        let isThisFile = (filename == this.file.path);
+      openFile: function(file) {
+        let isThisFile = (file == this.file);
+        
         this.selected = isThisFile;
 
         return true;

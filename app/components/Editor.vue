@@ -9,7 +9,7 @@
 
   import FS from 'fs'
 
-       var editor = {};
+  var editor = {};
 
   export default {
     ready: function () {
@@ -23,10 +23,11 @@
       editor.$blockScrolling = Infinity;
     },
     events: {
-      openFile: function(path){
-        console.log("Opening" + path);
-        FS.readFile(path, function(err, data) {
-          editor.setValue(data.toString(), 1);
+      openFile: function(file){
+        console.log("Opening editor on " + file.path);
+
+        file.read(function(err, data) {
+          editor.setValue(data.toString('utf8'), 1);
         });
       }
     }
