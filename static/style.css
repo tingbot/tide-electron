@@ -281,3 +281,15 @@ screen and (min-resolution: 1.0dppx) {
   width: 3px;
   cursor: col-resize;
 }
+
+#image-viewer {
+  background-image: url(../img/grid-background.png);
+
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+}
+
+#image-viewer > img {
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
