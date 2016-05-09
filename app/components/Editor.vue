@@ -1,5 +1,8 @@
 <template>
-  <div class="main" id="editor">some text</div>
+  <div class="main" id="editor" v-show="editorVisible">some text</div>
+  <div class="main" id="image-viewer" v-if="!editorVisible">
+    <img :src="file.path" />
+  </div>
 </template>
 
 <script>
@@ -12,6 +15,9 @@
   var editor = {};
 
   export default {
+    data: function () {
+      return {file: {type: 'file'}};
+    },
     ready: function () {
       // Setup our editor
       editor = ace.edit("editor");
@@ -25,10 +31,18 @@
     events: {
       openFile: function(file){
         console.log("Opening editor on " + file.path);
+        this.file = file;
 
-        file.read(function(err, data) {
-          editor.setValue(data.toString('utf8'), 1);
-        });
+        if (this.editorVisible) {
+          file.read(function(err, data) {
+            editor.setValue(data.toString('utf8'), 1);
+          }); 
+        }
+      }
+    },
+    computed: {
+      editorVisible: function () {
+        return this.file.type != 'image';
       }
     }
  }
