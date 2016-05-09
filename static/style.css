@@ -193,6 +193,7 @@ option {
   display: inline-block;
   -webkit-font-smoothing: antialiased;
   font: normal normal normal 14px/1 FontAwesome;
+  padding-left: 0.5px;
 }
 
 .file-icon:before {
