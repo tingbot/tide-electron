@@ -73,6 +73,10 @@ class TingappRegularFile extends TingappFile {
     read(callback) {
         fs.readFile(this.path, callback);
     }
+
+    write(data, callback){
+        fs.writeFile(this.path,data,callback);
+    }
 }
 
 class TingappFolder extends TingappFile {

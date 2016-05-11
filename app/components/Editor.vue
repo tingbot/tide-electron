@@ -10,22 +10,21 @@
   import 'brace/mode/python'
   import 'brace/theme/monokai'
 
-  import FS from 'fs'
-
   var editor = {};
 
   export default {
     data: function () {
-      return {file: {type: 'file'}};
+      return {file: {type: 'file'},
+        document: new ace.EditSession("Something went wrong :S","ace/mode/python")};
     },
     ready: function () {
       // Setup our editor
       editor = ace.edit("editor");
       editor.setTheme("ace/theme/monokai");
       editor.getSession().setMode("ace/mode/python");
- 
+
       editor.setShowPrintMargin(false);
- 
+
       editor.$blockScrolling = Infinity;
     },
     events: {
@@ -34,15 +33,25 @@
         this.file = file;
 
         if (this.editorVisible) {
-          file.read(function(err, data) {
-            editor.setValue(data.toString('utf8'), 1);
-          }); 
+          this.file.read((err, data) =>
+            this.document = new ace.EditSession(data.toString('utf8'),"ace/mode/python")
+          );
         }
+      },
+      saveFile: function(){
+        console.log("Saving file: "+ this.file.path);
+        console.log(this.document.getValue());
+        this.file.write(this.document.getValue());
       }
     },
     computed: {
       editorVisible: function () {
         return this.file.type != 'image';
+      }
+    },
+    watch:{
+      'document': function(val){
+        editor.setSession(val);
       }
     }
  }

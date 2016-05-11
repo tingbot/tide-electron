@@ -19,3 +19,6 @@ ipcRenderer.on('open-document', function (event, path) {
     vm.tingapp = Tingapp.openDocument(path);
 })
 
+ipcRenderer.on('save-document', function () {
+    vm.$broadcast("saveFile");
+})
