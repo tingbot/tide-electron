@@ -13,6 +13,7 @@ class Tingapp {
         const tempDir = remote.app.getPath('temp');
 
         const newDocumentPath = path.join(tempDir, 'untitled.tingapp');
+        console.log(newDocumentPath);
         fsextra.copySync('./default.tingapp', newDocumentPath);
 
         return new Tingapp(newDocumentPath);
@@ -176,6 +177,10 @@ class TingappFolder extends TingappFile {
       for(let file of this.files){
         file.save();
       }
+    }
+
+    addFile(source){
+      fsextra.copySync(source,path.join(this.path,path.basename(source)));
     }
 }
 

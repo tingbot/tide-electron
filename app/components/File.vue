@@ -49,8 +49,14 @@
       },
       fileDropped: function(event){
         event.preventDefault();
+        event.stopPropagation();
         var file = event.dataTransfer.files[0];
         console.log('File you dragged here is', file.path, "dropped on", this.file.path);
+        if(this.isFolder){
+          this.file.addFile(file.path);
+        }else{
+          this.file.parent.addFile(file.path);
+        }
         return false;
       }
     },
