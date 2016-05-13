@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import fsextra from 'fs-extra';
 import {remote} from 'electron';
+import ace from 'brace';
 
 class Tingapp {
     constructor(path) {
@@ -77,6 +78,36 @@ class TingappRegularFile extends TingappFile {
     write(data, callback){
         fs.writeFile(this.path,data,callback);
     }
+
+    get editSession(){
+      if(this.session){
+        return this.session;
+      }else{
+        this.session = new ace.EditSession("Loading Data","ace/mode/python");
+        this.session.setUndoManager(new ace.UndoManager());
+        this.read((err,data) => {
+          this.session.setValue(data.toString('utf8'));
+        });
+        return this.session;
+      }
+    }
+
+    get changed(){
+      if(this.session){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    save(){
+      this.write(this.session.getValue(),function(err){
+        if(err) console.log(err);
+      });
+      this.session.getUndoManager().reset();
+    }
+
+
 }
 
 class TingappFolder extends TingappFile {

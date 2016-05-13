@@ -33,15 +33,13 @@
         this.file = file;
 
         if (this.editorVisible) {
-          this.file.read((err, data) =>
-            this.document = new ace.EditSession(data.toString('utf8'),"ace/mode/python")
-          );
+          this.document = this.file.editSession;
         }
       },
       saveFile: function(){
         console.log("Saving file: "+ this.file.path);
         console.log(this.document.getValue());
-        this.file.write(this.document.getValue());
+        this.file.save();
       }
     },
     computed: {
