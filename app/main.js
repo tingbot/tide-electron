@@ -26,3 +26,12 @@ ipcRenderer.on('save-document', function () {
 ipcRenderer.on('save-all-documents', function () {
     vm.tingapp.root.save();
 })
+
+document.addEventListener('drop', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+});
+document.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+});

@@ -1,11 +1,11 @@
 <template>
-  <div class="file">
+  <div class="file" v-on:drop="fileDropped">
     <div
         class="file-row"
         v-bind:class="{'is-folder': isFolder, 'folder-open': folderOpen, 'selected': selected}"
         v-on:click="fileclicked">
-      <span 
-          class="file-disclosure-triangle" 
+      <span
+          class="file-disclosure-triangle"
           v-bind:style="{ visibility: isFolder }"
           v-bind:class="{'folder-open': folderOpen}"
           v-on:click="toggleFolderOpen"></span>
@@ -46,12 +46,18 @@
           this.$dispatch('fileClicked', this.file);
           event.stopPropagation();
         }
+      },
+      fileDropped: function(event){
+        event.preventDefault();
+        var file = event.dataTransfer.files[0];
+        console.log('File you dragged here is', file.path, "dropped on", this.file.path);
+        return false;
       }
     },
     events: {
       openFile: function(file) {
         let isThisFile = (file == this.file);
-        
+
         this.selected = isThisFile;
 
         return true;
