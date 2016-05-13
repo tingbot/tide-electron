@@ -85,6 +85,11 @@ app.on('ready', function() {
             },
             accelerator: 'CmdOrCtrl+Shift+S'
         }, {
+            label: 'Save All',
+            click: function(item, focusedWindow) {
+                focusedWindow.webContents.send('save-all-documents');
+            }
+        }, {
             type: 'separator'
         }, {
             label: 'Print…',

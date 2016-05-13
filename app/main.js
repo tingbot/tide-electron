@@ -22,3 +22,7 @@ ipcRenderer.on('open-document', function (event, path) {
 ipcRenderer.on('save-document', function () {
     vm.$broadcast("saveFile");
 })
+
+ipcRenderer.on('save-all-documents', function () {
+    vm.tingapp.root.save();
+})

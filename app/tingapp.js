@@ -101,10 +101,12 @@ class TingappRegularFile extends TingappFile {
     }
 
     save(){
-      this.write(this.session.getValue(),function(err){
-        if(err) console.log(err);
-      });
-      this.session.getUndoManager().reset();
+      if(this.session){
+        this.write(this.session.getValue(),function(err){
+          if(err) console.log(err);
+        });
+        this.session.getUndoManager().reset();
+      }
     }
 
 
@@ -168,6 +170,12 @@ class TingappFolder extends TingappFile {
         }
 
         this.files = newFiles;
+    }
+
+    save(){
+      for(let file of this.files){
+        file.save();
+      }
     }
 }
 
