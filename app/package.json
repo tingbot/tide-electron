@@ -1,0 +1,27 @@
+{
+    "name": "tide-electron",
+    "version": "0.0.1",
+    "description": "An Electron based IDE for TingBot",
+    "author": {
+        "name": "Tingbot Team",
+        "email": "hello@tingbot.com",
+        "url": "http://tingbot.com/"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/tingbot/tide-electron.git"
+    },
+    "keywords": [
+      "Electron",
+      "TingBot"
+    ],
+    "license": "BSD-2-Clause",
+    "bugs": {
+      "url": "https://github.com/tingbot/tide-electron/issues"
+    },
+    "homepage": "https://github.com/tingbot/tide-electron#readme",
+    "main": "app.js",
+    "dependencies": {
+          "electron-default-menu": "^0.1.1"
+    }
+}

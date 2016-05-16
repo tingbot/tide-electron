@@ -2,9 +2,9 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-    entry: ['font-awesome-webpack!./font-awesome.config.js','./app/main.js'],
+    entry: ['font-awesome-webpack!./font-awesome.config.js','./app/src/main.js'],
     output: {
-        path: './build',
+        path: './app/build',
         publicPath: 'build/',
         filename: 'build.js'
     },
