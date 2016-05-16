@@ -39,7 +39,7 @@ app.on('ready', function() {
     var menu = defaultMenu();
 
     // Add File menu
-    menu.splice(1, 0, {
+    menu.splice(0, 0, {
         label: 'File',
         submenu: [{
             label: 'New',
