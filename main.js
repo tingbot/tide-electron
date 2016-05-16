@@ -22,15 +22,16 @@ function createWindow(on_load) {
     newWindow.loadURL('file://' + __dirname + '/index.html');
 }
 
-function newDocument() {
+function newProject() {
     createWindow(function(win) {
-        win.webContents.send('new-document');
+        win.webContents.send('new-project');
     });
 }
 
-function openDocument(path) {
+function openProject(path) {
     createWindow(function(win) {
-        win.webContents.send('open-document', path);
+        path = path.replace('app.tbinfo','');
+        win.webContents.send('open-project', path);
     });
 }
 
@@ -44,7 +45,7 @@ app.on('ready', function() {
         submenu: [{
             label: 'New',
             click: function(item, focusedWindow) {
-                newDocument();
+                newProject();
             },
             accelerator: 'CmdOrCtrl+N'
         }, {
@@ -53,13 +54,13 @@ app.on('ready', function() {
                 dialog.showOpenDialog({
                     filters: [{
                         name: 'Tingapps',
-                        extensions: ['tingapp']
+                        extensions: ['tingapp','tbinfo']
                     }, ],
-                    properties: ['openFile', 'openDirectory']
+                    properties: ['openFile']
                 }, function(filenames) {
                     console.log(filenames);
                     if (filenames !== undefined && filenames.length > 0) {
-                        openDocument(filenames[0]);
+                        openProject(filenames[0]);
                     }
                 });
             },
@@ -103,7 +104,7 @@ app.on('ready', function() {
     // Set top-level application menu, using modified template
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
 
-    newDocument();
+    newProject();
 });
 
 // when all windows are closed, quit the application on Windows/Linux
@@ -118,6 +119,6 @@ app.on('activate', function() {
     // create a new document if the dock icon is clicked in OS X and no other
     // windows were open
     if (BrowserWindow.getAllWindows().length === 0) {
-        newDocument();
+        newProject();
     }
 });

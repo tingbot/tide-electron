@@ -25,7 +25,7 @@
     },
     events:{
       run: function(device){
-        TbTool.start(device,folder);
+        TbTool.start(device,this.tingapp.root.path);
       },
       fileClicked: function(file){
         this.$broadcast('openFile', file);

@@ -5,8 +5,7 @@ from tingbot import *
 
 def loop():
     # drawing code here
-    screen.fill(color='black')
-    screen.text('Hello world!')
+    screen.fill(color='aqua')
 
 # run the app
 tingbot.run(loop)
