@@ -193,6 +193,7 @@ option {
   display: inline-block;
   -webkit-font-smoothing: antialiased;
   font: normal normal normal 14px/1 FontAwesome;
+  padding-left: 0.5px;
 }
 
 .file-icon:before {
@@ -279,4 +280,16 @@ screen and (min-resolution: 1.0dppx) {
   float: right;
   width: 3px;
   cursor: col-resize;
+}
+
+#image-viewer {
+  background-image: url(../img/grid-background.png);
+
+  display: flex;
+  align-items: center;  
+  justify-content: center;
+}
+
+#image-viewer > img {
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }

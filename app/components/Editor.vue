@@ -1,5 +1,8 @@
 <template>
-  <div class="main" id="editor">some text</div>
+  <div class="main" id="editor" v-show="editorVisible">some text</div>
+  <div class="main" id="image-viewer" v-if="!editorVisible">
+    <img :src="file.path" />
+  </div>
 </template>
 
 <script>
@@ -7,29 +10,48 @@
   import 'brace/mode/python'
   import 'brace/theme/monokai'
 
-  import FS from 'fs'
-
-       var editor = {};
+  var editor = {};
 
   export default {
+    data: function () {
+      return {file: {type: 'file'},
+        document: new ace.EditSession("Something went wrong :S","ace/mode/python")};
+    },
     ready: function () {
       // Setup our editor
       editor = ace.edit("editor");
-     editor.setTheme("ace/theme/monokai");
-     editor.getSession().setMode("ace/mode/python");
+      editor.setTheme("ace/theme/monokai");
+      editor.getSession().setMode("ace/mode/python");
 
-     editor.setShowPrintMargin(false);
+      editor.setShowPrintMargin(false);
 
-     editor.$blockScrolling = Infinity;
-   },
-   events:{
-     openFile: function(path){
-       console.log("Opening" + path);
-       FS.readFile(path, function(err, data) {
-         editor.setValue(data.toString(), 1);
-       });
-     }
-   }
+      editor.$blockScrolling = Infinity;
+    },
+    events: {
+      openFile: function(file){
+        console.log("Opening editor on " + file.path);
+        this.file = file;
+
+        if (this.editorVisible) {
+          this.document = this.file.editSession;
+        }
+      },
+      saveFile: function(){
+        console.log("Saving file: "+ this.file.path);
+        console.log(this.document.getValue());
+        this.file.save();
+      }
+    },
+    computed: {
+      editorVisible: function () {
+        return this.file.type != 'image';
+      }
+    },
+    watch:{
+      'document': function(val){
+        editor.setSession(val);
+      }
+    }
  }
 
 

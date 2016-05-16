@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import fsextra from 'fs-extra';
 import {remote} from 'electron';
+import ace from 'brace';
 
 class Tingapp {
     constructor(path) {
@@ -12,6 +13,7 @@ class Tingapp {
         const tempDir = remote.app.getPath('temp');
 
         const newDocumentPath = path.join(tempDir, 'untitled.tingapp');
+        console.log(newDocumentPath);
         fsextra.copySync('./default.tingapp', newDocumentPath);
 
         return new Tingapp(newDocumentPath);
@@ -73,6 +75,42 @@ class TingappRegularFile extends TingappFile {
     read(callback) {
         fs.readFile(this.path, callback);
     }
+
+    write(data, callback){
+        fs.writeFile(this.path,data,callback);
+    }
+
+    get editSession(){
+      if(this.session){
+        return this.session;
+      }else{
+        this.session = new ace.EditSession("Loading Data","ace/mode/python");
+        this.session.setUndoManager(new ace.UndoManager());
+        this.read((err,data) => {
+          this.session.setValue(data.toString('utf8'));
+        });
+        return this.session;
+      }
+    }
+
+    get changed(){
+      if(this.session){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    save(){
+      if(this.session){
+        this.write(this.session.getValue(),function(err){
+          if(err) console.log(err);
+        });
+        this.session.getUndoManager().reset();
+      }
+    }
+
+
 }
 
 class TingappFolder extends TingappFile {
@@ -133,6 +171,16 @@ class TingappFolder extends TingappFile {
         }
 
         this.files = newFiles;
+    }
+
+    save(){
+      for(let file of this.files){
+        file.save();
+      }
+    }
+
+    addFile(source){
+      fsextra.copySync(source,path.join(this.path,path.basename(source)));
     }
 }
 

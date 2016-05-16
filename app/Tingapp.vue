@@ -27,8 +27,8 @@
       run: function(device){
         TbTool.start(device,folder);
       },
-      fileClicked: function(filename){
-        this.$broadcast('openFile',filename);
+      fileClicked: function(file){
+        this.$broadcast('openFile', file);
       }
     }
   }
