@@ -19,8 +19,7 @@
     "win": {
       "iconUrl": "(windows-only) https link to icon"
     },
-    "extraResources": [
-      "build",
+    "extraResources":[
       "default.tingapp"
     ]
   },
@@ -38,12 +37,7 @@
   },
   "homepage": "https://github.com/tingbot/tide-electron#readme",
   "dependencies": {
-    "brace": "~0.8.0",
-    "electron-default-menu": "^0.1.1",
-    "font-awesome-webpack": "0.0.4",
-    "fs-extra": "^0.30.0",
-    "jquery": "~2.2.3",
-    "vue": "~1.0.21"
+
   },
   "devDependencies": {
     "babel-core": "~6.7.7",
@@ -65,7 +59,13 @@
     "vue-loader": "~8.2.3",
     "vue-style-loader": "~1.0.0",
     "webpack": "~1.13.0",
-    "webpack-dev-server": "~1.14.1"
+    "webpack-dev-server": "~1.14.1",
+    "brace": "~0.8.0",
+    "electron-default-menu": "^0.1.1",
+    "font-awesome-webpack": "0.0.4",
+    "fs-extra": "^0.30.0",
+    "jquery": "~2.2.3",
+    "vue": "~1.0.21"
   },
   "directories": {
     "app": "./",
