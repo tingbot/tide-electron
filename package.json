@@ -2,17 +2,23 @@
   "name": "tide-electron",
   "version": "0.0.1",
   "description": "An Electron based IDE for TingBot",
+  "author": {
+    "name": "Tingbot Team",
+    "email": "hello@tingbot.com",
+    "url": "http://tingbot.com/"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "clean": "rm -rf ./build",
-    "clean:lin": "rm -rf ./build/lin",
-    "clean:osx": "rm -rf ./build/osx",
-    "clean:win": "rm -rf ./build/win",
-    "build": "npm run clean && npm run build:osx && npm run build:win && npm run build:lin",
-    "build:lin": "npm run clean:lin && electron-packager ./ \"TideElectron\" --out=build/lin --platform=linux --arch=x64 --version=0.35.2 --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=build/",
-    "build:osx": "npm run clean:osx && electron-packager ./ \"TideElectron\" --out=build/osx --platform=darwin --arch=x64 --version=0.35.2 --icon=assets/osx/tide.icns --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=build/",
-    "build:win": "npm run clean:win && electron-packager ./ \"TideElectron\" --out=build/win --platform=win32 --arch=ia32 --version=0.35.2 --icon=assets/win/icon.ico --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=build/"
+    "pack": "build",
+    "dist": "build"
+  },
+  "build": {
+    "app-bundle-id": "your.id",
+    "app-category-type": "your.app.category.type",
+    "win": {
+      "iconUrl": "(windows-only) https link to icon"
+    }
   },
   "repository": {
     "type": "git",
@@ -22,7 +28,6 @@
     "Electron",
     "TingBot"
   ],
-  "author": "rob4001",
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/tingbot/tide-electron/issues"
@@ -43,6 +48,7 @@
     "babel-preset-es2015": "~6.6.0",
     "babel-runtime": "~5.8.38",
     "css-loader": "~0.23.1",
+    "electron-builder": "^3.23.0",
     "electron-prebuilt": "~0.37.8",
     "file-loader": "~0.8.5",
     "font-awesome": "^4.6.1",
@@ -56,5 +62,8 @@
     "vue-style-loader": "~1.0.0",
     "webpack": "~1.13.0",
     "webpack-dev-server": "~1.14.1"
+  },
+  "directories": {
+    "app": "./"
   }
 }
