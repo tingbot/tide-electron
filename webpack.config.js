@@ -4,8 +4,8 @@ var webpack = require('webpack')
 module.exports = {
     entry: ['font-awesome-webpack!./font-awesome.config.js','./app/main.js'],
     output: {
-        path: './dist',
-        publicPath: 'dist/',
+        path: './build',
+        publicPath: 'build/',
         filename: 'build.js'
     },
     target: 'electron',

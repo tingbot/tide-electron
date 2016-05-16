@@ -18,7 +18,11 @@
     "app-category-type": "your.app.category.type",
     "win": {
       "iconUrl": "(windows-only) https link to icon"
-    }
+    },
+    "extraResources": [
+      "build",
+      "default.tingapp"
+    ]
   },
   "repository": {
     "type": "git",
@@ -64,6 +68,7 @@
     "webpack-dev-server": "~1.14.1"
   },
   "directories": {
-    "app": "./"
+    "app": "./",
+    "buildResources": "assets"
   }
 }
