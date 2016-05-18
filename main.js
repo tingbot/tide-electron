@@ -39,8 +39,11 @@ app.on('ready', function() {
     // Get template for default menu
     var menu = defaultMenu();
 
+    // on the mac the first menu is the Application menu, File comes after that.
+    var fileMenuLocation =  (process.platform === 'darwin') ? 1 : 0;
+
     // Add File menu
-    menu.splice(0, 0, {
+    menu.splice(fileMenuLocation, 0, {
         label: 'File',
         submenu: [{
             label: 'New',
