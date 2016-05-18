@@ -1,7 +1,9 @@
 <template>
-  <div class="main" id="editor" v-show="editorVisible">some text</div>
-  <div class="main" id="image-viewer" v-if="!editorVisible">
-    <img :src="file.path" />
+  <div>
+    <div class="fill" id="editor" v-show="editorVisible">some text</div>
+    <div class="fill" id="image-viewer" v-if="!editorVisible">
+      <img :src="file.path" />
+    </div>
   </div>
 </template>
 
@@ -40,6 +42,9 @@
         console.log("Saving file: "+ this.file.path);
         console.log(this.document.getValue());
         this.file.save();
+      },
+      resize: function () {
+        editor.resize();
       }
     },
     computed: {
@@ -47,7 +52,7 @@
         return this.file.type != 'image';
       }
     },
-    watch:{
+    watch: {
       'document': function(val){
         editor.setSession(val);
       }
