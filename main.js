@@ -2,6 +2,8 @@ const electron = require('electron');
 const app = electron.app;
 const Menu = require('menu');
 const dialog = require('dialog');
+const fs = require('fs');
+const path = require('path');
 const defaultMenu = require('electron-default-menu')
 const BrowserWindow = electron.BrowserWindow;
 
@@ -28,10 +30,15 @@ function newProject() {
     });
 }
 
-function openProject(path) {
+function openProject(pathToOpen) {
+    // the user opens the app.tbinfo file on Linux/Windows
+    // go up one level and select that as the project
+    if (fs.statSync(pathToOpen).isFile()) {
+        pathToOpen = path.dirname(pathToOpen);
+    }
+
     createWindow(function(win) {
-        path = path.replace('app.tbinfo','');
-        win.webContents.send('open-project', path);
+        win.webContents.send('open-project', pathToOpen);
     });
 }
 
