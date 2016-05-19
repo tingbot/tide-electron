@@ -8,21 +8,14 @@
       :root='tingapp.root'
       tabindex=0>
     </sidebar>
-    <div class="main">
-      <editor
-        class="fill"
-        :style="{bottom: horizontalDragBarPosition + 'px'}">
+
+    <vertical-split class="main" :position="150" :min-position="1" :max-position="200">
+      <editor slot="top" class="fill">
       </editor>
-      <horizontal-dragbar
-        :position.sync="horizontalDragBarPosition"
-        :max-position="200">
-      </horizontal-dragbar>
-      <terminal
-        class="fill"
-        :process="process"
-        :style="{top: 'auto', height: horizontalDragBarPosition + 'px'}">
+      <terminal slot="bottom" class="fill" :process="process">
       </terminal>
-    </div>
+    </vertical-split>
+
     <div class="bottom"></div>
   </div>
 </template>
@@ -32,7 +25,7 @@
   import ControlBar from './components/ControlBar.vue'
   import Editor from './components/Editor.vue'
   import Terminal from './components/Terminal.vue'
-  import HorizontalDragbar from './components/HorizontalDragbar.vue'
+  import VerticalSplit from './components/VerticalSplit.vue'
 
   import TbTool from './utils/tbtool.js'
 
@@ -44,12 +37,11 @@
       Sidebar,
       ControlBar,
       Editor,
-      HorizontalDragbar,
-      Terminal
+      Terminal,
+      VerticalSplit
     },
     data: function () {
       return {
-        horizontalDragBarPosition: 150,
         process: null
       }
     },
@@ -91,11 +83,6 @@
       },
       fileClicked: function(file){
         this.$broadcast('openFile', file);
-      }
-    },
-    watch: {
-      horizontalDragBarPosition: function () {
-        this.handleResize()
       }
     },
     computed: {

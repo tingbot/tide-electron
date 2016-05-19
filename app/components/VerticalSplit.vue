@@ -1,12 +1,40 @@
 <template>
-  <div
-    class="horizontal-dragbar"
-    v-on:mousedown="dragStart"
-    :style="{ bottom: barPosition + 'px' }">
+
+  <div class="vertical-split">
+    <div class="vertical-split-top" :style="{bottom: position + 'px'}">
+      <slot name="top"></slot>
+    </div>
+
+    <div
+      class="horizontal-dragbar"
+      v-el:bar
+      v-on:mousedown="dragStart"
+      :style="{ bottom: barPosition + 'px' }">
+    </div>
+
+    <div class="vertical-split-bottom" :style="{height: position + 'px'}">
+      <slot name="bottom"></slot>
+    </div>
   </div>
+
 </template>
 
 <style>
+  .vertical-split {
+    position: relative;
+  }
+  .vertical-split-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+  .vertical-split-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
   .horizontal-dragbar {
     position: absolute;
     width: 100%;
@@ -16,7 +44,8 @@
     background-color: #d4d4d4;
     background-clip: padding-box;
     /* border to enlarge the hit area */
-    border: 3px solid rgba(100,100,100,0.01);
+    border-top: 3px solid rgba(100,100,100,0.01);
+    border-bottom: 3px solid rgba(100,100,100,0.01);
     z-index: 10;
   }
 </style>
@@ -44,8 +73,7 @@
     },
     ready: function() {
       // bar thickness can only be known when we're attached to a DOM element, so it is set here
-      const bar = this.$el;
-      this.barThickness = bar.getBoundingClientRect().height;
+      this.barThickness = this.$els.bar.getBoundingClientRect().height;
     },
     methods: {
       dragStart: function (event) {
@@ -63,7 +91,7 @@
         event.stopPropagation();
       },
       drag: function (event) {
-        const bar = this.$el;
+        const bar = this.$els.bar;
         const containerBottom = bar.offsetParent.getBoundingClientRect().bottom;
         this.position = containerBottom - event.clientY;
 
@@ -80,8 +108,11 @@
       barPosition: function () {
         return this.position - this.barThickness / 2;
       }
+    },
+    watch: {
+      position: function () {
+        this.$broadcast('resize');
+      }
     }
  }
-
-
 </script>

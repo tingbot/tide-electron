@@ -53,7 +53,7 @@ option {
 }
 
 .main {
-  position: absolute;
+  position: absolute !important;
   left: 180px;
   top: 40px;
   right: 0;
