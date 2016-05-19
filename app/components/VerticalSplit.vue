@@ -102,9 +102,6 @@
         if (this.position > this.maxPosition) {
           this.position = this.maxPosition;
         }
-      },
-      ensureBottomVisible: function () {
-        console.log('handler');
       }
     },
     computed: {
