@@ -31,14 +31,12 @@
     props: ['process'],
     events: {
       resize: function () {
-        if (this.process) {
+        if (this.terminal) {
           this.terminal.fit();
-
-          try {
-            this.process.resize(this.terminal.cols, this.terminal.rows);
-          } catch (e) {
-            // this resize command can fail if the process has exited.
-          }
+        }
+        
+        if (this.process) {
+          this.process.resize(this.terminal.cols, this.terminal.rows);
         }
       }
     },
