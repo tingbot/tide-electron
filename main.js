@@ -2,6 +2,8 @@ const electron = require('electron');
 const app = electron.app;
 const Menu = require('menu');
 const dialog = require('dialog');
+const fs = require('fs');
+const path = require('path');
 const defaultMenu = require('electron-default-menu')
 const BrowserWindow = electron.BrowserWindow;
 
@@ -22,15 +24,21 @@ function createWindow(on_load) {
     newWindow.loadURL('file://' + __dirname + '/index.html');
 }
 
-function newDocument() {
+function newProject() {
     createWindow(function(win) {
-        win.webContents.send('new-document');
+        win.webContents.send('new-project');
     });
 }
 
-function openDocument(path) {
+function openProject(pathToOpen) {
+    // the user opens the app.tbinfo file on Linux/Windows
+    // go up one level and select that as the project
+    if (fs.statSync(pathToOpen).isFile()) {
+        pathToOpen = path.dirname(pathToOpen);
+    }
+
     createWindow(function(win) {
-        win.webContents.send('open-document', path);
+        win.webContents.send('open-project', pathToOpen);
     });
 }
 
@@ -38,13 +46,16 @@ app.on('ready', function() {
     // Get template for default menu
     var menu = defaultMenu();
 
+    // on the mac the first menu is the Application menu, File comes after that.
+    var fileMenuLocation =  (process.platform === 'darwin') ? 1 : 0;
+
     // Add File menu
-    menu.splice(1, 0, {
+    menu.splice(fileMenuLocation, 0, {
         label: 'File',
         submenu: [{
             label: 'New',
             click: function(item, focusedWindow) {
-                newDocument();
+                newProject();
             },
             accelerator: 'CmdOrCtrl+N'
         }, {
@@ -53,13 +64,13 @@ app.on('ready', function() {
                 dialog.showOpenDialog({
                     filters: [{
                         name: 'Tingapps',
-                        extensions: ['tingapp']
+                        extensions: ['tingapp','tbinfo']
                     }, ],
-                    properties: ['openFile', 'openDirectory']
+                    properties: ['openFile']
                 }, function(filenames) {
                     console.log(filenames);
                     if (filenames !== undefined && filenames.length > 0) {
-                        openDocument(filenames[0]);
+                        openProject(filenames[0]);
                     }
                 });
             },
@@ -103,7 +114,7 @@ app.on('ready', function() {
     // Set top-level application menu, using modified template
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
 
-    newDocument();
+    newProject();
 });
 
 // when all windows are closed, quit the application on Windows/Linux
@@ -118,6 +129,6 @@ app.on('activate', function() {
     // create a new document if the dock icon is clicked in OS X and no other
     // windows were open
     if (BrowserWindow.getAllWindows().length === 0) {
-        newDocument();
+        newProject();
     }
 });

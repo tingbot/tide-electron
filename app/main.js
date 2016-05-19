@@ -11,11 +11,11 @@ let vm = window.vueInstance = new Vue({
   replace: false,
 })
 
-ipcRenderer.on('new-document', function () {
+ipcRenderer.on('new-project', function () {
     vm.tingapp = Tingapp.newDocument();
 })
 
-ipcRenderer.on('open-document', function (event, path) {
+ipcRenderer.on('open-project', function (event, path) {
     vm.tingapp = Tingapp.openDocument(path);
 })
 

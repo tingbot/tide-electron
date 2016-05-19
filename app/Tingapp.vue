@@ -59,7 +59,7 @@
         this.process = null;
       }
     },
-    events: {
+    events:{
       run: function(device){
         if (device == 'simulate') {
           this.process = this.tingapp.spawn_simulate();
@@ -88,8 +88,8 @@
     computed: {
       processIsRunning: function () {
         return (this.process !== null);
-      }
     }
+  }
   }
 
 </script>
