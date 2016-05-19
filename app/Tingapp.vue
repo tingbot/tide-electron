@@ -67,7 +67,7 @@
           this.process = this.tingapp.spawn_run(device);
         }
 
-        this.process.on('exit', this.processEnded);
+        this.process.once('exit', this.processEnded);
       },
       stop: function () {
         const processToStop = this.process;
