@@ -11,7 +11,14 @@
   }
   .terminal {
     padding: 5px;
-    font-family: Menlo, Monaco, courier, monospace;
+    font-size: 10px;
+    font-family: Monaco, Menlo, 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    color: #eeeeee;
+
+  }
+  .terminal .terminal-cursor {
+    background-color: rgba(255,255,255,0.4);
+    color: inherit;
   }
 </style>
 
@@ -49,7 +56,7 @@
             this.$el.removeChild(this.terminal.element);
             this.terminal = null;
           }
-          
+
           this.terminal = new Terminal();
           this.terminal.open(this.$el);
 
