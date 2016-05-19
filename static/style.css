@@ -85,7 +85,8 @@ option {
 }
 
 .run-button,
-.upload-button {
+.upload-button,
+.stop-button {
   height: 28px;
   width: 28px;
   background-color: #ed1c4b;
@@ -94,12 +95,14 @@ option {
 }
 
 .run-button:active,
-.upload-button:active {
+.upload-button:active,
+.stop-button:active {
   background-color: #861027;
 }
 
 .run-button[disabled],
-.upload-button[disabled] {
+.upload-button[disabled],
+.stop-button[disabled] {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -109,6 +112,10 @@ option {
 
 .upload-button {
   -webkit-mask-box-image: url(../img/upload.png);
+}
+
+.stop-button {
+  -webkit-mask-box-image: url(../img/stop.png);
 }
 
 #device-list {

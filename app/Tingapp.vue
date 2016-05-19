@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <control-bar :devices='devices'></control-bar>
+    <control-bar
+      :devices='devices'
+      :is-running='processIsRunning'>
+    </control-bar>
     <sidebar 
       :root='tingapp.root'
       tabindex=0>
@@ -81,6 +84,11 @@
     watch: {
       horizontalDragBarPosition: function () {
         this.handleResize()
+      }
+    },
+    computed: {
+      processIsRunning: function () {
+        return (this.process !== null);
       }
     }
   }
