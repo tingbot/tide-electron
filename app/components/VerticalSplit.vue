@@ -12,7 +12,7 @@
       :style="{ bottom: barPosition + 'px' }">
     </div>
 
-    <div class="vertical-split-bottom" :style="{height: position + 'px'}">
+    <div class="vertical-split-bottom" v-el:bottom :style="{height: position + 'px'}">
       <slot name="bottom"></slot>
     </div>
   </div>
@@ -102,6 +102,9 @@
         if (this.position > this.maxPosition) {
           this.position = this.maxPosition;
         }
+      },
+      ensureBottomVisible: function () {
+        console.log('handler');
       }
     },
     computed: {
@@ -112,6 +115,15 @@
     watch: {
       position: function () {
         this.$broadcast('resize');
+      }
+    },
+    events: {
+      'ensure-visible': function (component) {
+        if (this.$els.bottom.contains(component.$el)) {
+          if (this.position <= this.minPosition) {
+            this.position = 100;
+          }
+        }
       }
     }
  }

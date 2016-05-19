@@ -9,7 +9,7 @@
       tabindex=0>
     </sidebar>
 
-    <vertical-split class="main" :position="150" :min-position="1" :max-position="200">
+    <vertical-split class="main" :position="1" :min-position="1" :max-position="200">
       <editor slot="top" class="fill">
       </editor>
       <terminal slot="bottom" class="fill" :process="process">

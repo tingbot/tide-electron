@@ -79,6 +79,7 @@
           });
 
           this.$emit('resize');
+          this.$dispatch('ensure-visible', this);
         }
       }
     },
