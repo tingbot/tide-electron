@@ -116,6 +116,8 @@
     },
     events: {
       'ensure-visible': function (component) {
+        // if the component that wants to make sure it's visible is in our 'bottom' slot, and the
+        // bottom slot is closed, open it up
         if (this.$els.bottom.contains(component.$el)) {
           if (this.position <= this.minPosition) {
             this.position = 100;
