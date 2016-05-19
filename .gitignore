@@ -4,3 +4,4 @@ vendor/tingbot-python
 build
 .jshintrc
 dist/
+env
