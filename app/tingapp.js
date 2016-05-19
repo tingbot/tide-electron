@@ -3,6 +3,7 @@ import fs from 'fs';
 import fsextra from 'fs-extra';
 import {remote} from 'electron';
 import ace from 'brace';
+import pty from 'pty.js';
 
 class Tingapp {
     constructor(path) {
@@ -25,6 +26,24 @@ class Tingapp {
 
     get files() {
         return this.root.files;
+    }
+
+    spawn_simulate() {
+        return pty.spawn('tbtool', ['simulate', this.root.path], {
+            name: 'xterm-color',
+        });
+    }
+
+    spawn_run(tingbotHostname) {
+        return pty.spawn('tbtool', ['run', tingbotHostname, this.root.path], {
+            name: 'xterm-color',
+        });
+    }
+
+    spawn_install(tingbotHostname) {
+        return pty.spawn('tbtool', ['install', tingbotHostname, this.root.path], {
+            name: 'xterm-color',
+        });
     }
 }
 

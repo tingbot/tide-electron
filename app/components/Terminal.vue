@@ -21,35 +21,62 @@
   import 'xterm/addons/fit/fit';
 
   export default {
-    props: ['devices'],
-    ready: function(){
-      const el = document.getElementById('terminal');
-      const childEnv = Object.assign({}, process.env, {CLICOLOR: 1});
-
-      this.terminal = new Terminal();
-      this.terminal.open(el);
-
-      this.pty = pty.spawn('bash', [], {
-        name: 'xterm-color',
-        cols: 80,
-        rows: 30,
-        cwd: process.env.HOME,
-        env: childEnv
-      });
-
-      this.pty.on('data', (data) => {
-        this.terminal.write(data);
-      });
-      this.terminal.on('key', (key, ev) => { 
-        this.pty.write(key);
-      });
-
-      this.$emit('resize');
-    },
+    props: ['process'],
     events: {
       resize: function () {
-        this.terminal.fit();
-        this.pty.resize(this.terminal.cols, this.terminal.rows);
+        if (this.process) {
+          this.terminal.fit();
+
+          try {
+            this.process.resize(this.terminal.cols, this.terminal.rows);
+          } catch (e) {
+            // this resize command can fail if the process has exited.
+          }
+        }
+      }
+    },
+    watch: {
+      process: function (newProcess, oldProcess) {
+        if (oldProcess) {
+          oldProcess.removeListener('data', this.outputFromProcess);
+        }
+
+        if (newProcess) {
+          if (this.terminal) {
+            this.terminal.removeAllListeners('key');
+            this.terminal.removeAllListeners('exit');
+            this.terminal.removeAllListeners('blur');
+            this.$el.removeChild(this.terminal.element);
+            this.terminal = null;
+          }
+          
+          this.terminal = new Terminal();
+          this.terminal.open(this.$el);
+
+          newProcess.on('data', this.outputFromProcess);
+          this.terminal.on('key', this.inputFromTerminal);
+
+          newProcess.once('exit', (code, signal) => {
+            this.terminal.write(`\r\nProcess exited with code ${code}.\r\n`);
+            // hide the cursor
+            this.terminal.blur();
+          });
+
+          // work around a bug in xterm.js
+          this.terminal.on('blur', () => {
+            this.terminal.blur();
+          });
+
+          this.$emit('resize');
+        }
+      }
+    },
+    methods: {
+      outputFromProcess: function (data) {
+        this.terminal.write(data);
+      },
+      inputFromTerminal: function (key) {
+        this.process.write(key);
       }
     }
   }

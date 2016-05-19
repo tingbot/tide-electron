@@ -16,6 +16,7 @@
       </horizontal-dragbar>
       <terminal
         class="fill"
+        :process="process"
         :style="{top: 'auto', height: horizontalDragBarPosition + 'px'}">
       </terminal>
     </div>
@@ -45,7 +46,8 @@
     },
     data: function () {
       return {
-        horizontalDragBarPosition: 150
+        horizontalDragBarPosition: 150,
+        process: null
       }
     },
     ready: function () {
@@ -57,11 +59,20 @@
     methods: {
       handleResize: function () {
         this.$broadcast('resize');
+      },
+      processEnded: function(code, signal) {
+        this.process = null;
       }
     },
     events: {
       run: function(device){
-        TbTool.start(device,folder);
+        if (device == 'simulate') {
+          this.process = this.tingapp.spawn_simulate();
+        } else {
+          this.process = this.tingapp.spawn_run(device);
+        }
+
+        this.process.on('exit', this.processEnded);
       },
       fileClicked: function(file){
         this.$broadcast('openFile', file);
