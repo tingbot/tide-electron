@@ -77,6 +77,18 @@
 
         this.process.on('exit', this.processEnded);
       },
+      stop: function () {
+        const processToStop = this.process;
+
+        processToStop.kill('SIGTERM');
+
+        setTimeout(() => {
+          if (this.process === processToStop) {
+            // it's still running
+            processToStop.kill('SIGKILL');
+          }
+        }, 1000);
+      },
       fileClicked: function(file){
         this.$broadcast('openFile', file);
       }

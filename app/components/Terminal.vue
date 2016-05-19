@@ -62,7 +62,13 @@
           this.terminal.on('key', this.inputFromTerminal);
 
           newProcess.once('exit', (code, signal) => {
-            this.terminal.write(`\r\nProcess exited with code ${code}.\r\n`);
+            if (code !== 0) {
+              this.terminal.write(`\r\nProcess exited with code ${code}.\r\n`);
+            } else if (signal !== 0) {
+              this.terminal.write(`\r\nProcess exited due to signal ${signal}.\r\n`);
+            } else {
+              this.terminal.write(`\r\nProcess exited successfully.\r\n`);
+            }
             // hide the cursor
             this.terminal.blur();
           });

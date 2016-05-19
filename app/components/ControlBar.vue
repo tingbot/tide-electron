@@ -21,6 +21,9 @@
     methods: {
       start: function(){
         this.$dispatch('run',this.selectedDevice);
+      },
+      stop: function () {
+        this.$dispatch('stop');
       }
     },
     // watch: {
