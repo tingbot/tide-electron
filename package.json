@@ -18,9 +18,6 @@
   "build": {
     "app-bundle-id": "your.id",
     "app-category-type": "your.app.category.type",
-    "win": {
-      "iconUrl": "(windows-only) https link to icon"
-    },
     "extraResources": [
       "default.tingapp"
     ]

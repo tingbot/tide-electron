@@ -5,6 +5,8 @@ const dialog = electron.dialog;
 const defaultMenu = require('electron-default-menu')
 const BrowserWindow = electron.BrowserWindow;
 
+if (require('electron-squirrel-startup')) return;
+
 function createWindow(on_load) {
     newWindow = new BrowserWindow({
         width: 800,
