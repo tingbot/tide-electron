@@ -63,7 +63,7 @@
     "webpack-dev-server": "~1.14.1"
   },
   "optionalDependencies": {
-        "electron-installer-redhat": "^0.2.0",
+    "electron-installer-redhat": "^0.2.0"
   },
   "directories": {
     "buildResources": "assets"
