@@ -11,9 +11,9 @@
   "scripts": {
     "start": "electron app/app.js",
     "postinstall": "install-app-deps",
-    "pack": "webpack -p && build",
-    "dist": "webpack -p && build",
-    "dist:rpm": "electron-installer-redhat --src dist/tide-electron-linux-x64/ --dest dist/ --arch amd64 --config rpm.json",
+    "pack": "electron-rebuild && webpack -p && build",
+    "dist": "electron-rebuild && webpack -p && build",
+    "dist:rpm": "npm run pack && electron-installer-redhat --src dist/tide-electron-linux-x64/ --dest dist/ --arch amd64 --config rpm.json",
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {
