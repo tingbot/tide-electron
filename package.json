@@ -44,7 +44,6 @@
     "concurrently": "^2.1.0",
     "css-loader": "~0.23.1",
     "electron-builder": "^3.23.0",
-    "electron-installer-redhat": "^0.2.0",
     "electron-prebuilt": "~1.1.0",
     "file-loader": "~0.8.5",
     "font-awesome": "^4.6.1",
@@ -62,6 +61,9 @@
     "vue-style-loader": "~1.0.0",
     "webpack": "~1.13.0",
     "webpack-dev-server": "~1.14.1"
+  },
+  "optionalDependencies": {
+        "electron-installer-redhat": "^0.2.0",
   },
   "directories": {
     "buildResources": "assets"
