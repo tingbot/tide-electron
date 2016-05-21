@@ -51,6 +51,7 @@ deploy:
   api_key:
     secure: aTs/EU2AejYl/Q7EvziTc1gmzL/UxgXBRe/7XHYQ9YKfrTYXVLek6pAwtWdAeXZvCRD5Ukd0UTeXxkYGNw5Ew5QX34zWO7u9nLGDrthNppXQlQYPfhErptp4V5HEeGdQZl82ghwhHOAkRmIglmV6oU4TLcNpjXfaUnu+L5hNhpmB4mfUyf6z83fQgBECauz+32E9CVYtyvjqwkMjdd8/CY2Gzrai1orZqOdq7UNJUNxcDEGyAMw1U+PFm2VOKoqjIt6cINWpt/nYlWdAdk6iBnEcLZuirfzYrjt+uSq15Nr5noTW1Wd34RpC58nIEshiXPTVRsNbm41HewmpcPfKe5pucd5NLKVKDB1dM6ivG00HELJS3RMtr6n1rFACvVPmG9eIAI64tmie6wRnSPW2IHJv8V42PiL3LIKyO1O2JvFLNsOt/47BWSCX2bQ14qQ6NUw1YRnjWFPyZQ+eHbPom9z5czOith9mQO45WbKIMJ3mqU0aOOPBjidBesZpkK6hWtJI/EIQ7CS+gmkdWM1AKVwG9vDJINEf/Spqi+5NaySN+oz8ym2wT9wDpuiBOLLbgm0nFoac2RCxgi6Nibb4LJfqZ0silQCPRne6Lhi3LLVmpYCSF17AuLqaSbWcVr3lUdVFDW30p7tlWnLsDZ2ykT1XPjvLA5lzkAyxEmtfL0U=
   file: "/dist/tide-electron-*-amd64.rpm"
+  skip_cleanup: true
   on:
     repo: Rob4001/tide-electron
     condition: $TRAVIS_OS_NAME == linux
