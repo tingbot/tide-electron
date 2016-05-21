@@ -1,6 +1,6 @@
 {
   "name": "tide-electron",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An Electron based IDE for TingBot ",
   "author": {
     "name": "Tingbot Team",
