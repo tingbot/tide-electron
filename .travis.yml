@@ -53,4 +53,4 @@ deploy:
   file: "/dist/tide-electron-*-amd64.rpm"
   on:
     repo: Rob4001/tide-electron
-    condition: "$TRAVIS_OS_NAME" == "linux"
+    condition: $TRAVIS_OS_NAME == linux
