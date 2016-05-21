@@ -13,6 +13,7 @@
     "postinstall": "install-app-deps",
     "pack": "webpack -p && build",
     "dist": "webpack -p && build",
+    "dist:rpm": "electron-installer-redhat --src dist/tide-electron-linux-x64/ --dest dist/ --arch amd64 --config rpm.json",
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {
@@ -43,6 +44,7 @@
     "concurrently": "^2.1.0",
     "css-loader": "~0.23.1",
     "electron-builder": "^3.23.0",
+    "electron-installer-redhat": "^0.2.0",
     "electron-prebuilt": "~1.1.0",
     "file-loader": "~0.8.5",
     "font-awesome": "^4.6.1",
