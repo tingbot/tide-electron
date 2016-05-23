@@ -1,19 +1,9 @@
 {
-  "name": "tide-electron",
-  "version": "0.0.2",
-  "description": "An Electron based IDE for TingBot ",
-  "author": {
-    "name": "Tingbot Team",
-    "email": "hello@tingbot.com",
-    "url": "http://tingbot.com/"
-  },
-  "main": "main.js",
   "scripts": {
     "start": "electron app/app.js",
     "postinstall": "install-app-deps",
     "pack": "electron-rebuild && webpack -p && build",
     "dist": "electron-rebuild && webpack -p && build",
-    "dist:rpm": "npm run pack && electron-installer-redhat --src dist/tide-electron-linux-x64/ --dest dist/ --arch amd64 --config rpm.json",
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {
@@ -21,7 +11,11 @@
     "app-category-type": "your.app.category.type",
     "extraResources": [
       "default.tingapp"
-    ]
+    ],
+    "linux":{
+      "target": ["deb","rpm"],
+      "depends": ["python","pygame"]
+    }
   },
   "repository": {
     "type": "git",
@@ -43,7 +37,7 @@
     "brace": "~0.8.0",
     "concurrently": "^2.1.0",
     "css-loader": "~0.23.1",
-    "electron-builder": "^3.23.0",
+    "electron-builder": "^3.26.0",
     "electron-prebuilt": "~1.1.0",
     "electron-rebuild": "^1.1.4",
     "file-loader": "~0.8.5",
@@ -62,9 +56,6 @@
     "vue-style-loader": "~1.0.0",
     "webpack": "~1.13.0",
     "webpack-dev-server": "~1.14.1"
-  },
-  "optionalDependencies": {
-    "electron-installer-redhat": "^0.2.0"
   },
   "directories": {
     "buildResources": "assets"

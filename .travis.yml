@@ -39,7 +39,6 @@ install:
 - npm prune
 script:
 - npm run dist
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm run dist:rpm ; fi
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
