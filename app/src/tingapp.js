@@ -14,7 +14,13 @@ class Tingapp {
 
         const newDocumentPath = path.join(tempDir, 'untitled.tingapp');
         console.log(newDocumentPath);
-        fsextra.copySync('./default.tingapp', newDocumentPath);
+        // check for dev to select where to fetch resources from
+        if(/[\\/]electron-prebuilt[\\/]/.test(process.execPath)){
+          fsextra.copySync('./app/default.tingapp', newDocumentPath);
+        }else{
+          fsextra.copySync(path.join(process.resourcesPath,'app.asar','default.tingapp'), newDocumentPath);
+        }
+
 
         return new Tingapp(newDocumentPath);
     }
