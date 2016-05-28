@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rob4001/tide-electron.git"
+    "url": "git+https://github.com/tingbot/tide-electron.git"
   },
   "keywords": [
     "Electron",
     "TingBot"
   ],
   "bugs": {
-    "url": "https://github.com/rob4001/tide-electron/issues"
+    "url": "https://github.com/tingbot/tide-electron/issues"
   },
   "devDependencies": {
     "babel-core": "~6.8.0",

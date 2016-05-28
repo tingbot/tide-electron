@@ -70,7 +70,7 @@ app.on('ready', function() {
                 }, function(filenames) {
                     console.log(filenames);
                     if (filenames !== undefined && filenames.length > 0) {
-                        openDocument(filenames[0]);
+                        openProject(filenames[0]);
                     }
                 });
             },
@@ -114,7 +114,7 @@ app.on('ready', function() {
     // Set top-level application menu, using modified template
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
 
-    newDocument();
+    newProject();
 });
 
 // when all windows are closed, quit the application on Windows/Linux
@@ -129,6 +129,6 @@ app.on('activate', function() {
     // create a new document if the dock icon is clicked in OS X and no other
     // windows were open
     if (BrowserWindow.getAllWindows().length === 0) {
-        newDocument();
+        newProject();
     }
 });
