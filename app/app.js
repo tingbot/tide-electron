@@ -1,11 +1,11 @@
 const electron = require('electron');
 const app = electron.app;
-const Menu = require('menu');
-const dialog = require('dialog');
-const fs = require('fs');
-const path = require('path');
+const Menu = electron.Menu;
+const dialog = electron.dialog;
 const defaultMenu = require('electron-default-menu')
 const BrowserWindow = electron.BrowserWindow;
+
+if (require('electron-squirrel-startup')) return;
 
 function createWindow(on_load) {
     newWindow = new BrowserWindow({

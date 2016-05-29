@@ -1,6 +1,5 @@
 node_modules
-bower_components
-vendor/tingbot-python
-build
+app/build/
 .jshintrc
 dist/
+npm-debug.log
