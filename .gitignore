@@ -3,3 +3,4 @@ app/build/
 .jshintrc
 dist/
 npm-debug.log
+vendor/

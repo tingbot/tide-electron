@@ -13,9 +13,16 @@
       "default.tingapp",
       "vendor"
     ],
-    "linux":{
-      "target": ["deb","rpm","tar.gz"],
-      "depends": ["python","pygame"]
+    "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "tar.gz"
+      ],
+      "depends": [
+        "python",
+        "pygame"
+      ]
     }
   },
   "repository": {
@@ -60,5 +67,8 @@
   },
   "directories": {
     "buildResources": "assets"
+  },
+  "dependencies": {
+    "python-shell": "^0.4.0"
   }
 }
