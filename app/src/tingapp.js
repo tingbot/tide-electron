@@ -16,9 +16,9 @@ class Tingapp {
         console.log(newDocumentPath);
         // check for dev to select where to fetch resources from
         if(/[\\/]electron-prebuilt[\\/]/.test(process.execPath)){
-          fsextra.copySync('./app/default.tingapp', newDocumentPath);
+          fsextra.copySync('./default.tingapp', newDocumentPath);
         }else{
-          fsextra.copySync(path.join(process.resourcesPath,'app.asar','default.tingapp'), newDocumentPath);
+          fsextra.copySync(path.join(process.resourcesPath,'default.tingapp'), newDocumentPath);
         }
 
 
