@@ -16,4 +16,4 @@ wget https://bootstrap.pypa.io/get-pip.py
 rm get-pip.py
 
 ./pip install hg+http://bitbucket.org/pygame/pygame
-./pip install git+https://github.org/tingbot/tingbot-python.git
+./pip install git+https://github.com/tingbot/tingbot-python.git

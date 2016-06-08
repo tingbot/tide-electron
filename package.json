@@ -18,10 +18,6 @@
         "deb",
         "rpm",
         "tar.gz"
-      ],
-      "depends": [
-        "python",
-        "pygame"
       ]
     }
   },

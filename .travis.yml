@@ -38,6 +38,7 @@ install:
 - npm install
 - npm prune
 script:
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then scripts/bundlePython.sh fi
 - npm run dist
 branches:
   except:
