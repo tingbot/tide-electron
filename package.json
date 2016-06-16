@@ -35,7 +35,7 @@
     "fs-extra": "^0.30.0",
     "jquery": "~2.2.3",
     "node-loader": "github:joerick/node-loader",
-    "pty.js": "^0.3.0",
+    "ptyw.js": "0.4.0",
     "vue": "~1.0.21",
     "xterm": "https://github.com/sourcelair/xterm.js/archive/0.33.tar.gz"
   },
@@ -47,6 +47,7 @@
     "babel-runtime": "~5.8.38",
     "css-loader": "~0.23.1",
     "electron-prebuilt": "~0.37.8",
+    "electron-rebuild": "^1.1.5",
     "file-loader": "~0.8.5",
     "font-awesome": "^4.6.1",
     "less": "^2.6.1",

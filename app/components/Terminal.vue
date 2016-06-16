@@ -23,7 +23,7 @@
 </style>
 
 <script>
-  import pty from 'pty.js';
+  import pty from 'ptyw.js';
   import Terminal from 'xterm';
   import 'xterm/addons/fit/fit';
 
