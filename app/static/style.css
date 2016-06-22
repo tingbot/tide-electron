@@ -107,11 +107,11 @@ option {
 }
 
 .run-button {
-  -webkit-mask-box-image: url(../img/run.png);
+  -webkit-mask-box-image: url(img/run.png);
 }
 
 .upload-button {
-  -webkit-mask-box-image: url(../img/upload.png);
+  -webkit-mask-box-image: url(img/upload.png);
 }
 
 .stop-button {
@@ -180,7 +180,7 @@ option {
   font: normal normal normal 14px/1 FontAwesome;
   -webkit-font-smoothing: antialiased;
   padding: 0 4px;
-  
+
   visibility: hidden;
   transition: transform 0.2s;
 }
@@ -299,7 +299,7 @@ screen and (min-resolution: 1.0dppx) {
   background-image: url(../img/grid-background.png);
 
   display: flex;
-  align-items: center;  
+  align-items: center;
   justify-content: center;
 }
 
