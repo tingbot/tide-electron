@@ -78,22 +78,13 @@ class TingappRegularFile extends TingappFile {
         return 'file';
     }
 
-    // callback takes two arguments, (err, data)
-    read(callback) {
-        fs.readFile(this.path, callback);
-    }
-
-    write(data, callback){
-        fs.writeFile(this.path,data,callback);
-    }
-
     get editSession(){
       if(this.session){
         return this.session;
       }else{
         this.session = new ace.EditSession("Loading Data","ace/mode/python");
         this.session.setUndoManager(new ace.UndoManager());
-        this.read((err,data) => {
+        fs.readFile(this.path, (err,data) => {
           this.session.setValue(data.toString('utf8'));
           this.session.on('change', this._editSessionChanged);
         });
@@ -107,7 +98,7 @@ class TingappRegularFile extends TingappFile {
 
     save(){
       if(this.session){
-        this.write(this.session.getValue(),function(err){
+        fs.writeFile(this.path, this.session.getValue(), function(err){
           if(err) console.log(err);
         });
         this.session.getUndoManager().reset();
