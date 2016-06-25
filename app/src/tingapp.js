@@ -56,6 +56,7 @@ class TingappFile {
 class TingappRegularFile extends TingappFile {
     constructor(name, parent) {
         super(name, parent);
+        this.changed = false;
     }
 
     get type() {
@@ -94,17 +95,14 @@ class TingappRegularFile extends TingappFile {
         this.session.setUndoManager(new ace.UndoManager());
         this.read((err,data) => {
           this.session.setValue(data.toString('utf8'));
+          this.session.on('change', this._editSessionChanged);
         });
         return this.session;
       }
     }
 
-    get changed(){
-      if(this.session){
-        return true;
-      }else{
-        return false;
-      }
+    _editSessionChanged(delta) {
+        this.changed = true;
     }
 
     save(){
@@ -116,7 +114,13 @@ class TingappRegularFile extends TingappFile {
       }
     }
 
-
+    wasRemoved() {
+        super.wasRemoved()
+        if (this.session) {
+            this.session.removeListener('change', this._editSessionChanged);
+            this.session = undefined;
+        }
+    }
 }
 
 class TingappFolder extends TingappFile {
