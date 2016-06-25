@@ -78,12 +78,6 @@ app.on('ready', function() {
         }, {
             type: 'separator'
         }, {
-            label: 'Close',
-            click: function(item, focusedWindow) {
-                focusedWindow.close();
-            },
-            accelerator: 'CmdOrCtrl+W'
-        }, {
             label: 'Save',
             click: function(item, focusedWindow) {
                 focusedWindow.webContents.send('save-document');
