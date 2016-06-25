@@ -32,6 +32,10 @@ class Tingapp {
     get files() {
         return this.root.files;
     }
+
+    get changed() {
+        return this.root.changed;
+    }
 }
 
 class TingappFile {
@@ -85,15 +89,13 @@ class TingappRegularFile extends TingappFile {
         this.session = new ace.EditSession("Loading Data","ace/mode/python");
         this.session.setUndoManager(new ace.UndoManager());
         fs.readFile(this.path, (err,data) => {
-          this.session.setValue(data.toString('utf8'));
-          this.session.on('change', this._editSessionChanged);
+            this.session.setValue(data.toString('utf8'));
+            
+            this._changeListener = (e) => { this.changed = true };
+            this.session.on('change', this._changeListener);
         });
         return this.session;
       }
-    }
-
-    _editSessionChanged(delta) {
-        this.changed = true;
     }
 
     save(){
@@ -102,13 +104,14 @@ class TingappRegularFile extends TingappFile {
           if(err) console.log(err);
         });
         this.session.getUndoManager().reset();
+        this.changed = false;
       }
     }
 
     wasRemoved() {
         super.wasRemoved()
         if (this.session) {
-            this.session.removeListener('change', this._editSessionChanged);
+            this.session.removeListener('change', this._changeListener);
             this.session = undefined;
         }
     }
@@ -126,6 +129,10 @@ class TingappFolder extends TingappFile {
         return 'folder';
     }
 
+    get changed() {
+        return this.files.some(file => file.changed);
+    }
+
     _startWatching() {
         this._watcher = fs.watch(this.path, {persistent: false}, () => {
             this._reloadFiles();
@@ -135,6 +142,9 @@ class TingappFolder extends TingappFile {
     wasRemoved() {
         super.wasRemoved();
         this._watcher.close();
+        for(let file of this.files){
+            file.wasRemoved();
+        }
     }
 
     _reloadFiles() {
