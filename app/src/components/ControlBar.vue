@@ -3,7 +3,7 @@
       <button type="button" class="run-button" name="start" v-on:click="start"></button>
       <button type="button" class="upload-button" name="upload" disabled></button>
       <select v-model="selectedDevice" id="device-list" name="device-list">
-        <option value="simulate" selected>Simulator</option>
+        <option value="simulate" selected>Tingbot Simulator</option>
         <option v-for='device in devices' value="{{device.target}}">{{device.name}}</option>
       </select>
     </div>
