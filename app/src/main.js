@@ -50,7 +50,11 @@ ipcRenderer.on('save-as-document', function () {
 });
 
 ipcRenderer.on('save-all-documents', function () {
-    vm.tingapp.save();
+    if (vm.tingapp.isTemporary) {
+      saveAs();
+    } else {
+      vm.tingapp.save();
+    }
 });
 
 document.addEventListener('drop', function(e) {
@@ -77,7 +81,11 @@ window.addEventListener('beforeunload', function (e) {
 
       if (button_index == 0) {
         // Save
-        vm.tingapp.save();
+        if (vm.tingapp.isTemporary) {
+          saveAs();
+        } else {
+          vm.tingapp.save();
+        }
       } else if (button_index == 1) {
         // Cancel
         e.returnValue = true; // cancel the window close
