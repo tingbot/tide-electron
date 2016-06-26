@@ -226,6 +226,21 @@ class TingappRootFolder extends TingappFolder {
     constructor(rootPath) {
         super(path.basename(rootPath), {path: path.dirname(rootPath)});
     }
+
+    get sortedFiles() {
+        // we want the main or main.py file to be at the top of the list.
+        // Otherwise, alphabetical.
+        let result = this.files.slice();
+        return result.sort((a, b) =>  {
+          if (a.name === 'main.py' || a.name === 'main') {
+            return -1;
+          } else if (b.name === 'main.py' || b.name === 'main') {
+            return 1;
+          } else {
+            return a.name.localeCompare(b.name);
+          }
+        });
+    }
 }
 
 export {Tingapp, TingappFile, TingappFolder}

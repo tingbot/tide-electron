@@ -58,7 +58,13 @@
       windowTitle: function (title) {
         const win = remote.getCurrentWindow();
         win.setTitle(title);
-      }
+      },
+      tingapp: function (tingapp) {
+        // open the file at the top of the sidebar when a tingapp is opened.
+        if (tingapp.root.files.length > 0) {
+          this.$broadcast('openFile', tingapp.root.sortedFiles[0]);
+        }
+      },
     }
   }
 </script>
