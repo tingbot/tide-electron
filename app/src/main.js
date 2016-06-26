@@ -20,7 +20,11 @@ ipcRenderer.on('open-project', function (event, path) {
 })
 
 ipcRenderer.on('save-document', function () {
-    vm.$broadcast("saveFile");
+    if (vm.tingapp.isTemporary) {
+      saveAs();
+    } else {
+      vm.$broadcast("saveFile");
+    }
 })
 
 function saveAs() {
