@@ -46,6 +46,9 @@
         } else {
           return this.tingapp.root.name;
         }
+      },
+      changed: function () {
+        return (this.tingapp.changed === true);
       }
     },
     watch: {
@@ -65,6 +68,12 @@
           this.$broadcast('openFile', tingapp.root.sortedFiles[0]);
         }
       },
+      changed: function (changed) {
+        const win = remote.getCurrentWindow();
+        if (win.setDocumentEdited) {
+          win.setDocumentEdited(changed);
+        }
+      }
     }
   }
 </script>
