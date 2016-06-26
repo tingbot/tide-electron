@@ -35,8 +35,10 @@ function saveAs() {
     }]
   });
 
-  vm.tingapp.saveTo(savePath);
-  vm.tingapp = Tingapp.openDocument(savePath);
+  if (savePath !== undefined) {
+    vm.tingapp.saveTo(savePath);
+    vm.tingapp = Tingapp.openDocument(savePath);
+  }
 }
 
 ipcRenderer.on('save-as-document', function () {
