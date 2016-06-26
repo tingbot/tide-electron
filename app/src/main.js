@@ -77,7 +77,7 @@ window.addEventListener('beforeunload', function (e) {
 
       if (button_index == 0) {
         // Save
-        vm.tingapp.root.save();
+        vm.tingapp.save();
       } else if (button_index == 1) {
         // Cancel
         e.returnValue = true; // cancel the window close
