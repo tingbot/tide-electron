@@ -23,9 +23,29 @@ ipcRenderer.on('save-document', function () {
     vm.$broadcast("saveFile");
 })
 
+function saveAs() {
+  const dialog = remote.dialog;
+
+  const savePath = dialog.showSaveDialog(remote.getCurrentWindow(), {
+    title: 'Save as…',
+    buttonLabel: 'Save',
+    filters: [{
+      name: 'Tingapps',
+      extensions: ['tingapp']
+    }]
+  });
+
+  vm.tingapp.saveTo(savePath);
+  vm.tingapp = Tingapp.openDocument(savePath);
+}
+
+ipcRenderer.on('save-as-document', function () {
+    saveAs();
+});
+
 ipcRenderer.on('save-all-documents', function () {
     vm.tingapp.root.save();
-})
+});
 
 document.addEventListener('drop', function(e) {
   e.preventDefault();

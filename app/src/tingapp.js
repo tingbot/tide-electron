@@ -36,6 +36,10 @@ class Tingapp {
     get changed() {
         return this.root.changed;
     }
+
+    saveTo(path) {
+        this.root.saveTo(path);
+    }
 }
 
 class TingappFile {
@@ -90,7 +94,7 @@ class TingappRegularFile extends TingappFile {
         this.session.setUndoManager(new ace.UndoManager());
         fs.readFile(this.path, (err,data) => {
             this.session.setValue(data.toString('utf8'));
-            
+
             this._changeListener = (e) => { this.changed = true };
             this.session.on('change', this._changeListener);
         });
@@ -99,13 +103,20 @@ class TingappRegularFile extends TingappFile {
     }
 
     save(){
-      if(this.session){
-        fs.writeFile(this.path, this.session.getValue(), function(err){
-          if(err) console.log(err);
-        });
-        this.session.getUndoManager().reset();
-        this.changed = false;
-      }
+        this.saveTo(this.path);
+    }
+
+    saveTo(path) {
+        if (this.session) {
+            fs.writeFileSync(this.path, this.session.getValue());
+
+            if (path === this.path) {
+                this.session.getUndoManager().reset();
+                this.changed = false;
+            }
+        } else if (path !== this.path) {
+            fsextra.copySync(this.path, path);
+        }
     }
 
     wasRemoved() {
@@ -188,6 +199,15 @@ class TingappFolder extends TingappFile {
       for(let file of this.files){
         file.save();
       }
+    }
+
+    saveTo(dstPath) {
+        fsextra.mkdirs(dstPath);
+
+        for (let file of this.files) {
+            const fileDstPath = path.join(dstPath, file.name);
+            file.saveTo(fileDstPath);
+        }
     }
 
     addFile(source){
