@@ -50,7 +50,7 @@ ipcRenderer.on('save-as-document', function () {
 });
 
 ipcRenderer.on('save-all-documents', function () {
-    vm.tingapp.root.save();
+    vm.tingapp.save();
 });
 
 document.addEventListener('drop', function(e) {

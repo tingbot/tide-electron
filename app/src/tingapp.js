@@ -44,6 +44,10 @@ class Tingapp {
         return this.root.path;
     }
 
+    save() {
+        this.saveTo(this.path);
+    }
+
     saveTo(path) {
         this.root.saveTo(path);
     }
@@ -109,13 +113,9 @@ class TingappRegularFile extends TingappFile {
       }
     }
 
-    save(){
-        this.saveTo(this.path);
-    }
-
     saveTo(path) {
         if (this.session) {
-            fs.writeFileSync(this.path, this.session.getValue());
+            fs.writeFileSync(path, this.session.getValue());
 
             if (path === this.path) {
                 this.session.getUndoManager().reset();
@@ -200,12 +200,6 @@ class TingappFolder extends TingappFile {
         }
 
         this.files = newFiles;
-    }
-
-    save(){
-      for(let file of this.files){
-        file.save();
-      }
     }
 
     saveTo(dstPath) {
