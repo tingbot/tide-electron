@@ -4,6 +4,7 @@ const Menu = electron.Menu;
 const dialog = electron.dialog;
 const defaultMenu = require('electron-default-menu')
 const BrowserWindow = electron.BrowserWindow;
+const fs = require('fs');
 
 if (require('electron-squirrel-startup')) return;
 
