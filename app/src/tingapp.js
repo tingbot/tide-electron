@@ -5,8 +5,12 @@ import {remote} from 'electron';
 import ace from 'brace';
 
 class Tingapp {
-    constructor(path) {
+    constructor(path, options = {}) {
         this.root = new TingappRootFolder(path);
+
+        const {isTemporary=false} = options;
+
+        this.isTemporary = isTemporary;
     }
 
     static newDocument() {
@@ -21,8 +25,7 @@ class Tingapp {
           fsextra.copySync(path.join(process.resourcesPath,'default.tingapp'), newDocumentPath);
         }
 
-
-        return new Tingapp(newDocumentPath);
+        return new Tingapp(newDocumentPath, {isTemporary: true});
     }
 
     static openDocument(path) {
@@ -35,6 +38,10 @@ class Tingapp {
 
     get changed() {
         return this.root.changed;
+    }
+
+    get path() {
+        return this.root.path;
     }
 
     saveTo(path) {

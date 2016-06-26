@@ -13,6 +13,7 @@
   import Editor from './components/Editor.vue'
 
   import TbTool from './utils/tbtool.js'
+  import {remote} from 'electron';
 
   var folder = './default.tingapp'
 
@@ -25,12 +26,39 @@
     },
     events:{
       run: function(device){
-        TbTool.start(device,this.tingapp.root.path);
+        TbTool.start(device,this.tingapp.path);
       },
       fileClicked: function(file){
         this.$broadcast('openFile', file);
       }
+    },
+    computed: {
+      windowPath: function () {
+        if (!this.tingapp.isTemporary) {
+          return this.tingapp.path;
+        } else {
+          return '';
+        }
+      },
+      windowTitle: function () { 
+        if (this.tingapp.isTemporary) {
+          return 'Untitled';
+        } else {
+          return this.tingapp.root.name;
+        }
+      }
+    },
+    watch: {
+      windowPath: function (path) {
+        const win = remote.getCurrentWindow();
+        if (win.setRepresentedFilename) {
+          win.setRepresentedFilename(path);
+        }
+      },
+      windowTitle: function (title) {
+        const win = remote.getCurrentWindow();
+        win.setTitle(title);
+      }
     }
   }
-
 </script>

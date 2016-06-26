@@ -12,7 +12,8 @@ function createWindow(on_load) {
     newWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        darkTheme: true
+        darkTheme: true,
+        title: 'Tide',
     });
 
     if (on_load) {
