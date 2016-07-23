@@ -40,9 +40,7 @@
     "fs-extra": "^0.30.0",
     "jquery": "~2.2.3",
     "node-loader": "github:joerick/node-loader",
-    "ptyw.js": "0.4.0",
-    "vue": "~1.0.21",
-    "xterm": "git://github.com/sourcelair/xterm.js.git#d5e83902a5e7160aaff401097bdccafa108d246a"
+    "vue": "~1.0.21"
   },
   "devDependencies": {
     "babel-core": "~6.8.0",

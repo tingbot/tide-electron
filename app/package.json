@@ -23,6 +23,8 @@
   "main": "app.js",
   "dependencies": {
     "electron-default-menu": "^0.1.1",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "ptyw.js": "0.4.0",
+    "xterm": "git://github.com/sourcelair/xterm.js.git#d5e83902a5e7160aaff401097bdccafa108d246a"   
   }
 }
