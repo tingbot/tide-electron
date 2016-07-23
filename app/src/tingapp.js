@@ -4,6 +4,7 @@ import fsextra from 'fs-extra';
 import {remote} from 'electron';
 import ace from 'brace';
 import pty from 'ptyw.js';
+import {python} from './utils/tbtool'
 
 class Tingapp {
     constructor(path) {
@@ -35,7 +36,7 @@ class Tingapp {
     }
 
     spawn_simulate() {
-        return pty.spawn('tbtool', ['simulate', this.root.path], {
+        return pty.spawn(python, ['python', '-m', 'tbtool', 'simulate', this.root.path], {
             name: 'xterm-256color',
         });
     }

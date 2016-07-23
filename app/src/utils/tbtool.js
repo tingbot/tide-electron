@@ -9,7 +9,6 @@ var requirements_met = check_requirements();
 
 
 
-
 function start(tingbot,dir){
 
   if(!requirements_met && !check_requirements()){
@@ -64,28 +63,34 @@ function check_requirements(){
 
 function findPython(){
   var vendorPath = './vendor/python';
+  
   if(!/[\\/]electron-prebuilt[\\/]/.test(process.execPath)){
     vendorPath = path.join(process.resourcesPath,"vendor","python");
   }
-  try{
-  var pythonStat = fs.statSync(vendorPath);
-  if(!pythonStat.isDirectory()){
-    //no vendor use system python
-    console.log("Using System Python");
+
+  try {
+    var vendorPathStat = fs.statSync(vendorPath);
+
+    if(vendorPathStat.isDirectory()){
+      console.log("Using Bundled Python");
+
+      if(process.platform === 'win32'){
+        return path.join(vendorPath,"python.exe")
+      } else {
+        return path.join(vendorPath,"bin","python")
+      }
+    }
+  } catch(ex){
+    console.warn(ex.message);
+  }
+  
+  console.log("Using System Python");
+  if (process.platform === 'win32') {
+    return 'python.exe';
+  } else {
     return 'python';
   }
-  console.log("Using Bundled Python");
-  if(process.platform === 'win32'){
-    return path.join(vendorPath,"python.exe")
-  }else{
-    return path.join(vendorPath,"bin","python")
-  }
-} catch(ex){
-  console.log("Using System Python");
-  return 'python';
 }
 
-
-}
-
+module.exports.python = findPython();
 module.exports.start = start;
