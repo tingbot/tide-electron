@@ -3,7 +3,7 @@ import fs from 'fs';
 import fsextra from 'fs-extra';
 import {remote} from 'electron';
 import ace from 'brace';
-import pty from 'ptyw.js';
+import pty from 'pty.js';
 
 class Tingapp {
     constructor(path) {

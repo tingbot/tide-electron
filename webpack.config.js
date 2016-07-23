@@ -34,7 +34,8 @@ module.exports = {
     },
     plugins: [
         new webpack.ExternalsPlugin('commonjs', [
-            'electron'
+            'electron',
+            'pty.js'
         ])
     ]
 }
