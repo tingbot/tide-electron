@@ -24,7 +24,7 @@
   "dependencies": {
     "electron-default-menu": "^0.1.1",
     "electron-squirrel-startup": "^1.0.0",
-    "pty.js": "https://github.com/Tyriar/pty.js/tarball/fffbf86eb9e8051b5b2be4ba9c7b07faa018ce8d",
+    "ptyw.js": "0.4.0",
     "xterm": "git://github.com/sourcelair/xterm.js.git#d5e83902a5e7160aaff401097bdccafa108d246a"  
   }
 }
