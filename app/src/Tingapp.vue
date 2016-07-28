@@ -28,6 +28,7 @@
   import VerticalSplit from './components/VerticalSplit.vue'
 
   import TbTool from './utils/tbtool.js'
+  import {remote} from 'electron';
 
   var folder = './default.tingapp'
 
@@ -86,10 +87,50 @@
       }
     },
     computed: {
+      windowPath: function () {
+        if (!this.tingapp.isTemporary) {
+          return this.tingapp.path;
+        } else {
+          return '';
+        }
+      },
+      windowTitle: function () { 
+        if (this.tingapp.isTemporary) {
+          return 'Untitled';
+        } else {
+          return this.tingapp.root.name;
+        }
+      },
+      changed: function () {
+        return (this.tingapp.changed === true);
+      },
       processIsRunning: function () {
         return (this.process !== null);
-    }
+      }
+    },
+    watch: {
+      windowPath: function (path) {
+        const win = remote.getCurrentWindow();
+        if (win.setRepresentedFilename) {
+          win.setRepresentedFilename(path);
+        }
+      },
+      windowTitle: function (title) {
+        const win = remote.getCurrentWindow();
+        win.setTitle(title);
+      },
+      tingapp: function (tingapp) {
+        // open the file at the top of the sidebar when a tingapp is opened.
+        if (tingapp.root.files.length > 0) {
+          this.$broadcast('openFile', tingapp.root.sortedFiles[0]);
+        }
+      },
+      changed: function (changed) {
+        const win = remote.getCurrentWindow();
+        if (win.setDocumentEdited) {
+          win.setDocumentEdited(changed);
+        }
+      }
   }
   }
-
 </script>

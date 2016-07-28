@@ -4,6 +4,7 @@ const Menu = electron.Menu;
 const dialog = electron.dialog;
 const defaultMenu = require('electron-default-menu')
 const BrowserWindow = electron.BrowserWindow;
+const fs = require('fs');
 
 if (require('electron-squirrel-startup')) return;
 
@@ -11,7 +12,8 @@ function createWindow(on_load) {
     newWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        darkTheme: true
+        darkTheme: true,
+        title: 'Tide',
     });
 
     if (on_load) {
@@ -77,12 +79,6 @@ app.on('ready', function() {
             accelerator: 'CmdOrCtrl+O'
         }, {
             type: 'separator'
-        }, {
-            label: 'Close',
-            click: function(item, focusedWindow) {
-                focusedWindow.close();
-            },
-            accelerator: 'CmdOrCtrl+W'
         }, {
             label: 'Save',
             click: function(item, focusedWindow) {

@@ -51,7 +51,7 @@
     "brace": "~0.8.0",
     "concurrently": "^2.1.0",
     "css-loader": "~0.23.1",
-    "electron-builder": "^5.0.0",
+    "electron-builder": "5.18.0",
     "electron-prebuilt": "~1.1.0",
     "electron-rebuild": "^1.1.4",
     "file-loader": "~0.8.5",

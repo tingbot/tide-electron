@@ -41,7 +41,7 @@
       saveFile: function(){
         console.log("Saving file: "+ this.file.path);
         console.log(this.document.getValue());
-        this.file.save();
+        this.file.saveTo(this.file.path);
       },
       resize: function () {
         editor.resize();
