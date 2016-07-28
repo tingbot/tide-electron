@@ -7,8 +7,8 @@
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {
-    "app-bundle-id": "your.id",
-    "app-category-type": "your.app.category.type",
+    "appId": "com.tingbot.tide-electron",
+    "app-category-type": "app-category-type=public.app-category.developer-tools",
     "extraResources": [
       "default.tingapp",
       "vendor"
@@ -27,7 +27,7 @@
   },
   "keywords": [
     "Electron",
-    "TingBot"
+    "Tingbot"
   ],
   "bugs": {
     "url": "https://github.com/tingbot/tide-electron/issues"
