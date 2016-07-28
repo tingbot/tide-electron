@@ -25,4 +25,11 @@ build_script:
   - npm --version
   - npm run dist
 
+artifacts:
+  - path: 'dist\win\*.exe'
+    name: Tide Setup
+
+  - path: 'dist\win\*.nupkg'
+    name: Tide NUPKG
+
 test: off
