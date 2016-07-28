@@ -24,14 +24,14 @@
 
 <script>
   import Terminal from 'xterm';
-  import 'xterm/addons/fit/fit';
+  import {fit} from 'xterm/addons/fit/fit';
 
   export default {
     props: ['process'],
     events: {
       resize: function () {
         if (this.terminal) {
-          this.terminal.fit();
+          fit(this.terminal);
         }
         
         if (this.process) {
