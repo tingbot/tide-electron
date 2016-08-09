@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "electron app/app.js",
-    "postinstall": "cd app && npm install",
+    "postinstall": "install-app-deps",
     "pack": "electron-rebuild && webpack -p && build",
     "dist": "electron-rebuild && webpack -p && build",
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
