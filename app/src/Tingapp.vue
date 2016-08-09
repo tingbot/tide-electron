@@ -72,13 +72,22 @@
       },
       stop: function () {
         const processToStop = this.process;
+        const isWindows = process.platform === 'win32';
 
-        processToStop.kill('SIGTERM');
+        if (isWindows) {
+          processToStop.write("\x03");
+        } else {
+          processToStop.kill('SIGINT');
+        }
 
         setTimeout(() => {
           if (this.process === processToStop) {
             // it's still running
-            processToStop.kill('SIGKILL');
+            if (isWindows) {
+              processToStop.kill();
+            } else {
+              processToStop.kill('SIGKILL');
+            }
           }
         }, 1000);
       },
