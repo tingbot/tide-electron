@@ -30,6 +30,7 @@
     "Electron",
     "TingBot"
   ],
+  "licence": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/tingbot/tide-electron/issues"
   },
