@@ -1,0 +1,14 @@
+# Here we lock down the versions of any modules with compiled python extensions.
+
+# Wheels are needed for anything with a compiled component because the modules
+# they install are completely self-contained - they don't rely on any shared libraries on the
+# system, besides those that the platform provides.
+
+# pygame wheel that bundles SDL libs
+https://pypi.python.org/packages/2f/6e/f576f1f1da01405870f0ab37a9ea6ef382a8c61c098249888ad64bb70669/pygame-1.9.2b5-cp27-cp27m-macosx_10_9_x86_64.whl#md5=08fcec1c92ad886492860d50f2286cc4
+
+# libzmq wheel that bundles zmq
+https://pypi.python.org/packages/a2/43/90e61a2adc24148a9b1e5603542f52427f86c93090cbea097e47de51ae41/pyzmq-15.4.0-cp27-cp27m-macosx_10_6_intel.whl#md5=e4169be2025a4066db304e3d74c6118c
+
+# cryptography wheel
+https://pypi.python.org/packages/0b/50/0d003b5390a9b22a5a144040996b86604312ffabdfc5644fadb4ece71444/cryptography-1.4-cp27-cp27m-macosx_10_6_intel.whl#md5=8efe7a733cdefe62851dd2f1e243080d

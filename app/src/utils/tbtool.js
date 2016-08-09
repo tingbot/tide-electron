@@ -2,12 +2,18 @@
 import {spawn,spawnSync} from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import resources from './resources';
 // var spawn = require('child_process').spawn;
 // var spawnSync = require('child_process').spawnSync;
+
+const tide_packages_dir = resources.getPath('vendor', 'tide-packages');
+
+if (fs.existsSync(tide_packages_dir)) {
+  process.env.PYTHONPATH = tide_packages_dir;
+}
+
 var current = null;
 var requirements_met = check_requirements();
-
-
 
 function start(tingbot,dir){
 
@@ -62,11 +68,8 @@ function check_requirements(){
 }
 
 function findPython(){
-  var vendorPath = './vendor/python';
-  
-  if(!/[\\/]electron-prebuilt[\\/]/.test(process.execPath)){
-    vendorPath = path.join(process.resourcesPath,"vendor","python");
-  }
+  var vendorPath = resources.getPath('vendor', 'python');
+
 
   try {
     var vendorPathStat = fs.statSync(vendorPath);

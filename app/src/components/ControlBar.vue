@@ -4,7 +4,7 @@
     <button type="button" class="stop-button" name="stop" v-on:click="stop" v-show="isRunning"></button>
     <button type="button" class="upload-button" name="upload" disabled></button>
     <select v-model="selectedDevice" id="device-list" name="device-list">
-      <option value="simulate" selected>Simulator</option>
+        <option value="simulate" selected>Tingbot Simulator</option>
       <option v-for='device in devices' value="{{device.target}}">{{device.name}}</option>
     </select>
   </div>
