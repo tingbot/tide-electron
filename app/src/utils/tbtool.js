@@ -72,24 +72,22 @@ function findPython(){
   var vendorPath = resources.getPath('vendor', 'python');
 
   try{
-  var pythonStat = fs.statSync(vendorPath);
-  if(!pythonStat.isDirectory()){
-    //no vendor use system python
+    var pythonStat = fs.statSync(vendorPath);
+    if(!pythonStat.isDirectory()){
+      //no vendor use system python
+      console.log("Using System Python");
+      return 'python';
+    }
+    console.log("Using Bundled Python");
+    if(process.platform === 'win32'){
+      return path.join(vendorPath,"python.exe")
+    }else{
+      return path.join(vendorPath,"bin","python")
+    }
+  } catch(ex){
     console.log("Using System Python");
     return 'python';
   }
-  console.log("Using Bundled Python");
-  if(process.platform === 'win32'){
-    return path.join(vendorPath,"python.exe")
-  }else{
-    return path.join(vendorPath,"bin","python")
-  }
-} catch(ex){
-  console.log("Using System Python");
-  return 'python';
-}
-
-
 }
 
 module.exports.start = start;
