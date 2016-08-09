@@ -2,8 +2,9 @@
   "scripts": {
     "start": "electron app/app.js",
     "postinstall": "install-app-deps",
-    "pack": "electron-rebuild && webpack -p && build",
-    "dist": "electron-rebuild && webpack -p && build",
+    "build-python": "python scripts/build-python-env.py",
+    "pack": "npm run build-python && webpack -p && build",
+    "dist": "npm run build-python && webpack -p && build",
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {

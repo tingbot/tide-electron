@@ -28,11 +28,10 @@ That's all you need for the basic editor. If you want to run the Tingbot apps to
 
 ## Running
 
+ * ``npm run build-python``
  * ``npm install``
- * ``./node_modules/.bin/webpack`` (if you've got webpack installed system-wide you can just do ``webpack`` )
- * ``npm start``
-
-When developing, it's handy to use ``webpack --watch --progress`` and ``npm start`` at the same time in separate tabs. Some code changes can then be reloaded without restarting the app (View > Reload).
+ * ``./node_modules/.bin/webpack``
+ * ``npm run dev`` (this will run webpack watching for changes while starting the app)
 
 ## Contributing
 
