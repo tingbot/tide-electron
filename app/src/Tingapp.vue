@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <control-bar
-      :devices='devices'
       :is-running='processIsRunning'>
     </control-bar>
-    <sidebar 
+    <sidebar
       :root='tingapp.root'
       tabindex=0>
     </sidebar>
@@ -85,7 +84,7 @@
           return '';
         }
       },
-      windowTitle: function () { 
+      windowTitle: function () {
         if (this.tingapp.isTemporary) {
           return 'Untitled';
         } else {

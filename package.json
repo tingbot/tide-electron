@@ -20,6 +20,15 @@
         "rpm",
         "tar.gz"
       ]
+    },
+    "deb": {
+      "depends": ["python2.7"]
+    },
+    "rpm": {
+      "depends": ["python"]
+    },
+    "asar": {
+      "unpack": "*.node"
     }
   },
   "repository": {
