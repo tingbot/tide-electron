@@ -37,5 +37,6 @@ module.exports = {
             'electron',
             'ptyw.js'
         ])
-    ]
+    ],
+    devtool: 'source-map'
 }

@@ -19,16 +19,16 @@ function findPython(){
         return path.join(vendorPath,"python.exe")
       } else {
         return path.join(vendorPath,"bin","python")
-      }
-    }
+  }
+  }
   } catch(ex){
     console.warn(ex.message);
   }
-  
+
   console.log("Using System Python");
   if (process.platform === 'win32') {
     return 'python.exe';
-  } else {
+  }else{
     return 'python';
   }
 }
@@ -37,7 +37,7 @@ var pythonExec = findPython()
 
 function findPythonEnvironment() {
   var env = {};
-  
+
   const tidePackagesDir = resources.getPath('vendor', 'tide-packages');
 
   if (fs.existsSync(tidePackagesDir)) {
@@ -45,13 +45,13 @@ function findPythonEnvironment() {
   }
 
   return env;
-}
+  }
 
 var pythonEnvironment = findPythonEnvironment()
 
 function simulate (tingappPath) {
   return _tbtool(['simulate', tingappPath])
-}
+  }
 
 function run (tingbotHostname, tingappPath) {
   return _tbtool(['run', tingbotHostname, tingappPath])
@@ -59,11 +59,11 @@ function run (tingbotHostname, tingappPath) {
 
 function install (tingbotHostname, tingappPath) {
   return _tbtool(['install', tingbotHostname, tingappPath])
-}
+  }
 
 function _tbtool (tbtoolArgs) {
   return _python(['-m', 'tbtool', ...tbtoolArgs]);
-}
+    }
 
 function _python (pythonArgs) {
   return new TingProcess([pythonExec, ...pythonArgs], {
