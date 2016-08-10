@@ -15,6 +15,7 @@ function createWindow(on_load) {
         minWidth: 450,
         minHeight: 300,
         darkTheme: true,
+        backgroundColor: '#1c1c1c',
         title: 'Tide',
     });
 
