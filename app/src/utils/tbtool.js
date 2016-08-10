@@ -25,11 +25,20 @@ function findPython(){
     console.warn(ex.message);
   }
 
+<<<<<<< Updated upstream
   console.log("Using System Python");
   if (process.platform === 'win32') {
     return 'python.exe';
   }else{
     return 'python';
+=======
+  if(tingbot == "simulate"){
+    current = spawn(pythonExec, ['-m', 'tbtool', 'simulate',dir]);
+      console.log("Spawned "+dir);
+  }else{
+    current = spawn(pythonExec, ['-m', 'tbtool','run',dir,tingbot]);
+    console.log("Spawned" + dir+ " on "+tingbot);
+>>>>>>> Stashed changes
   }
 }
 

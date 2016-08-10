@@ -11,12 +11,24 @@
 </template>
 
 <script>
+<<<<<<< Updated upstream
   export default {
     props: ['devices', 'isRunning'],
+=======
+  import {TingFinder} from '../utils/tingfinder.js'
+  export default {
+>>>>>>> Stashed changes
     data () {
       return{
-        selectedDevice: "simulate"
+        selectedDevice: "simulate",
+        devices: []
       }
+    },
+    created(){
+      this.finder = new TingFinder(this.devices);
+    },
+    destroyed(){
+      this.finder.stop();
     },
     methods: {
       start: function(){

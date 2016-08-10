@@ -61,6 +61,7 @@
     "font-awesome-webpack": "0.0.4",
     "fs-extra": "^0.30.0",
     "jquery": "~2.2.3",
+    "json-loader": "^0.5.4",
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",

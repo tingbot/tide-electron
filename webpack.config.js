@@ -9,11 +9,17 @@ module.exports = {
         filename: 'build.js'
     },
     target: 'electron',
+    resolve: {
+      extensions: [
+        "",".js",".json"
+      ]
+    },
     module: {
         loaders: [{
             test: /\.vue$/,
             loader: 'vue'
-        }, {
+        },
+        { test: /\.json$/, loader: "json-loader" }, {
             test: /\.js$/,
             loader: 'babel',
             exclude: /node_modules/
