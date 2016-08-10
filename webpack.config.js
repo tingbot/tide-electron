@@ -33,5 +33,6 @@ module.exports = {
         new webpack.ExternalsPlugin('commonjs', [
             'electron'
         ])
-    ]
+    ],
+    devtool: 'source-map'
 }
