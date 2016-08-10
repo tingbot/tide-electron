@@ -3,73 +3,11 @@ import {spawn,spawnSync} from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import resources from './resources';
-// var spawn = require('child_process').spawn;
-// var spawnSync = require('child_process').spawnSync;
+import {TingProcess} from '../tingprocess.js';
 
-const tide_packages_dir = resources.getPath('vendor', 'tide-packages');
-
-if (fs.existsSync(tide_packages_dir)) {
-  process.env.PYTHONPATH = tide_packages_dir;
-}
-
-var current = null;
-var requirements_met = check_requirements();
-
-function start(tingbot,dir){
-
-  if(!requirements_met && !check_requirements()){
-    return;
-  }
-  var pythonExec = findPython();
-  if(current){
-    current.kill();
-  }
-
-  if(tingbot == "simulate"){
-    current = spawn(pythonExec, ['-m', 'tbtool', 'simulate',dir]);
-      console.log("Spawned");
-  }else{
-    current = spawn(pythonExec, ['-m', 'tbtool','run',tingbot,dir]);
-  }
-
-}
-
-function check_requirements(){
-  console.log("check");
-  var exit;
-  var missing = [];
-
-  var pythonExec = findPython();
-
-  exit = spawnSync(pythonExec,['-V']);
-
-  if(exit.status !== 0){
-    missing.push('Python');
-  }
-
-  exit = spawnSync(pythonExec,['-c','import pygame']);
-
-  if(exit.status !== 0){
-    missing.push('pygame');
-  }
-
-  exit = spawnSync(pythonExec,['-c','import tingbot']);
-
-  if(exit.status !== 0){
-    missing.push('python-tingbot');
-  }
-
-
-  if(missing.length > 0){
-    alert("You are missing: " + missing.toString() + ". Code execution disabled");
-    return false;
-  }
-  return true;
-}
 
 function findPython(){
   var vendorPath = resources.getPath('vendor', 'python');
-
 
   try {
     var vendorPathStat = fs.statSync(vendorPath);
@@ -95,5 +33,42 @@ function findPython(){
   }
 }
 
-module.exports.python = findPython();
-module.exports.start = start;
+var pythonExec = findPython()
+
+function findPythonEnvironment() {
+  var env = {};
+  
+  const tidePackagesDir = resources.getPath('vendor', 'tide-packages');
+
+  if (fs.existsSync(tidePackagesDir)) {
+    env.PYTHONPATH = tidePackagesDir;
+  }
+
+  return env;
+}
+
+var pythonEnvironment = findPythonEnvironment()
+
+function simulate (tingappPath) {
+  return _tbtool(['simulate', tingappPath])
+}
+
+function run (tingbotHostname, tingappPath) {
+  return _tbtool(['run', tingbotHostname, tingappPath])
+}
+
+function install (tingbotHostname, tingappPath) {
+  return _tbtool(['install', tingbotHostname, tingappPath])
+}
+
+function _tbtool (tbtoolArgs) {
+  return _python(['-m', 'tbtool', ...tbtoolArgs]);
+}
+
+function _python (pythonArgs) {
+  return new TingProcess([pythonExec, ...pythonArgs], {
+    extraEnv: pythonEnvironment
+  })
+}
+
+export {simulate, run, install}

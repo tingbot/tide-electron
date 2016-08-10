@@ -38,24 +38,6 @@ class Tingapp {
         return this.root.files;
     }
 
-    spawn_simulate() {
-        return pty.spawn(python, ['python', '-m', 'tbtool', 'simulate', this.root.path], {
-            name: 'xterm-256color',
-        });
-    }
-
-    spawn_run(tingbotHostname) {
-        return pty.spawn('tbtool', ['run', tingbotHostname, this.root.path], {
-            name: 'xterm-256color',
-        });
-    }
-
-    spawn_install(tingbotHostname) {
-        return pty.spawn('tbtool', ['install', tingbotHostname, this.root.path], {
-            name: 'xterm-256color',
-        });
-    }
-
     get changed() {
         return this.root.changed;
     }

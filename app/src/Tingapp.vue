@@ -27,7 +27,7 @@
   import Terminal from './components/Terminal.vue'
   import VerticalSplit from './components/VerticalSplit.vue'
 
-  import TbTool from './utils/tbtool.js'
+  import * as tbtool from './utils/tbtool.js'
   import {remote} from 'electron';
 
   var folder = './default.tingapp'
@@ -63,33 +63,15 @@
     events:{
       run: function(device){
         if (device == 'simulate') {
-          this.process = this.tingapp.spawn_simulate();
+          this.process = tbtool.simulate(this.tingapp.path);
         } else {
-          this.process = this.tingapp.spawn_run(device);
+          this.process = tbtool.run(device, this.tingapp.path);;
         }
 
         this.process.once('exit', this.processEnded);
       },
       stop: function () {
-        const processToStop = this.process;
-        const isWindows = process.platform === 'win32';
-
-        if (isWindows) {
-          processToStop.write("\x03");
-        } else {
-          processToStop.kill('SIGINT');
-        }
-
-        setTimeout(() => {
-          if (this.process === processToStop) {
-            // it's still running
-            if (isWindows) {
-              processToStop.kill();
-            } else {
-              processToStop.kill('SIGKILL');
-            }
-          }
-        }, 1000);
+        this.process.terminate();
       },
       fileClicked: function(file){
         this.$broadcast('openFile', file);
