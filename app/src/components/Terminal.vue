@@ -89,7 +89,9 @@
         this.terminal.write(data);
       },
       inputFromTerminal: function (key) {
-        this.process.write(key);
+        if (this.process !== null) {
+          this.process.write(key);
+        }
       }
     }
   }
