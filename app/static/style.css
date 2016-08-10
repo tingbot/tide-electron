@@ -117,7 +117,7 @@ option {
 }
 
 .stop-button {
-  -webkit-mask-box-image: url(../img/stop.png);
+  -webkit-mask-box-image: url(img/stop.png);
 }
 
 #device-list {
