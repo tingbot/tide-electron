@@ -51,8 +51,6 @@
 </style>
 
 <script>
-  import Vue from 'vue';
-
   export default {
     props: {
       position: {
@@ -115,7 +113,7 @@
       position: function () {
         // VueJS updates the DOM after this run loop has completed, so we schedule a resize
         // event to be sent after that DOM update has finished.
-        Vue.nextTick(() => {
+        this.$nextTick(() => {
           this.$broadcast('resize');
         })
       }
