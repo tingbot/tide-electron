@@ -61,7 +61,9 @@
           this.terminal.on('key', this.inputFromTerminal);
 
           newProcess.once('exit', (code, signal) => {
-            if (code !== 0) {
+            if (code === null) {
+              this.terminal.write(`\r\nProcess exited.\r\n`);
+            } else if (code !== 0) {
               this.terminal.write(`\r\nProcess exited with code ${code}.\r\n`);
             } else if (signal !== 0) {
               this.terminal.write(`\r\nProcess exited due to signal ${signal}.\r\n`);
