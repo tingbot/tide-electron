@@ -11,13 +11,9 @@
 </template>
 
 <script>
-<<<<<<< Updated upstream
-  export default {
-    props: ['devices', 'isRunning'],
-=======
   import {TingFinder} from '../utils/tingfinder.js'
   export default {
->>>>>>> Stashed changes
+    props: [ 'isRunning'],
     data () {
       return{
         selectedDevice: "simulate",

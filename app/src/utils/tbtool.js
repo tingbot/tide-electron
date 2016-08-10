@@ -25,20 +25,11 @@ function findPython(){
     console.warn(ex.message);
   }
 
-<<<<<<< Updated upstream
   console.log("Using System Python");
   if (process.platform === 'win32') {
     return 'python.exe';
   }else{
     return 'python';
-=======
-  if(tingbot == "simulate"){
-    current = spawn(pythonExec, ['-m', 'tbtool', 'simulate',dir]);
-      console.log("Spawned "+dir);
-  }else{
-    current = spawn(pythonExec, ['-m', 'tbtool','run',dir,tingbot]);
-    console.log("Spawned" + dir+ " on "+tingbot);
->>>>>>> Stashed changes
   }
 }
 
@@ -63,11 +54,11 @@ function simulate (tingappPath) {
   }
 
 function run (tingbotHostname, tingappPath) {
-  return _tbtool(['run', tingbotHostname, tingappPath])
+  return _tbtool(['run', tingappPath, tingbotHostname])
 }
 
 function install (tingbotHostname, tingappPath) {
-  return _tbtool(['install', tingbotHostname, tingappPath])
+  return _tbtool(['install', tingappPath, tingbotHostname])
   }
 
 function _tbtool (tbtoolArgs) {
