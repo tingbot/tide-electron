@@ -38,5 +38,4 @@ if __name__ == '__main__':
     if sys.platform == 'darwin':
         create_tide_packages_mac()
     else:
-        print "build-python-env: error: don't know how to build on this platform yet!"
-        sys.exit(1)
+        print "build-python-env: warning: don't know how to build on this platform yet!"
