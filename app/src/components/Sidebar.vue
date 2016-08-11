@@ -1,10 +1,61 @@
 <template>
   <div class="left" id="sidebar" v-on:drop="fileDropped">
-    <template v-for="file in root.sortedFiles">
-      <file :file="file"></file>
-    </template>
+    <div class="sidebar-files">
+      <template v-for="file in root.sortedFiles">
+        <file :file="file"></file>
+      </template>
+    </div>
+    <div class="sidebar-button-bar">
+      <a class="sidebar-button" title="New file">
+        <i class="fa fa-file-code-o" style="transform: translateY(0px)"></i>
+      </a>
+      <a class="sidebar-button" title="New folder">
+        <i class="fa fa-folder-o" style="transform: translateY(1px)"></i>
+      </a>
+      <a class="sidebar-button import" title="Import…">
+        <img class="import-icon"  style="transform: translateY(2px)"/>
+      </a>
+    </div>
   </div>
 </template>
+
+<style>
+  .sidebar-files {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 26px;
+  }
+  .sidebar-button-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 26px;
+    background-color: #252525;
+    font-size: 0;
+    padding: 0 5px;
+  }
+  .sidebar-button {
+    box-sizing: border-box;
+    width: 21px;
+    height: 26px;
+    display: inline-block;
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    padding: 5px;
+  }
+  .sidebar-button:hover {
+    color: white;
+  }
+  .import-icon {
+    -webkit-mask-box-image: url(../../static/img/import.png);
+    background-color: currentColor;
+    width: 15px;
+    height: 14px;
+  }
+</style>
 
 <script>
   import File from './File.vue'
