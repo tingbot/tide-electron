@@ -6,13 +6,13 @@
       </template>
     </div>
     <div class="sidebar-button-bar">
-      <a class="sidebar-button" title="New file">
+      <a class="sidebar-button" title="New file" v-on:click="newFile">
         <i class="fa fa-file-code-o" style="transform: translateY(0px)"></i>
       </a>
-      <a class="sidebar-button" title="New folder">
+      <a class="sidebar-button" title="New folder" v-on:click="newFolder">
         <i class="fa fa-folder-o" style="transform: translateY(1px)"></i>
       </a>
-      <a class="sidebar-button import" title="Import…">
+      <a class="sidebar-button import" title="Import…" v-on:click="importFiles">
         <img class="import-icon"  style="transform: translateY(2px)"/>
       </a>
     </div>
@@ -58,9 +58,14 @@
 </style>
 
 <script>
-  import File from './File.vue'
+  import File from './File.vue';
 
   export default {
+    data: function () {
+      return {
+        selectedFile: null,
+      }
+    },
     props: ['root'],
     components: [File],
     methods: {
@@ -71,6 +76,33 @@
         console.log('File you dragged here is', file.path, "dropped on sidebar");
         this.root.addFile(file.path);
         return false;
+      },
+      newFile: function (event) {
+        const name = 'newfile.txt'
+        const file = this.destinationForNewFiles.createFile(name);
+
+        this.$nextTick(() => {
+          this.$dispatch('fileClicked', file);
+        });
+      }
+    },
+    computed: {
+      destinationForNewFiles: function () {
+        if (this.selectedFile === null) {
+          return this.root;
+        }
+
+        if (this.selectedFile.type === 'folder') {
+          return this.selectedFile;
+        } else {
+          return this.selectedFile.parent;
+        }
+      }
+    },
+    events: {
+      openFile: function (file) {
+        this.selectedFile = file;
+        return true;
       }
     }
   }

@@ -238,6 +238,16 @@ class TingappFolder extends TingappFile {
         }
     }
 
+    createFile(name) {
+        const filePath = path.join(this.path, name);
+        // make empty file at the location
+        fs.writeFileSync(filePath, '');
+        // reload from disk so the new file is in this.files
+        this._reloadFiles();
+        // return the file
+        return this.files.find((file) => file.name === name);
+    }
+
     addFile(source){
       fsextra.copySync(source,path.join(this.path,path.basename(source)));
     }
