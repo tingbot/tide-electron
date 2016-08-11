@@ -19,7 +19,6 @@ class Tingapp {
         const tempDir = remote.app.getPath('temp');
 
         const newDocumentPath = path.join(tempDir, 'untitled.tingapp');
-        console.log(newDocumentPath);
         // check for dev to select where to fetch resources from
         if(/[\\/]electron-prebuilt[\\/]/.test(process.execPath)){
           fsextra.copySync('./default.tingapp', newDocumentPath);
