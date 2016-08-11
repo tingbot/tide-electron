@@ -53,11 +53,11 @@ function simulate (tingappPath) {
   return _tbtool(['simulate', tingappPath])
   }
 
-function run (tingbotHostname, tingappPath) {
+function run (tingappPath, tingbotHostname) {
   return _tbtool(['run', tingappPath, tingbotHostname])
 }
 
-function install (tingbotHostname, tingappPath) {
+function install (tingappPath, tingbotHostname) {
   return _tbtool(['install', tingappPath, tingbotHostname])
   }
 
