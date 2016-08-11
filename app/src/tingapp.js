@@ -1,5 +1,7 @@
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
+import os from 'os';
 import fsextra from 'fs-extra';
 import {remote} from 'electron';
 import ace from 'brace';
@@ -51,6 +53,29 @@ class Tingapp {
 
     saveTo(path) {
         this.root.saveTo(path);
+    }
+
+    saveInProgressVersion() {
+        /**
+         * Saves a copy of the app, including unsaved changes, to a temporary location.
+         *
+         * This is to support the 'simulate' and 'run' functionality - to allow users to test
+         * code changes without saving first. It also keeps any temporary files (virtualenvs,
+         * settings) out of the source tree when simulating.
+         *
+         * The code will be saved to the same location on the disk every time. This means
+         * virtualenvs are cached.
+         *
+         * Returns the path to the temporary tingapp.
+         */
+        const path = this.inProgressVersionPath;
+        this.saveTo(path);
+        return path;
+    }
+
+    get inProgressVersionPath() {
+        const pathHash = crypto.createHash('md5').update(this.root.path).digest('hex');
+        return path.join(os.tmpdir(), 'tide', pathHash, this.root.name);
     }
 }
 

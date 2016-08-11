@@ -60,11 +60,13 @@
       }
     },
     events:{
-      run: function(device){
+      run: function(device) {
+        const inProgressPath = this.tingapp.saveInProgressVersion();
+
         if (device == 'simulate') {
-          this.process = tbtool.simulate(this.tingapp.path);
+          this.process = tbtool.simulate(inProgressPath);
         } else {
-          this.process = tbtool.run(this.tingapp.path, device);
+          this.process = tbtool.run(inProgressPath, device);
         }
 
         this.process.once('exit', this.processEnded);
