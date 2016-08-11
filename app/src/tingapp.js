@@ -6,6 +6,7 @@ import fsextra from 'fs-extra';
 import {remote} from 'electron';
 import ace from 'brace';
 import pty from 'ptyw.js';
+import uuid from 'node-uuid';
 import {python} from './utils/tbtool'
 
 class Tingapp {
@@ -20,7 +21,7 @@ class Tingapp {
     static newDocument() {
         const tempDir = remote.app.getPath('temp');
 
-        const newDocumentPath = path.join(tempDir, 'untitled.tingapp');
+        const newDocumentPath = path.join(tempDir, uuid.v1() + '.tingapp');
         // check for dev to select where to fetch resources from
         if(/[\\/]electron-prebuilt[\\/]/.test(process.execPath)){
           fsextra.copySync('./default.tingapp', newDocumentPath);
