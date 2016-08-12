@@ -9,6 +9,17 @@ const path = require('path');
 
 if (require('electron-squirrel-startup')) return;
 
+var env = process.env.NODE_ENV || 'dev';
+
+if (env === 'dev') {
+    var electronDevtoolsInstaller = require('electron-devtools-installer');
+    var installExtension = electronDevtoolsInstaller.default;
+
+    installExtension(electronDevtoolsInstaller.VUEJS_DEVTOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+}
+
 function createWindow(on_load) {
     newWindow = new BrowserWindow({
         width: 700,
