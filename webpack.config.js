@@ -18,8 +18,10 @@ module.exports = {
         loaders: [{
             test: /\.vue$/,
             loader: 'vue'
-        },
-        { test: /\.json$/, loader: "json-loader" }, {
+        }, {
+            test: /\.json$/,
+            loader: "json-loader"
+        }, {
             test: /\.js$/,
             loader: 'babel',
             exclude: /node_modules/
@@ -32,6 +34,9 @@ module.exports = {
         }, { 
             test: /\.node$/,
             loader: "node-loader"
+        }, { 
+            test: /\.(html|css)$/,
+            loader: "file-loader"
         }]
     },
     babel: {
