@@ -10,9 +10,21 @@
           v-bind:class="{'folder-open': folderOpen}"
           v-on:click="toggleFolderOpen"></span>
       <span class="file-icon file-icon-{{file.type}}"></span>
-      <span class="file-name">
-        {{file.name}}
-      </span>
+
+      <template v-if="editingFilename">
+        <input
+          class="file-name-field"
+          v-el:file-name-field
+          v-on:blur="stopEditingFilename"
+          v-on:keyup.13="stopEditingFilename"
+          v-model="file.name" lazy />
+      </template>
+      <template v-else>
+        <span class="file-name" v-else>
+          {{file.name}}
+        </span>
+      </template>
+
     </div>
     <ul class="filetree" v-if="isFolder" v-show="folderOpen">
       <template v-for="child in file.files">
@@ -32,6 +44,7 @@
       return {
         folderOpen: false,
         selected: false,
+        editingFilename: false
       }
     },
     methods: {
@@ -39,12 +52,16 @@
         this.folderOpen = !this.folderOpen;
         event.stopPropagation();
       },
-      fileclicked: function(event){
-        if (this.isFolder) {
-          this.toggleFolderOpen(event);
+      fileclicked: function(event) {
+        if (this.selected) {
+          this.editingFilename = true;
         } else {
-          this.$dispatch('fileClicked', this.file);
-          event.stopPropagation();
+          if (this.isFolder) {
+            this.toggleFolderOpen(event);
+          } else {
+            this.$dispatch('fileClicked', this.file);
+            event.stopPropagation();
+          }
         }
       },
       fileDropped: function(event){
@@ -58,6 +75,19 @@
           this.file.parent.addFile(file.path);
         }
         return false;
+      },
+      stopEditingFilename: function (event) {
+        this.editingFilename = false;
+      }
+    },
+    watch: {
+      editingFilename: function (editingFilename) {
+        if (editingFilename) {
+          this.$nextTick(() => {
+            this.$els.fileNameField.focus();
+            this.$els.fileNameField.select();
+          })
+        }
       }
     },
     events: {

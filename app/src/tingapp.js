@@ -82,8 +82,21 @@ class Tingapp {
 
 class TingappFile {
     constructor(name, parent) {
-        this.name = name;
+        this._name = name;
         this.parent = parent;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        const oldPath = this.path;
+        const newPath = path.join(this.parent.path, name);
+
+        fs.renameSync(oldPath, newPath);
+
+        this._name = name;
     }
 
     get path() {
