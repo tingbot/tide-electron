@@ -59,6 +59,7 @@
 
 <script>
   import File from './File.vue';
+  import * as error from '../error';
 
   export default {
     data: function () {
@@ -78,11 +79,25 @@
         return false;
       },
       newFile: function (event) {
-        const name = 'newfile.txt'
-        const file = this.destinationForNewFiles.createFile(name);
+        // try 100 different filenames for the new file before aborting
+        for (let i = 0; i < 100; i++) {
+          const name = (i == 0) ? 'untitled' : `untitled-${i}`;
+
+          try {
+            var file = this.destinationForNewFiles.createFile(name);
+            break;
+          } catch (e) {
+            if ((e instanceof error.FileExistsError) && (i < 99)) {
+              continue;
+            } else {
+              throw e;
+            }
+          }
+        }
 
         this.$nextTick(() => {
           this.$dispatch('fileClicked', file);
+          this.$broadcast('editFilename', file, true);
         });
       }
     },

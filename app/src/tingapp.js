@@ -7,7 +7,8 @@ import {remote} from 'electron';
 import ace from 'brace';
 import pty from 'ptyw.js';
 import uuid from 'node-uuid';
-import {python} from './utils/tbtool'
+import {python} from './utils/tbtool';
+import * as error from './error';
 
 class Tingapp {
     constructor(path, options = {}) {
@@ -253,6 +254,11 @@ class TingappFolder extends TingappFile {
 
     createFile(name) {
         const filePath = path.join(this.path, name);
+
+        if (fs.existsSync(filePath)) {
+            throw new error.FileExistsError(filePath);
+        }
+
         // make empty file at the location
         fs.writeFileSync(filePath, '');
         // reload from disk so the new file is in this.files

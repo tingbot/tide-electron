@@ -92,9 +92,22 @@
     },
     events: {
       openFile: function(file) {
-        let isThisFile = (file == this.file);
+        let isThisFile = (file === this.file);
 
         this.selected = isThisFile;
+
+        return true;
+      },
+      editFilename: function (file, blank=false) {
+        let isThisFile = (file === this.file);
+
+        this.editingFilename = isThisFile;
+
+        if (isThisFile && blank) {
+          this.$nextTick(() => {
+            this.$els.fileNameField.value = "";
+          });
+        }
 
         return true;
       }
