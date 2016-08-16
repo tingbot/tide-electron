@@ -26,9 +26,9 @@ addons:
     - xz-utils
     - rpm
   artifacts:
-    key: AKIAIUEBTYLXVJ74SHFQ
+    key: AKIAJHKSAQJJJJ6ERQTQ
     secret:
-      secure: K8Betbm/JiBW6T0QEYCusB8OWO7fRjmJttl3yvEJ+6MoTcW6TR5KqGZK88LINoNeVb4fq9H5rzM6ovp5WbHaXvu71yNx+wmMdHlARj+Z6NU/MA4rsHwjDEG7DklgG5UkBAun1Ha97bSql0VqKQBYQt/u2HzIFVk10Buo+wDW/Ui2Wc/s4+JYeUZKcHxkRaOXRHEjS8zO/UTjjMRecK0N8cmDra0SmyDdYkuCnKrmlexJRgKuUXBcYgaInnSl6s+n4sgll9GPBeH65GG4yYY0zbSIZhnjJ32SSDFcjRLr0ktJxWBja+HsEU7mY92ObqoPS+mGDUr4ecc1TM15KgstBekj7oSVBk81mwQ9dAd3wCA9W3T3YTt9QIrbDRiudOHCrplLME4K5uO1e8LlhosExI1bo3JLh6LknaJISTJar4skFnse2BHw65sUbsA3XOioI1veDvf5MpWIjTYmTtZUsWH+hXAt3we7A+KbKds8q7y4hFLbk2XbW+WAL6s835JsoKye/C/Yxha6+EmJHgb5FEIH/jJeT6kdYB/zF/oqXSC4Bud6wOHs09bZozonF1VmDWk2148toHQUFDR8usPodmyCNBavuYZrKz87GdH1/janZNNyuXHUAmIiWDPfBUqsCui0LkySAyi1NSKqK4QshbxFgki4rj89dpvAgaxGBvs=
+      secure: PfCz8i5WhaHB4WpwmqNqy1VYK5mSZEHLxqrDrcH0da0bNOhrv557CqgyFLktNXcn8smT7Hc17W1EJ+6ahFoBkXWm44CY5OyYCTvFYoNGCxEttmLJb5Uv+jq1j5J7osE+OmjHNYzrTSjJZ9w1GdBA7IA9sE7yJwjST/tMXHpCSePd6nL5pF5iXRA+SG/AfI99STWKI3D8jZH+rWrOUZCQJA9xJuvzQPYkQY+sJ7zetw979ID6EIHJEZV4UhudWJN2NcOfjAuzhk85XiVJnu7Y0E+HmIGOt5RE6clai/P7KTU6Gxhrf4/Nh7KVs/JyUl4uLteUT/s97A1jHEBvtXIg1HiXlxCNefDlOLhEFmnQVCyjMjbRjYkXBz0cBGjHW/I8cRud3Z1idoIg18pbUHcHlD1mjsGfbSwqB7s3N1S7xI/k24CYihvmcIiwI0w8WweRt6UEaFVW2iuvdiHdgcgziuY+Cucagmd4hSBHSpf7TLkrTWRBSRe+jMcko1x30NFoSupRZeYwmZdoRHLRgHXEkaO0jB5de0hX+aHs61l//J3QAhhdVbxMqWZDDhD4NyoPAouXlgo+pzCFlHgidTLsu1Q3QfXYfqkldmzE/0KJkFoJSYUD4lYaljmsUcem/I4FeAIxlsGBIcTtdep/713boqt9MArj6hf0wqtjmgSxvcM=
     bucket: tingbot-builds
     paths:
     - $(find dist -depth 2 -and '(' -iname '*.zip' -or -iname '*.dmg' -or -iname '*.deb' -or -iname '*.rpm' ')' | tr "\n" ":")
