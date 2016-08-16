@@ -79,6 +79,11 @@ export default {
         stop: function() {
             this.process.terminate();
         },
+        upload: function(device){
+            const inProgressPath = this.tingapp.saveInProgressVersion();
+            this.process = tbtool.install(inProgressPath, device);
+            this.process.once('exit', this.processEnded);
+        },
         fileClicked: function(file) {
             this.$broadcast('openFile', file);
         }
