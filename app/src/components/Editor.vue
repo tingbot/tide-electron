@@ -8,9 +8,9 @@
 </template>
 
 <script>
-  import ace from 'brace'
-  import 'brace/mode/python'
-  import 'brace/theme/monokai'
+  import ace from 'brace';
+  import 'brace/mode/python';
+  import 'brace/theme/monokai';
 
   var editor = {};
 
@@ -57,7 +57,7 @@
         editor.setSession(val);
       }
     }
- }
+ };
 
 
 </script>

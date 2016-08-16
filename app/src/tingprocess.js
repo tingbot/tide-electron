@@ -1,5 +1,5 @@
-import pty from 'ptyw.js'
-import EventEmitter from 'events'
+import pty from 'ptyw.js';
+import EventEmitter from 'events';
 
 class TingProcess extends EventEmitter {
   /**
@@ -17,18 +17,18 @@ class TingProcess extends EventEmitter {
    */
 
   constructor (args, options = {}) {
-    super()
+    super();
 
-    this.hasExited = false
+    this.hasExited = false;
 
-    const {extraEnv = {}} = options
-    const env = Object.assign({}, process.env, extraEnv)
+    const {extraEnv = {}} = options;
+    const env = Object.assign({}, process.env, extraEnv);
 
-    const program = args[0]
+    const program = args[0];
 
     if (process.platform !== 'win32') {
       // pty.js on *nix doesn't want the program name as the first argument
-      args.shift()
+      args.shift();
     }
 
     this.pty = pty.spawn(program, args, {
@@ -36,45 +36,45 @@ class TingProcess extends EventEmitter {
       cols: 80,
       row: 24,
       env: env
-    })
+    });
 
-    this.pty.on('data', (data) => { this.emit('data', data) })
-    this.pty.on('exit', (code, signal) => { this._didExit(code, signal) })
+    this.pty.on('data', (data) => { this.emit('data', data); });
+    this.pty.on('exit', (code, signal) => { this._didExit(code, signal); });
   }
 
   terminate () {
-    const isWindows = (process.platform === 'win32')
+    const isWindows = (process.platform === 'win32');
 
     if (isWindows) {
       // Send Ctrl-C on Windows
-      this.pty.write('\x03')
+      this.pty.write('\x03');
     } else {
-      this.pty.kill('SIGKILL')
+      this.pty.kill('SIGKILL');
     }
 
     setTimeout(() => {
       if (!this.hasExited) {
         if (isWindows) {
-          this.pty.kill()
+          this.pty.kill();
         } else {
-          this.pty.kill('SIGKILL')
+          this.pty.kill('SIGKILL');
         }
       }
-    }, 1000)
+    }, 1000);
   }
 
   resize (cols, rows) {
-    this.pty.resize(cols, rows)
+    this.pty.resize(cols, rows);
   }
 
   write (data) {
-    this.pty.write(data)
+    this.pty.write(data);
   }
 
   _didExit (code, signal) {
-    this.hasExited = true
-    this.emit('exit', code, signal)
+    this.hasExited = true;
+    this.emit('exit', code, signal);
   }
 }
 
-export {TingProcess}
+export {TingProcess};

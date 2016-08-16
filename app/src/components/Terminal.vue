@@ -33,7 +33,7 @@
         if (this.terminal) {
           fit(this.terminal);
         }
-        
+
         if (this.process) {
           this.process.resize(this.terminal.cols, this.terminal.rows);
         }
@@ -94,5 +94,5 @@
         }
       }
     }
-  }
+  };
 </script>

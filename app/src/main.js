@@ -9,15 +9,15 @@ let vm = window.vueInstance = new Vue({
   components: { app: TingappVue },
   data: { tingapp: { root: { files:[] } }},
   replace: false,
-})
+});
 
 ipcRenderer.on('new-project', function () {
     vm.tingapp = Tingapp.newDocument();
-})
+});
 
 ipcRenderer.on('open-project', function (event, path) {
     vm.tingapp = Tingapp.openDocument(path);
-})
+});
 
 ipcRenderer.on('save-document', function () {
     if (vm.tingapp.isTemporary) {
@@ -25,7 +25,7 @@ ipcRenderer.on('save-document', function () {
     } else {
       vm.$broadcast("saveFile");
     }
-})
+});
 
 function saveAs() {
   const dialog = remote.dialog;
@@ -79,7 +79,7 @@ window.addEventListener('beforeunload', function (e) {
         detail: 'Your changes will be lost if you don’t save them.',
       });
 
-      if (button_index == 0) {
+      if (button_index === 0) {
         // Save
         if (vm.tingapp.isTemporary) {
           saveAs();

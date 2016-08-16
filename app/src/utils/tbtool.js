@@ -1,74 +1,83 @@
 "use strict";
-import {spawn,spawnSync} from 'child_process';
+import {
+    spawn,
+    spawnSync
+} from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import resources from './resources';
-import {TingProcess} from '../tingprocess.js';
+import {
+    TingProcess
+} from '../tingprocess.js';
 
 
-function findPython(){
-  var vendorPath = resources.getPath('vendor', 'python');
+function findPython() {
+    var vendorPath = resources.getPath('vendor', 'python');
 
-  try {
-    var vendorPathStat = fs.statSync(vendorPath);
+    try {
+        var vendorPathStat = fs.statSync(vendorPath);
 
-    if(vendorPathStat.isDirectory()){
-      console.log("Using Bundled Python");
+        if (vendorPathStat.isDirectory()) {
+            console.log("Using Bundled Python");
 
-      if(process.platform === 'win32'){
-        return path.join(vendorPath,"python.exe")
-      } else {
-        return path.join(vendorPath,"bin","python")
-  }
-  }
-  } catch(ex){
-    console.warn(ex.message);
-  }
-
-  console.log("Using System Python");
-  if (process.platform === 'win32') {
-    return 'python.exe';
-  }else{
-    return 'python';
-  }
-}
-
-var pythonExec = findPython()
-
-function findPythonEnvironment() {
-  var env = {};
-
-  const tidePackagesDir = resources.getPath('vendor', 'tide-packages');
-
-  if (fs.existsSync(tidePackagesDir)) {
-    env.PYTHONPATH = tidePackagesDir;
-  }
-
-  return env;
-  }
-
-var pythonEnvironment = findPythonEnvironment()
-
-function simulate (tingappPath) {
-  return _tbtool(['simulate', tingappPath])
-  }
-
-function run (tingappPath, tingbotHostname) {
-  return _tbtool(['run', tingappPath, tingbotHostname])
-}
-
-function install (tingappPath, tingbotHostname) {
-  return _tbtool(['install', tingappPath, tingbotHostname])
-  }
-
-function _tbtool (tbtoolArgs) {
-  return _python(['-m', 'tbtool', ...tbtoolArgs]);
+            if (process.platform === 'win32') {
+                return path.join(vendorPath, "python.exe");
+            } else {
+                return path.join(vendorPath, "bin", "python");
+            }
+        }
+    } catch (ex) {
+        console.warn(ex.message);
     }
 
-function _python (pythonArgs) {
-  return new TingProcess([pythonExec, ...pythonArgs], {
-    extraEnv: pythonEnvironment
-  })
+    console.log("Using System Python");
+    if (process.platform === 'win32') {
+        return 'python.exe';
+    } else {
+        return 'python';
+    }
 }
 
-export {simulate, run, install}
+var pythonExec = findPython();
+
+function findPythonEnvironment() {
+    var env = {};
+
+    const tidePackagesDir = resources.getPath('vendor', 'tide-packages');
+
+    if (fs.existsSync(tidePackagesDir)) {
+        env.PYTHONPATH = tidePackagesDir;
+    }
+
+    return env;
+}
+
+var pythonEnvironment = findPythonEnvironment();
+
+function simulate(tingappPath) {
+    return _tbtool(['simulate', tingappPath]);
+}
+
+function run(tingappPath, tingbotHostname) {
+    return _tbtool(['run', tingappPath, tingbotHostname]);
+}
+
+function install(tingappPath, tingbotHostname) {
+    return _tbtool(['install', tingappPath, tingbotHostname]);
+}
+
+function _tbtool(tbtoolArgs) {
+    return _python(['-m', 'tbtool', ...tbtoolArgs]);
+}
+
+function _python(pythonArgs) {
+    return new TingProcess([pythonExec, ...pythonArgs], {
+        extraEnv: pythonEnvironment
+    });
+}
+
+export {
+    simulate,
+    run,
+    install
+};

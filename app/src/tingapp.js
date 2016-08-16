@@ -7,7 +7,7 @@ import {remote} from 'electron';
 import ace from 'brace';
 import pty from 'ptyw.js';
 import uuid from 'node-uuid';
-import {python} from './utils/tbtool'
+import {python} from './utils/tbtool';
 
 class Tingapp {
     constructor(path, options = {}) {
@@ -114,7 +114,7 @@ class TingappRegularFile extends TingappFile {
             '.py': 'code',
             '.txt': 'text',
             '.csv': 'text',
-        }
+        };
         const extension = path.extname(this.name);
 
         if (extension in file_type_map) {
@@ -133,7 +133,7 @@ class TingappRegularFile extends TingappFile {
         fs.readFile(this.path, (err,data) => {
             this.session.setValue(data.toString('utf8'));
 
-            this._changeListener = (e) => { this.changed = true };
+            this._changeListener = (e) => { this.changed = true; };
             this.session.on('change', this._changeListener);
         });
         return this.session;
@@ -154,7 +154,7 @@ class TingappRegularFile extends TingappFile {
     }
 
     wasRemoved() {
-        super.wasRemoved()
+        super.wasRemoved();
         if (this.session) {
             this.session.removeListener('change', this._changeListener);
             this.session = undefined;
@@ -264,4 +264,4 @@ class TingappRootFolder extends TingappFolder {
     }
 }
 
-export {Tingapp, TingappFile, TingappFolder}
+export {Tingapp, TingappFile, TingappFolder};

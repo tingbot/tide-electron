@@ -32,7 +32,7 @@
       return {
         folderOpen: false,
         selected: false,
-      }
+      };
     },
     methods: {
       toggleFolderOpen: function (event) {
@@ -74,5 +74,5 @@
         return (this.file.type == 'folder');
       }
     }
-  }
+  };
 </script>
