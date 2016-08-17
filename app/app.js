@@ -6,6 +6,7 @@ const defaultMenu = require('electron-default-menu');
 const BrowserWindow = electron.BrowserWindow;
 const fs = require('fs');
 const path = require('path');
+const autoupdate = require('./autoupdate');
 
 if (require('electron-squirrel-startup')) return;
 
@@ -64,6 +65,8 @@ function openProject(pathToOpen) {
 }
 
 app.on('ready', function() {
+    autoupdate.setup();
+
     // Get template for default menu
     var menu = defaultMenu();
 
