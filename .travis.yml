@@ -25,6 +25,13 @@ addons:
     - graphicsmagick
     - xz-utils
     - rpm
+  artifacts:
+    key: AKIAJHKSAQJJJJ6ERQTQ
+    secret:
+      secure: PfCz8i5WhaHB4WpwmqNqy1VYK5mSZEHLxqrDrcH0da0bNOhrv557CqgyFLktNXcn8smT7Hc17W1EJ+6ahFoBkXWm44CY5OyYCTvFYoNGCxEttmLJb5Uv+jq1j5J7osE+OmjHNYzrTSjJZ9w1GdBA7IA9sE7yJwjST/tMXHpCSePd6nL5pF5iXRA+SG/AfI99STWKI3D8jZH+rWrOUZCQJA9xJuvzQPYkQY+sJ7zetw979ID6EIHJEZV4UhudWJN2NcOfjAuzhk85XiVJnu7Y0E+HmIGOt5RE6clai/P7KTU6Gxhrf4/Nh7KVs/JyUl4uLteUT/s97A1jHEBvtXIg1HiXlxCNefDlOLhEFmnQVCyjMjbRjYkXBz0cBGjHW/I8cRud3Z1idoIg18pbUHcHlD1mjsGfbSwqB7s3N1S7xI/k24CYihvmcIiwI0w8WweRt6UEaFVW2iuvdiHdgcgziuY+Cucagmd4hSBHSpf7TLkrTWRBSRe+jMcko1x30NFoSupRZeYwmZdoRHLRgHXEkaO0jB5de0hX+aHs61l//J3QAhhdVbxMqWZDDhD4NyoPAouXlgo+pzCFlHgidTLsu1Q3QfXYfqkldmzE/0KJkFoJSYUD4lYaljmsUcem/I4FeAIxlsGBIcTtdep/713boqt9MArj6hf0wqtjmgSxvcM=
+    bucket: tingbot-builds
+    paths:
+    - $(find dist -depth 2 -and '(' -iname '*.zip' -or -iname '*.dmg' -or -iname '*.deb' -or -iname '*.rpm' ')' | tr "\n" ":")
 before_install:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git-lfs; fi
@@ -39,7 +46,7 @@ install:
 - npm install
 - npm prune
 script:
-- npm run dist
+- npm run cibuild
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
