@@ -8,7 +8,7 @@
     <sidebar :root='tingapp.root' tabindex=0>
     </sidebar>
 
-    <vertical-split class="main" :position="1" :min-position="1" :max-position="200">
+    <vertical-split class="main" :position="1" :min-position="1" :max-position="(windowHeight - 80) * 0.9">
         <editor slot="top" class="fill">
         </editor>
         <terminal slot="bottom" class="fill" :process="process">
@@ -47,17 +47,21 @@ export default {
     },
     data: function() {
         return {
-            process: null
+            process: null,
+            windowWidth: 0,
+            windowHeight: 0
         };
     },
     ready: function() {
         window.addEventListener('resize', this.handleResize);
+        this.$emit('resize');
     },
     beforeDestroy: function() {
         window.removeEventListener('resize', this.handleResize);
     },
     methods: {
         handleResize: function() {
+            this.$emit('resize');
             this.$broadcast('resize');
         },
         processEnded: function(code, signal) {
@@ -86,6 +90,10 @@ export default {
         },
         fileClicked: function(file) {
             this.$broadcast('openFile', file);
+        },
+        resize: function () {
+            this.windowWidth = window.innerWidth;
+            this.windowHeight = window.innerHeight;
         }
     },
     computed: {
