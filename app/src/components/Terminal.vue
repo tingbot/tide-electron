@@ -6,15 +6,17 @@
 <style>
   @import url(~xterm/src/xterm.css);
 
-  #terminal, .terminal {
+  #terminal {
+    padding-top: 5px;
+    padding-left: 5px;
+  }
+  #terminal, .terminal, .terminal .xterm-viewport {
     background-color: #212121;
   }
   .terminal {
-    padding: 5px;
     font-size: 10px;
     font-family: Monaco, Menlo, 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
     color: #eeeeee;
-
   }
   .terminal .terminal-cursor {
     background-color: rgba(255,255,255,0.4);
