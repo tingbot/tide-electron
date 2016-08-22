@@ -131,7 +131,7 @@ option {
 
 .filetree {
   padding: 0;
-  padding-left: 17px;
+  padding-left: 12px;
   margin: 0;
 }
 
@@ -161,7 +161,7 @@ option {
 }
 
 .file-row {
-  padding: 2px;
+  padding: 3px;
   cursor: default;
 }
 
@@ -181,7 +181,8 @@ option {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   -webkit-font-smoothing: antialiased;
-  padding: 0 4px;
+  padding-left: 4px;
+  padding-right: 1px;
 
   visibility: hidden;
   transition: transform 0.2s;
@@ -196,7 +197,7 @@ option {
 }
 
 .folder-open > .file-disclosure-triangle {
-  transform: rotate(90deg);
+  transform: translate(1px, -1px) rotate(90deg);
 }
 
 /**
@@ -209,10 +210,12 @@ option {
   -webkit-font-smoothing: antialiased;
   font: normal normal normal 14px/1 FontAwesome;
   padding-left: 0.5px;
+  margin-right: 1px;
 }
 
 .file-icon:before {
   content: "\f016";
+  padding-left: 1px;
 }
 
 .file-icon.file-icon-folder:before {
@@ -224,7 +227,8 @@ option {
 }
 
 .file-icon.file-icon-image:before {
-  content: "\f1c5";
+  content: "\f03e";
+  padding-left: 0;
 }
 
 .file-icon.file-icon-text:before {
