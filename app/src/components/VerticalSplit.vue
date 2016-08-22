@@ -95,6 +95,9 @@
         const containerBottom = bar.offsetParent.getBoundingClientRect().bottom;
         this.position = containerBottom - event.clientY;
 
+        this.clampPositionToMinMax();
+      },
+      clampPositionToMinMax: function () {
         if (this.position < this.minPosition) {
           this.position = this.minPosition;
         }
@@ -116,6 +119,12 @@
         this.$nextTick(() => {
           this.$broadcast('resize');
         })
+      },
+      minPosition: function () {
+        this.clampPositionToMinMax();
+      },
+      maxPosition: function () {
+        this.clampPositionToMinMax();
       }
     },
     events: {
