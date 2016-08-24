@@ -1,2 +1,2 @@
-tingbot-python==0.5.0
+tingbot-python==0.8.0
 requests==2.11.0
