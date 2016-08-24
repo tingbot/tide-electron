@@ -8,6 +8,7 @@ import ace from 'brace';
 import pty from 'ptyw.js';
 import uuid from 'node-uuid';
 import {python} from './utils/tbtool';
+import * as error from './error';
 
 class Tingapp {
     constructor(path, options = {}) {
@@ -82,8 +83,21 @@ class Tingapp {
 
 class TingappFile {
     constructor(name, parent) {
-        this.name = name;
+        this._name = name;
         this.parent = parent;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        const oldPath = this.path;
+        const newPath = path.join(this.parent.path, name);
+
+        fs.renameSync(oldPath, newPath);
+
+        this._name = name;
     }
 
     get path() {
@@ -238,8 +252,63 @@ class TingappFolder extends TingappFile {
         }
     }
 
-    addFile(source){
-      fsextra.copySync(source,path.join(this.path,path.basename(source)));
+    _createFile(name, type) {
+        const filePath = path.join(this.path, name);
+
+        if (fs.existsSync(filePath)) {
+            throw new error.FileExistsError(filePath);
+        }
+
+        if (type === 'regularFile') {
+            // make empty file at the location
+            fs.writeFileSync(filePath, '');
+        } else if (type === 'folder') {
+            fs.mkdirSync(folderPath);
+        } else {
+            throw Error("unknown 'type' parameter");
+        }
+
+        // reload from disk so the new file is in this.files
+        this._reloadFiles();
+
+        // return the file
+        return this.files.find((file) => file.name === name);
+    }
+
+    createRegularFile(name) {
+        return this._createFile(name, 'regularFile');
+    }
+
+    createFolder(name) {
+        return this._createFile(name, 'folder');
+    }
+
+    addFile (source) {
+      const name = path.basename(source);
+      fsextra.copySync(source, path.join(this.path, name));
+
+      // reload from disk so the new file[s] are in this.files
+      this._reloadFiles();
+
+      // return the file that was added
+      return this.files.find((file) => file.name === name);
+    }
+
+    containsFile (searchFile) {
+        /**
+         * Returns true if `file' is anywhere in the subtree of this folder
+         */
+        for (let file of this.files) {
+            if (file === searchFile) {
+                return true;
+            }
+
+            if (file.containsFile && file.containsFile(file)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

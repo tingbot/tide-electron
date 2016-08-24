@@ -141,12 +141,6 @@ option {
   display: none;
 }
 
-.filetree ul {
-  height: 0;
-  overflow: hidden;
-  padding-left: 0;
-}
-
 .filetree > li input:checked ~ ul {
   height: auto;
 }
@@ -222,6 +216,10 @@ option {
 
 .file-icon.file-icon-folder:before {
   content: "\f114";
+}
+
+.file-icon.file-icon-folder.folder-open:before {
+  content: "\f115";
 }
 
 .file-icon.file-icon-code:before {
