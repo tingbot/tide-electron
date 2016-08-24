@@ -29,10 +29,8 @@ import Terminal from './components/Terminal.vue';
 import VerticalSplit from './components/VerticalSplit.vue';
 
 import * as tbtool from './utils/tbtool.js';
-import {
-    remote
-}
-from 'electron';
+import {remote} from 'electron';
+const dialog = remote.dialog;
 
 var folder = './default.tingapp';
 
@@ -84,6 +82,16 @@ export default {
             this.process.terminate();
         },
         upload: function(device){
+            if (this.tingapp.isTemporary) {
+              dialog.showMessageBox(remote.getCurrentWindow(), {
+                title: 'Save your app',
+                message: 'You need to save your app before you can upload to Tingbot',
+                detail: 'Save your app using File -> Save and then try to upload again.\n\nTide needs to know the name of the app so it can upload to the Tingbot under that name.',
+                buttons: ['OK'],
+              })
+              return;
+            }
+
             const inProgressPath = this.tingapp.saveInProgressVersion();
             this.process = tbtool.install(inProgressPath, device);
             this.process.once('exit', this.processEnded);
