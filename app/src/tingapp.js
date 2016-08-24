@@ -252,23 +252,56 @@ class TingappFolder extends TingappFile {
         }
     }
 
-    createFile(name) {
+    _createFile(name, type) {
         const filePath = path.join(this.path, name);
 
         if (fs.existsSync(filePath)) {
             throw new error.FileExistsError(filePath);
         }
 
-        // make empty file at the location
-        fs.writeFileSync(filePath, '');
+        if (type === 'regularFile') {
+            // make empty file at the location
+            fs.writeFileSync(filePath, '');
+        } else if (type === 'folder') {
+            fs.mkdirSync(folderPath);
+        } else {
+            throw Error("unknown 'type' parameter");
+        }
+
         // reload from disk so the new file is in this.files
         this._reloadFiles();
+
         // return the file
         return this.files.find((file) => file.name === name);
     }
 
+    createRegularFile(name) {
+        return this._createFile(name, 'regularFile');
+    }
+
+    createFolder(name) {
+        return this._createFile(name, 'folder');
+    }
+
     addFile(source){
       fsextra.copySync(source,path.join(this.path,path.basename(source)));
+    }
+
+    containsFile (searchFile) {
+        /**
+         * Returns true if `file' is anywhere in the subtree of this folder
+         */
+        for (let file of this.files) {
+            if (file === searchFile) {
+                return true;
+            }
+
+            if (file.containsFile && file.containsFile(file)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

@@ -9,7 +9,7 @@
       <a class="sidebar-button" title="New file" v-on:click="newFile">
         <i class="fa fa-file-code-o" style="transform: translateY(0px)"></i>
       </a>
-      <a class="sidebar-button" title="New folder" v-on:click="newFolder">
+      <a class="sidebar-button" title="New folder" v-on:click="newFile($event, 'folder')">
         <i class="fa fa-folder-o" style="transform: translateY(1px)"></i>
       </a>
       <a class="sidebar-button import" title="Import…" v-on:click="importFiles">
@@ -78,13 +78,19 @@
         this.root.addFile(file.path);
         return false;
       },
-      newFile: function (event) {
+      newFile: function (event, type = 'regularFile') {
+        // 'type' is either 'regularFile' or 'folder'
+
         // try 100 different filenames for the new file before aborting
         for (let i = 0; i < 100; i++) {
           const name = (i == 0) ? 'untitled' : `untitled-${i}`;
 
           try {
-            var file = this.destinationForNewFiles.createFile(name);
+            if (type == 'folder') {
+              var file = this.destinationForNewFiles.createFolder(name);
+            } else {
+              var file = this.destinationForNewFiles.createRegularFile(name);
+            }
             break;
           } catch (e) {
             if ((e instanceof error.FileExistsError) && (i < 99)) {
@@ -96,7 +102,11 @@
         }
 
         this.$nextTick(() => {
+          // select the new file
           this.$dispatch('fileClicked', file);
+          // make sure any parent folders are open so the file is visible
+          this.$broadcast('ensureFileVisible', file);
+          // make the new file's filename editable, with a blank textfield
           this.$broadcast('editFilename', file, true);
         });
       }

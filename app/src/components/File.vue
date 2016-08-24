@@ -117,6 +117,12 @@
         }
 
         return true;
+      },
+      ensureFileVisible: function (file) {
+        if (this.isFolder && this.file.containsFile(file)) {
+          this.folderOpen = true;
+        }
+        return true;
       }
     },
     computed: {
