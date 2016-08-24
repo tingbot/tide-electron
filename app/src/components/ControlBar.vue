@@ -3,9 +3,24 @@
 <template>
 
 <div class="top" id="top-menu">
-    <button type="button" class="run-button" alt="start" v-on:click="start" v-show="!isRunning"></button>
-    <button type="button" class="stop-button" name="stop" v-on:click="stop" v-show="isRunning"></button>
-    <button type="button" class="upload-button" name="upload" v-on:click="upload" :disabled="!canUpload"></button>
+    <button
+        type="button"
+        class="run-button"
+        title="Run"
+        v-on:click="start"
+        v-show="!isRunning"></button>
+    <button
+        type="button"
+        class="stop-button"
+        title="Stop"
+        v-on:click="stop"
+        v-show="isRunning"></button>
+    <button type="button"
+        class="upload-button"
+        title="Upload"
+        v-on:click="upload"
+        :disabled="!canUpload"></button>
+
     <select v-model="selectedDevice" id="device-list" name="device-list">
         <option value="simulate" selected>Tingbot Simulator</option>
         <option v-for='device in devices' value="{{device.target}}">{{device.name}}</option>
