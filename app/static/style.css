@@ -304,13 +304,29 @@ screen and (min-resolution: 1.0dppx) {
 }
 
 #image-viewer {
-  background-image: url(../img/grid-background.png);
-
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 
 #image-viewer > img {
+  background-image: url(img/grid-background.png);
+
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+#image-viewer.actual-size {
+  display: block;
+  overflow: scroll;
+}
+
+#image-viewer.actual-size > img {
+  max-width: none;
+  max-height: none;
 }
