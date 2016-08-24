@@ -3,7 +3,8 @@
     <div
         class="file-row"
         v-bind:class="{'is-folder': isFolder, 'folder-open': folderOpen, 'selected': selected}"
-        v-on:click="fileclicked">
+        v-on:click="fileclicked"
+        v-on:mousedown="mouseDown">
       <span
           class="file-disclosure-triangle"
           v-bind:style="{ visibility: isFolder }"
@@ -44,7 +45,8 @@
       return {
         folderOpen: false,
         selected: false,
-        editingFilename: false
+        editingFilename: false,
+        parentWasFocusedOnMouseDown: false,
       }
     },
     methods: {
@@ -53,7 +55,7 @@
         event.stopPropagation();
       },
       fileclicked: function(event) {
-        if (this.selected) {
+        if (this.parentWasFocusedOnMouseDown && this.selected) {
           this.editingFilename = true;
         } else {
           if (this.isFolder) {
@@ -75,6 +77,9 @@
           this.file.parent.addFile(file.path);
         }
         return false;
+      },
+      mouseDown: function (event) {
+        this.parentWasFocusedOnMouseDown = document.activeElement.contains(this.$el);
       },
       stopEditingFilename: function (event) {
         this.editingFilename = false;

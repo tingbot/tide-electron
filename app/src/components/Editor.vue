@@ -26,8 +26,9 @@
       editor.getSession().setMode("ace/mode/python");
 
       editor.setShowPrintMargin(false);
-
       editor.$blockScrolling = Infinity;
+
+      editor.focus();
     },
     events: {
       openFile: function(file){
