@@ -213,6 +213,10 @@ option {
   content: "\f114";
 }
 
+.file-icon.file-icon-folder.folder-open:before {
+  content: "\f115";
+}
+
 .file-icon.file-icon-code:before {
   content: "\f1c9";
 }

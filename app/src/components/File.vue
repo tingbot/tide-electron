@@ -10,7 +10,9 @@
           v-bind:style="{ visibility: isFolder }"
           v-bind:class="{'folder-open': folderOpen}"
           v-on:click="toggleFolderOpen"></span>
-      <span class="file-icon file-icon-{{file.type}}"></span>
+      <span
+          class="file-icon file-icon-{{file.type}}"
+          v-bind:class="{'folder-open': folderOpen}"></span>
 
       <template v-if="editingFilename">
         <input
