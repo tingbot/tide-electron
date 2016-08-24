@@ -60,6 +60,8 @@
 <script>
   import File from './File.vue';
   import * as error from '../error';
+  import {BrowserWindow, remote} from 'electron';
+  const dialog = remote.dialog;
 
   export default {
     data: function () {
@@ -109,6 +111,40 @@
           // make the new file's filename editable, with a blank textfield
           this.$broadcast('editFilename', file, true);
         });
+      },
+      importFiles: function (event) {
+        let dialogProperties = null;
+        
+        if (process.platform === 'darwin') {
+          dialogProperties = ['openFile', 'openDirectory', 'multiSelections']
+        } else {
+          // windows/linux don't support file and directory selection
+          dialogProperties = ['openFile', 'multiSelections']
+        }
+
+        dialog.showOpenDialog(remote.getCurrentWindow(), {
+          title: 'Import files into project',
+          buttonLabel: 'Import',
+          properties: dialogProperties,
+        }, (filenames) => {
+          if (filenames === undefined) {
+            return;
+          }
+
+          let file = null;
+
+          for (let filename of filenames) {
+            file = this.destinationForNewFiles.addFile(filename);
+          }
+
+          // select the last imported file
+          if (file !== null) {
+            this.$nextTick(() => {
+              this.$dispatch('fileClicked', file);
+              this.$broadcast('ensureFileVisible', file);
+            })
+          }
+        })
       }
     },
     computed: {
