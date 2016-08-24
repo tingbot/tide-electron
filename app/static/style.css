@@ -139,12 +139,6 @@ option {
   display: none;
 }
 
-.filetree ul {
-  height: 0;
-  overflow: hidden;
-  padding-left: 0;
-}
-
 .filetree > li input:checked ~ ul {
   height: auto;
 }
