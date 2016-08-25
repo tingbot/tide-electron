@@ -9,6 +9,7 @@
   #terminal {
     padding-top: 5px;
     padding-left: 5px;
+    -webkit-user-select: initial;
   }
   #terminal, .terminal, .terminal .xterm-viewport {
     background-color: #212121;
