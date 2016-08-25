@@ -23,7 +23,7 @@
 
     <select v-model="selectedDevice" id="device-list" name="device-list">
         <option value="simulate" selected>Tingbot Simulator</option>
-        <option v-for='device in devices' value="{{device.target}}">{{device.name}}</option>
+        <option v-for='device in devices' value="{{device.target}}">Tingbot @ {{device.target}}</option>
     </select>
 </div>
 
