@@ -9,6 +9,7 @@ import pty from 'ptyw.js';
 import uuid from 'node-uuid';
 import {python} from './utils/tbtool';
 import * as error from './error';
+import minimatch from 'minimatch'
 
 class Tingapp {
     constructor(path, options = {}) {
@@ -163,7 +164,7 @@ class TingappRegularFile extends TingappFile {
                 this.changed = false;
             }
         } else if (path !== this.path) {
-            fsextra.copySync(this.path, path);
+            fsextra.copySync(this.path, path, {clobber: true});
         }
     }
 
@@ -247,6 +248,11 @@ class TingappFolder extends TingappFile {
         fsextra.mkdirs(dstPath);
 
         for (let file of this.files) {
+            const ignore = ['venv', '.git', '*.pyc']
+            if (ignore.some(pattern => minimatch(file.name, pattern))) {
+                continue;
+            }
+
             const fileDstPath = path.join(dstPath, file.name);
             file.saveTo(fileDstPath);
         }

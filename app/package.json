@@ -29,6 +29,7 @@
     "fs-extra": "^0.30.0",
     "jquery": "^3.1.0",
     "mdns-js": "^0.5.0",
+    "minimatch": "3.0.3",
     "ptyw.js": "0.4.0",
     "xterm": "github:sourcelair/xterm.js#1.1.2",
     "node-uuid": "1.4.7"
