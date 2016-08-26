@@ -7,9 +7,16 @@ export class TingFinder {
         this.devices = devices;
         var browser = mdns.createBrowser(this.service);
         this.browser = browser;
+        this.refreshTimer = null;
+
         browser.on('ready', function onReady() {
             console.log('browser is ready');
             browser.discover();
+
+            // send a discover packet every 10 seconds
+            this.refreshTimer = window.setInterval(() => {
+                browser.discover();
+            }, 10*1000);
         });
 
         browser.on('update', function onUpdate(data) {
@@ -18,7 +25,7 @@ export class TingFinder {
             var ip = data.addresses[0];
             var host = data.host;
             for (var i in devices) {
-                if (devices[i].name === host) {
+                if (devices[i].target === ip) {
                     return;
                 }
             }
@@ -27,11 +34,15 @@ export class TingFinder {
                 target: ip
             });
         });
-
     }
 
     stop() {
         this.browser.stop();
+
+        if (this.refreshTimer) {
+            window.clearInterval(this.refreshTimer);
+            this.refreshTimer = null;
+        }
     }
 
 }
