@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="fill" id="editor" v-show="editorVisible">some text</div>
+    <div class="fill" id="editor" v-show="editorVisible"></div>
     <div class="fill" id="image-viewer" v-if="!editorVisible">
       <img :src="file.path" />
     </div>
