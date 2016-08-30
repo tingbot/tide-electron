@@ -10,7 +10,7 @@
   },
   "build": {
     "appId": "com.tingbot.tide-electron",
-    "app-category-type": "app-category-type=public.app-category.developer-tools",
+    "app-category-type": "public.app-category.developer-tools",
     "extraResources": [
       "default.tingapp",
       "vendor"
