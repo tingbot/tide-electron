@@ -34,6 +34,30 @@
     },
     "asar": {
       "unpack": "*.node"
+    },
+    "dmg": {
+      "title": "Install Tide",
+      "icon": "assets/dmgicon.icns",
+      "icon-size": 100,
+      "window": {
+        "size": {
+          "width": 562,
+          "height": 400
+        }
+      },
+      "contents": [
+        {
+          "x": 425,
+          "y": 235,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 140,
+          "y": 235,
+          "type": "file"
+        }
+      ]
     }
   },
   "repository": {
