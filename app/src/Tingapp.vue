@@ -2,7 +2,7 @@
 
 <template>
 
-<div id="app">
+<div id="app" class="platform-{{platform}}">
     <control-bar :is-running='processIsRunning'>
     </control-bar>
     <sidebar :root='tingapp.root' tabindex=0>
@@ -47,7 +47,8 @@ export default {
         return {
             process: null,
             windowWidth: 0,
-            windowHeight: 0
+            windowHeight: 0,
+            platform: process.platform
         };
     },
     ready: function() {

@@ -127,8 +127,13 @@ option {
   right: 10px;
   top: 9px;
   height: 20px;
-  font-size: 16px;
+  font-size: 12px;
   min-width: 190px;
+}
+
+.platform-darwin #device-list {
+  /* on Mac we need the larger size to make the browser choose a large native widget */
+  font-size: 16px;
 }
 
 .filetree {
