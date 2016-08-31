@@ -64,12 +64,15 @@ def win32_create_python_environment():
     subprocess.check_call([python_exe, '-m', 'ensurepip'])
 
     # Install Python requirements
+    windows_requirements = os.path.join(os.path.dirname(__file__), 'requirements-win32.txt')
     common_requirements = os.path.join(os.path.dirname(__file__), 'requirements-common.txt')
-    subprocess.check_call([
-        python_exe,
-        '-m', 'pip',
-        'install',
-        '-r', common_requirements])
+
+    for requirements_file in [windows_requirements, common_requirements]:
+        subprocess.check_call([
+            python_exe,
+            '-m', 'pip',
+            'install',
+            '-r', requirements_file])
 
     # Move the Python environment into place
     if not os.path.exists(vendor_dir):
