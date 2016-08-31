@@ -1,4 +1,4 @@
-import os, sys, subprocess, tempfile, shutil
+import os, sys, subprocess, tempfile, shutil, urllib2
 
 
 def install_packages(requirements_files):
@@ -26,13 +26,66 @@ def install_packages(requirements_files):
         os.makedirs(vendor_dir)
     shutil.move(temp_packages_dir, packages_dir)
 
+
+def download(url, filename):
+    with open(filename, "wb") as f:
+        response = urllib2.urlopen(url)
+        f.write(response.read())
+
+
+def win32_create_python_environment():
+    project_root = os.path.dirname(os.path.dirname(__file__))
+    vendor_dir = os.path.join(project_root, 'vendor')
+    python_dir = os.path.join(vendor_dir, 'python27')
+
+    if os.path.exists(python_dir):
+        print 'build-python-env: vendor/python27 exists, nothing to be done'
+        sys.exit()
+    else:
+        print 'build-python-env: Building vendor/python27'
+
+    temp_dir = tempfile.mkdtemp()
+
+    # Download the Python MSI
+    msi_file = os.path.join(temp_dir, 'python-2.7.12.msi')
+    download('https://www.python.org/ftp/python/2.7.12/python-2.7.12.msi', msi_file)
+
+    # Expand it to a temporary location
+    temp_python_dir = os.path.join(temp_dir, 'python27')
+    subprocess.check_call([
+        'msiexec',
+        '-a', msi_file,
+        '-qn',  # supress the UI
+        'TARGETDIR=%s' % temp_python_dir])
+
+    python_exe = os.path.join(temp_python_dir, 'python.exe')
+
+    # Install Pip
+    subprocess.check_call([python_exe, '-m', 'ensurepip'])
+
+    # Install Python requirements
+    common_requirements = os.path.join(os.path.dirname(__file__), 'requirements-common.txt')
+    subprocess.check_call([
+        python_exe,
+        '-m', 'pip',
+        'install',
+        '-r', common_requirements])
+
+    # Move the Python environment into place
+    if not os.path.exists(vendor_dir):
+        os.makedirs(vendor_dir)
+    shutil.move(temp_python_dir, python_dir)
+
+
 if __name__ == '__main__':
     mac_requirements = os.path.join(os.path.dirname(__file__), 'requirements-mac.txt')
     common_requirements = os.path.join(os.path.dirname(__file__), 'requirements-common.txt')
 
     if sys.platform == 'darwin':
-        install_packages([mac_requirements,common_requirements])
+        install_packages([mac_requirements, common_requirements])
     elif sys.platform.startswith('linux'):
         install_packages([common_requirements])
+    elif sys.platform == 'win32':
+        win32_create_python_environment()
     else:
         print "build-python-env: warning: don't know how to build on this platform yet!"

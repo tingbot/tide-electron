@@ -1,18 +1,12 @@
 "use strict";
-import {
-    spawn,
-    spawnSync
-} from 'child_process';
+
 import path from 'path';
 import fs from 'fs';
 import resources from './resources';
-import {
-    TingProcess
-} from '../tingprocess.js';
-
+import {TingProcess} from '../tingprocess.js';
 
 function findPython() {
-    var vendorPath = resources.getPath('vendor', 'python');
+    var vendorPath = resources.getPath('vendor', 'python27');
 
     try {
         var vendorPathStat = fs.statSync(vendorPath);
