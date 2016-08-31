@@ -9,6 +9,7 @@
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {
+    "asar": false,
     "appId": "com.tingbot.tide-electron",
     "app-category-type": "public.app-category.developer-tools",
     "extraResources": [
@@ -31,9 +32,6 @@
       "depends": [
         "python"
       ]
-    },
-    "asar": {
-      "unpack": "*.node"
     },
     "dmg": {
       "title": "Install Tide",
