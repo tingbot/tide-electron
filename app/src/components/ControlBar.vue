@@ -60,6 +60,18 @@ export default {
             this.$dispatch('upload', this.selectedDevice);
         }
     },
+    events: {
+        'menu-run': function () {
+            if (!this.isRunning) {
+                this.start();
+            }
+        },
+        'menu-stop': function () {
+            if (this.isRunning) {
+                this.stop();
+            }
+        },
+    },
     computed:{
         canUpload: function(){
             return !this.isRunning && this.selectedDevice !== 'simulate';

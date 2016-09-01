@@ -27,6 +27,10 @@ ipcRenderer.on('save-document', function () {
     }
 });
 
+ipcRenderer.on('vue-event', function (event, vueEventName) {
+    vm.$broadcast(vueEventName);
+});
+
 function saveAs() {
   const dialog = remote.dialog;
 
