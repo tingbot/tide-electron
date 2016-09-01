@@ -72,6 +72,7 @@ def win32_create_python_environment():
             python_exe,
             '-m', 'pip',
             'install',
+            '--ignore-installed',
             '-r', requirements_file])
 
     # Move the Python environment into place
