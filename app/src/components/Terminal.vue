@@ -71,7 +71,7 @@
             } else if (signal !== 0) {
               this.terminal.write(`\r\nProcess exited due to signal ${signal}.\r\n`);
             } else {
-              this.terminal.write(`\r\nProcess exited successfully.\r\n`);
+              this.terminal.write(`\r\nProcess exited.\r\n`);
             }
             // hide the cursor
             this.terminal.blur();
