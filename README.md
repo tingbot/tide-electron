@@ -2,7 +2,7 @@
 
 A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://github.com/atom/electron).
 
-## Set up
+## Setup a development environment
 
 ### Windows
 
@@ -11,20 +11,12 @@ This project uses Node.js, Python 2.7 and some modules. For now, these have to b
 * Download Node.js from: https://nodejs.org/en/
 * Install python 2.7.* from: https://www.python.org/  
   **IMPORTANT:** During the installation there is an opt-in to add Python to the path variable. You have to do this otherwise the project can't find Python. If you get errors later call ``setx PATH "%PATH%;C:\Python33\Scripts"`` from the terminal. This will add Python to your path.
-* Install pygame from http://pygame.org/download.shtml
-* To get the 'tingbot-python' module you need to have pip. Pip is a package manager for Python which should be installed with Python.  
-  Execute the following code in the terminal: ``pip install https://github.com/tingbot/tingbot-python/zipball/master``. This will download the tingbot-python module.
-* If everything worked without problems you should be able to start Tide using the commands under [Running](#running) below.
+* If you don't have Visual Studio installed, `npm install --global --production windows-build-tools`
 
 ### Mac
 
 * Install [Homebrew](http://brew.sh/)
 * `brew install node`
-
-That's all you need for the basic editor. If you want to run the Tingbot apps too:
-
-* Install pygame from http://pygame.org/download.shtml
-* `sudo pip install https://github.com/tingbot/tingbot-python/zipball/master`
 
 ## Running
 
@@ -35,12 +27,9 @@ That's all you need for the basic editor. If you want to run the Tingbot apps to
 
 ## Contributing
 
-Check out our [previous discussion thread](https://github.com/tingbot/tide/issues/4) for more information on the architecture of Tide and how we want it to perform.
+Check the [issues list](https://github.com/tingbot/tide-electron/issues) for outstanding bits of work we'd like help with. 
 
-If you want to get involved:
-
-- create an issue with the functionality you want to add
-- if you have the know-how, submit a pull-request implementing/fixing something from the issues list.
+If you have an idea for a feature/change, create an issue describing the change before starting work so we can discuss. Then fork the project, and [open a pull request](https://help.github.com/articles/proposing-changes-to-a-project-with-pull-requests/) with your changes. Try to keep pull requests focused on the problem/feature
 
 We also have a Slack team where everything is discussed. [Join us!](http://slack.tingbot.com/)
 
