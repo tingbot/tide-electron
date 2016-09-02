@@ -25,7 +25,7 @@ function createWindow(on_load) {
         }
     }
 
-    newWindow = new BrowserWindow({
+    const newWindow = new BrowserWindow({
         width: 700,
         height: 600,
         minWidth: 450,
