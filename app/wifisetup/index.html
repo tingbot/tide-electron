@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0px;
+      font: menu;
+      /* this chooses the system font */
+      font-size: 13px;
+      /* disallow text selection to make things a little more native-feeling */
+      -webkit-user-select: none;
+      padding: 16px 20px;
+      border-bottom: 5px solid #e31b4f;
+      box-sizing: border-box;;
+    }
+
+    label {
+      display: block;
+    }
+
+    input[type=text] {
+      width: 100%;
+      padding: 2px 3px;
+      box-sizing: border-box;
+      font-size: inherit;
+      margin: 2px 0;
+    }
+
+    .field-wrapper {
+      margin-bottom: 10px;
+    }
+/*
+    button {
+      border-radius: 4px;
+      background-color: #e0264f;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button:active {
+      background-color: #9b1235;
+
+    }*/
+    button {
+      font-size: inherit;
+      padding: 2px 15px 3px
+    }
+
+    .buttons-row {
+      text-align: right;
+    }
+
+    p:first-child {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body bgcolor="#e6e6e6">
+  <div class="panel-container">
+    <div class="panel waiting-for-sd" style="padding: 0 20px;">
+      <div class="spacer" style="height:10px"></div>
+      <center>
+        <img src="sd.svg"/>
+      </center>
+
+      <p>
+        Insert an SD card to write WiFi settings so Tingbot can connect to the internet.
+      </p>
+
+      <center style="color: #999">
+        Waiting for Tingbot SD card...
+      </center>
+    </div>
+
+    <div class="panel wifi-settings">
+      <p>
+        Enter your WiFi settings to save them to the SD card so Tingbot can connect to the internet.
+      </p>
+      <div class="spacer" style="height:5px"></div>
+
+      <form onsubmit="saveButtonClicked(); return false">
+        <div class="field-wrapper">
+          <label for="ssid">Network name (SSID):</label>
+          <input id="ssid" type="text">
+        </div>
+        <div class="field-wrapper">
+          <label for="passphrase">Password:</label>
+          <input id="passphrase" type="text">
+        </div>
+
+        <div class="spacer" style="height:5px"></div>
+
+        <div class="buttons-row">
+          <button type="submit" onclick="saveButtonClicked()">
+            Save to SD card
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel complete" style="padding: 0 20px;">
+      <div class="spacer" style="height:18px"></div>
+
+      <center>
+        <img src="done.svg"/>
+      </center>
+
+      <div class="spacer" style="height:22px"></div>
+
+      <p>
+        Fantastic! WiFi details saved to SD card. Remember to eject the SD card before removing. Time to get coding!
+      </p>
+    </div>
+  </div>
+
+  <script>window.$ = window.jQuery = require('jquery')</script>
+  <script>
+    const fs = require('fs');
+    const path = require('path');
+
+    //////////
+    // MAIN //
+    //////////
+
+    var sdCardMountpoint = null;
+
+    function main () {
+
+      setPanel('waiting-for-sd');
+
+      startLookingForSD(function (mountpoint) {
+        sdCardMountpoint = mountpoint;
+
+        var wifiDetails = getWifiNetworks(sdCardMountpoint);
+
+        if (wifiDetails[0]) {
+          document.getElementById('ssid').value = wifiDetails[0].ssid || "";
+          document.getElementById('passphrase').value = wifiDetails[0].passphrase || "";
+        } else {
+          document.getElementById('ssid').value = "";
+          document.getElementById('passphrase').value = "";
+        }
+
+        setPanel('wifi-settings');
+        document.getElementById('ssid').focus();
+      });
+    }
+
+    function saveButtonClicked () {
+      var wifiDetails = getWifiNetworks(sdCardMountpoint);
+
+      var network = {}
+      network.ssid = document.getElementById('ssid').value;
+      network.passphrase = document.getElementById('passphrase').value;
+
+      wifiDetails = wifiDetails.filter((n) => n.ssid != network.ssid);
+
+      wifiDetails.unshift(network);
+
+      setWifiNetworks(sdCardMountpoint, wifiDetails);
+
+      setPanel('complete');
+    }
+
+    function saveButtonClicked () {
+      var wifiDetails = getWifiNetworks(sdCardMountpoint);
+
+      var network = {}
+      network.ssid = document.getElementById('ssid').value;
+      network.passphrase = document.getElementById('passphrase').value;
+
+      wifiDetails = wifiDetails.filter((n) => n.ssid != network.ssid);
+
+      wifiDetails.unshift(network);
+
+      setWifiNetworks(sdCardMountpoint, wifiDetails);
+
+      setPanel('complete');
+    }
+
+    ///////////
+    // PANEL //
+    ///////////
+
+    function setPanel(name) {
+      $('.panel').hide();
+      $('.panel.'+name).show();
+    }
+
+    //////////////////
+    // SD DETECTION //
+    //////////////////
+
+    var sdCardCallback = null;
+
+    function startLookingForSD(callback) {
+      if (sdCardCallback) return;
+
+      sdCardCallback = callback;
+      checkForSD();
+    }
+
+    function stopLookingForSD() {
+      sdCardCallback = null;
+    }
+
+    function checkForSD() {
+      if (!sdCardCallback) return;
+
+      const drivelist = require('drivelist');
+
+      drivelist.list(function(error, disks) {
+        if (error) throw error;
+        console.log({disks});
+        
+        disks.forEach(function (disk) {
+          if (disk.mountpoint) {
+            const mountpoints = disk.mountpoint.split(',');
+
+            mountpoints.forEach(function (mountpoint) {
+              const sentinel = path.join(mountpoint, '.tingbot');
+
+              fs.exists(sentinel, function (exists) {
+                if (exists) {
+                  if (!sdCardCallback) return;
+
+                  sdCardCallback(mountpoint);
+                  stopLookingForSD();
+                }
+              });
+            });
+          }
+
+          setTimeout(checkForSD, 1000);
+        });
+      });
+    }
+
+    //////////////////
+    // WIFI DETAILS //
+    //////////////////
+
+    function getWifiNetworks(sdCardMountpoint) {
+      try {
+        return JSON.parse(fs.readFileSync(_networkFilePath(sdCardMountpoint)));
+      }
+      catch (e) {
+        console.error(e);
+        return []
+      }
+    }
+
+    function setWifiNetworks(sdCardMountpoint, networks) {
+      var jsonData = JSON.stringify(networks, null, 2);
+      fs.writeFileSync(_networkFilePath(sdCardMountpoint), jsonData);
+    }
+
+    function _networkFilePath(sdCardMountpoint) {
+      return path.join(sdCardMountpoint, 'networks.json');
+    }
+
+    main();
+  </script>
+</body>
+</html>

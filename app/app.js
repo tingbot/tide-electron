@@ -63,6 +63,37 @@ function openProject(pathToOpen) {
     });
 }
 
+var wifiSetupWindow = null;
+
+function openWifiSetup() {
+    if (wifiSetupWindow) {
+        wifiSetupWindow.show();
+        return;
+    }
+
+    wifiSetupWindow = new BrowserWindow({
+        width: 455,
+        height: 255,
+        resizable: false,
+        fullscreen: false,
+        maximizable: false,
+        backgroundColor: '#e6e6e6',
+        title: 'Tingbot Wifi Setup',
+        show: false,
+    });
+
+    wifiSetupWindow.once('ready-to-show', () => {
+        wifiSetupWindow.show()
+    })
+
+    wifiSetupWindow.on('closed', function () {
+        wifiSetupWindow = null;
+    });
+
+    // render index.html which will contain our root Vue component
+    wifiSetupWindow.loadURL('file://' + __dirname + '/wifisetup/index.html');
+}
+
 app.on('ready', function() {
     autoupdate.setup();
 
@@ -273,6 +304,12 @@ function buildMenuTemplate() {
                     role: 'about'
                 },
                 {
+                    label: 'Tingbot WiFi settings…',
+                    click: function(item, focusedWindow) {
+                        openWifiSetup()
+                    }
+                },
+                {
                     type: 'separator'
                 },
                 {
@@ -319,6 +356,14 @@ function buildMenuTemplate() {
                 }
             );
         }
+    } else {
+        // add to the file menu
+        template[0].submenu.push({
+            label: 'Tingbot WiFi settings…',
+            click: function(item, focusedWindow) {
+                openWifiSetup()
+            }
+        });
     }
 
     return template;
