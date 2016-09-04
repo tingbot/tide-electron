@@ -94,13 +94,33 @@ function openWifiSetup() {
     wifiSetupWindow.loadURL('file://' + __dirname + '/wifisetup/index.html');
 }
 
+var appIsReady = false;
+var projectsToOpenWhenReady = [];
+
+app.on('open-file', function (event, path) {
+    if (appIsReady) {
+        openProject(path);
+    } else {
+        projectsToOpenWhenReady.push(path);
+    }
+});
+
+
 app.on('ready', function() {
     autoupdate.setup();
 
     const menuTemplate = buildMenuTemplate();
     Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 
-    newProject();
+    if (projectsToOpenWhenReady.length === 0) {
+        newProject();
+    } else {
+        for (var projectPath of projectsToOpenWhenReady) {
+            openProject(projectPath);
+        }
+    }
+    
+    appIsReady = true;
 });
 
 // when all windows are closed, quit the application on Windows/Linux

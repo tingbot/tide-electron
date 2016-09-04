@@ -14,7 +14,8 @@
     "app-category-type": "public.app-category.developer-tools",
     "extraResources": [
       "default.tingapp",
-      "vendor"
+      "vendor",
+      "assets/TingappIcon.icns"
     ],
     "linux": {
       "target": [
@@ -56,7 +57,8 @@
           "type": "file"
         }
       ]
-    }
+    },
+    "extend-info": "assets/ExtraInfo.plist"
   },
   "repository": {
     "type": "git",
