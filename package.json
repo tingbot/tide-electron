@@ -26,12 +26,14 @@
     },
     "deb": {
       "depends": [
-        "python2.7"
+        "python2.7",
+        "python-cryptography"
       ]
     },
     "rpm": {
       "depends": [
-        "python"
+        "python",
+        "python2-cryptography"
       ]
     },
     "dmg": {
