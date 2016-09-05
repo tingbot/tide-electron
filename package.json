@@ -5,7 +5,7 @@
     "build-python": "python scripts/build-python-env.py",
     "pack": "npm run build-python && webpack -p && build",
     "dist": "npm run build-python && webpack -p && build",
-    "cibuild": "npm run build-python && webpack -p && build --publish onTagOrDraft",
+    "cibuild": "npm run build-python && webpack -p && build --publish onTag --draft",
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {
