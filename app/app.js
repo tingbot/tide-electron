@@ -79,6 +79,7 @@ function openWifiSetup() {
         maximizable: false,
         backgroundColor: '#e6e6e6',
         title: 'Tingbot Wifi Setup',
+        autoHideMenuBar: true,
         show: false,
     });
 
