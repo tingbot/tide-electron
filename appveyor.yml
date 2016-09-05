@@ -31,4 +31,15 @@ artifacts:
   - path: 'dist\win\*.nupkg'
     name: Tide NUPKG
 
+  - path: 'dist\win\RELEASES'
+    name: RELEASES file
+
+deploy:
+  description: ''
+  provider: GitHub
+  auth_token: $(GH_TOKEN)
+  prerelease: true
+  on:
+    appveyor_repo_tag: true
+
 test: off

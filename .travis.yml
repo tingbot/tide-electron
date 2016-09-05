@@ -31,7 +31,7 @@ addons:
       secure: PfCz8i5WhaHB4WpwmqNqy1VYK5mSZEHLxqrDrcH0da0bNOhrv557CqgyFLktNXcn8smT7Hc17W1EJ+6ahFoBkXWm44CY5OyYCTvFYoNGCxEttmLJb5Uv+jq1j5J7osE+OmjHNYzrTSjJZ9w1GdBA7IA9sE7yJwjST/tMXHpCSePd6nL5pF5iXRA+SG/AfI99STWKI3D8jZH+rWrOUZCQJA9xJuvzQPYkQY+sJ7zetw979ID6EIHJEZV4UhudWJN2NcOfjAuzhk85XiVJnu7Y0E+HmIGOt5RE6clai/P7KTU6Gxhrf4/Nh7KVs/JyUl4uLteUT/s97A1jHEBvtXIg1HiXlxCNefDlOLhEFmnQVCyjMjbRjYkXBz0cBGjHW/I8cRud3Z1idoIg18pbUHcHlD1mjsGfbSwqB7s3N1S7xI/k24CYihvmcIiwI0w8WweRt6UEaFVW2iuvdiHdgcgziuY+Cucagmd4hSBHSpf7TLkrTWRBSRe+jMcko1x30NFoSupRZeYwmZdoRHLRgHXEkaO0jB5de0hX+aHs61l//J3QAhhdVbxMqWZDDhD4NyoPAouXlgo+pzCFlHgidTLsu1Q3QfXYfqkldmzE/0KJkFoJSYUD4lYaljmsUcem/I4FeAIxlsGBIcTtdep/713boqt9MArj6hf0wqtjmgSxvcM=
     bucket: tingbot-builds
     paths:
-    - $(find dist -depth 2 -and '(' -iname '*.zip' -or -iname '*.dmg' -or -iname '*.deb' -or -iname '*.rpm' ')' | tr "\n" ":")
+    - $(find dist -maxdepth 2 -and '(' -iname '*.zip' -or -iname '*.dmg' -or -iname '*.deb' -or -iname '*.rpm' ')' | tr "\n" ":")
 before_install:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git-lfs; fi
@@ -47,6 +47,18 @@ install:
 - npm prune
 script:
 - npm run cibuild
-branches:
-  except:
-  - "/^v\\d+\\.\\d+\\.\\d+$/"
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: "WXNvq5PPOLG7iY0B1pp0HgxDzHPBKoLpljggYlcLTJ/7yD7u0ftZIIXiTApucC1rxPdmL/3B/LBw2FNtSW3tecMjbKwhJ5rJfvvAWsMCT+FvO437vjETAfLuZIVkcWPWp9uJkwp5giKf42l41f1Qzxjo7BYx4UXMhkD5lfyCeyOIb67cdNjVr3/Tefg1WeB+MZsuTMRA+LsRbkxEy+h3ZR9bTQNSm58ZMYj616Ol8wla5zOZ2wR5aR8UcHAkVX5tXNkzXpTRGYyLPF1oPSltUlNKKv04JW7o95bAo/9wjg3Ybmd4q91izP4xrbG1e/Kj97Kmu7NQVE31GZxdDHafFBVda6RplOussi+lZdyuR5o+L5lwEWBWNDY7SCCOl24Y1jvHWgGeIiR9h73Gp2lD3kEWwLgRniQQk2NXfQGLGG5EmtjKexMuceXFjl/dtyYnAE6sn+iUDaOUnMv51cl3ayIw3BtaiSyUU/xL/GC5VTWcY/y3ZLvqScfYS3s5JEGtUDlg8SLbsD54/PTWPaSua70JTgDVuh5dIa0cjt8Se//HPa1SXVo9OS3seuDcadYNd0A5hTtlrUJXf2i2p/geHeP69Io0ks5La0sWfdTt8Foz3JLD4uPwmMsjFU0jjOOlfOGuaDZmJYWq7vRKJXlO7qI/zpZFyp5ZaQcu0JQBYAw="
+  file_glob: true
+  file:
+  - dist/mac/*.zip
+  - dist/mac/*.dmg
+  - dist/*.deb
+  - dist/*.rpm
+  prerelease: true  # releases created by travis are created as prerelease and are manually approved
+  on:
+    repo: tingbot/tide-electron
+    tags: true
