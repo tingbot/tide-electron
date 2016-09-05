@@ -116,6 +116,25 @@
         menu.append(new MenuItem({
           type: 'separator'
         }));
+
+        if (this.isFolder) {
+          menu.append(new MenuItem({
+            label: 'New file',
+            click: () => { this.newFile() }
+          }));
+          menu.append(new MenuItem({
+            label: 'New folder',
+            click: () => { this.newFile('folder') }
+          }));
+          menu.append(new MenuItem({
+            label: 'Import…',
+            click: () => { this.importFiles() }
+          }));
+          menu.append(new MenuItem({
+            type: 'separator'
+          }));
+        }
+
         menu.append(new MenuItem({
           label: 'Rename',
           click: () => { this.editingFilename = true }
