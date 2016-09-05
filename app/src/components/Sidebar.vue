@@ -1,15 +1,13 @@
 <template>
-  <div class="left" id="sidebar" v-on:drop="fileDropped">
+  <div class="left" id="sidebar">
     <div class="sidebar-files">
-      <template v-for="file in root.sortedFiles">
-        <file :file="file"></file>
-      </template>
+      <file :file="root"></file>
     </div>
     <div class="sidebar-button-bar">
       <a class="sidebar-button" title="New file" v-on:click="newFile">
         <i class="fa fa-file-code-o" style="transform: translateY(0px)"></i>
       </a>
-      <a class="sidebar-button" title="New folder" v-on:click="newFile($event, 'folder')">
+      <a class="sidebar-button" title="New folder" v-on:click="newFolder">
         <i class="fa fa-folder-o" style="transform: translateY(1px)"></i>
       </a>
       <a class="sidebar-button import" title="Import…" v-on:click="importFiles">
@@ -59,112 +57,15 @@
 
 <script>
   import File from './File.vue';
-  import * as error from '../error';
   import {BrowserWindow, remote} from 'electron';
-  const dialog = remote.dialog;
 
   export default {
-    data: function () {
-      return {
-        selectedFile: null,
-      }
-    },
     props: ['root'],
     components: [File],
     methods: {
-      fileDropped: function(event){
-        event.preventDefault();
-        event.stopPropagation();
-        var file = event.dataTransfer.files[0];
-        console.log('File you dragged here is', file.path, "dropped on sidebar");
-        this.root.addFile(file.path);
-        return false;
-      },
-      newFile: function (event, type = 'regularFile') {
-        // 'type' is either 'regularFile' or 'folder'
-
-        // try 100 different filenames for the new file before aborting
-        for (let i = 0; i < 100; i++) {
-          const name = (i == 0) ? 'untitled' : `untitled-${i}`;
-
-          try {
-            if (type == 'folder') {
-              var file = this.destinationForNewFiles.createFolder(name);
-            } else {
-              var file = this.destinationForNewFiles.createRegularFile(name);
-            }
-            break;
-          } catch (e) {
-            if ((e instanceof error.FileExistsError) && (i < 99)) {
-              continue;
-            } else {
-              throw e;
-            }
-          }
-        }
-
-        this.$nextTick(() => {
-          // select the new file
-          this.$dispatch('fileClicked', file);
-          // make sure any parent folders are open so the file is visible
-          this.$broadcast('ensureFileVisible', file);
-          // make the new file's filename editable, with a blank textfield
-          this.$broadcast('editFilename', file, true);
-        });
-      },
-      importFiles: function (event) {
-        let dialogProperties = null;
-        
-        if (process.platform === 'darwin') {
-          dialogProperties = ['openFile', 'openDirectory', 'multiSelections']
-        } else {
-          // windows/linux don't support file and directory selection
-          dialogProperties = ['openFile', 'multiSelections']
-        }
-
-        dialog.showOpenDialog(remote.getCurrentWindow(), {
-          title: 'Import files into project',
-          buttonLabel: 'Import',
-          properties: dialogProperties,
-        }, (filenames) => {
-          if (filenames === undefined) {
-            return;
-          }
-
-          let file = null;
-
-          for (let filename of filenames) {
-            file = this.destinationForNewFiles.addFile(filename);
-          }
-
-          // select the last imported file
-          if (file !== null) {
-            this.$nextTick(() => {
-              this.$dispatch('fileClicked', file);
-              this.$broadcast('ensureFileVisible', file);
-            })
-          }
-        })
-      }
+      newFile: function () { this.$broadcast('newFile') },
+      newFolder: function () { this.$broadcast('newFile', 'folder') },
+      importFiles: function () { this.$broadcast('importFiles') },
     },
-    computed: {
-      destinationForNewFiles: function () {
-        if (this.selectedFile === null) {
-          return this.root;
-        }
-
-        if (this.selectedFile.type === 'folder') {
-          return this.selectedFile;
-        } else {
-          return this.selectedFile.parent;
-        }
-      }
-    },
-    events: {
-      openFile: function (file) {
-        this.selectedFile = file;
-        return true;
-      }
-    }
   }
 </script>

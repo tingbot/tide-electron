@@ -1,11 +1,15 @@
 <template>
-  <div class="file" v-on:drop="fileDropped">
+  <div 
+      class="file"
+      v-bind:class="{'root': isRoot}"
+      v-on:drop="fileDropped"
+      v-on:contextmenu="rightClick">
     <div
         class="file-row"
+        v-if="!isRoot"
         v-bind:class="{'is-folder': isFolder, 'folder-open': folderOpen, 'selected': selected}"
         v-on:click="fileClicked"
-        v-on:mousedown="mouseDown"
-        v-on:contextmenu="rightClick">
+        v-on:mousedown="mouseDown">
       <span
           class="file-disclosure-triangle"
           v-bind:style="{ visibility: isFolder }"
@@ -30,8 +34,8 @@
       </template>
 
     </div>
-    <ul class="filetree" v-if="isFolder" v-show="folderOpen">
-      <template v-for="child in file.files">
+    <ul class="filetree" v-if="isFolder" v-show="isRoot || folderOpen">
+      <template v-for="child in file.sortedFiles">
         <file :file="child"></file>
       </template>
     </ul>
@@ -41,6 +45,8 @@
 <script>
   import {TingappFolder} from '../tingapp.js';
   import {remote} from 'electron';
+  import * as error from '../error';
+  const dialog = remote.dialog;
 
   export default {
     name: 'file',
@@ -51,6 +57,7 @@
         selected: false,
         editingFilename: false,
         parentWasFocusedOnMouseDown: false,
+        isDestinationForNewFiles: false,
       }
     },
     methods: {
@@ -124,10 +131,78 @@
 
         menu.popup(remote.getCurrentWindow());
         event.preventDefault();
+        event.stopPropagation();
       },
       stopEditingFilename: function (event) {
         this.editingFilename = false;
       },
+      newFile: function (type = 'regularFile') {
+        // type can only be 'regularFile' or 'folder'
+        console.assert(type === 'regularFile' || type === 'folder');
+
+        // try 100 different filenames for the new file before aborting
+        for (let i = 0; i < 100; i++) {
+          const name = (i == 0) ? 'untitled' : `untitled-${i}`;
+
+          try {
+            if (type == 'folder') {
+              var file = this.file.createFolder(name);
+            } else {
+              var file = this.file.createRegularFile(name);
+            }
+            break;
+          } catch (e) {
+            if ((e instanceof error.FileExistsError) && (i < 99)) {
+              continue;
+            } else {
+              throw e;
+            }
+          }
+        }
+
+        this.$nextTick(() => {
+          // select the new file
+          this.$dispatch('fileClicked', file);
+          // make sure any parent folders are open so the file is visible
+          this.$dispatch('ensureFileVisible', file);
+          // make the new file's filename editable, with a blank textfield
+          this.$broadcast('editFilename', file, true);
+        });
+      },
+      importFiles: function () {
+        let dialogProperties = null;
+        
+        if (process.platform === 'darwin') {
+          dialogProperties = ['openFile', 'openDirectory', 'multiSelections']
+        } else {
+          // windows/linux don't support file and directory selection
+          dialogProperties = ['openFile', 'multiSelections']
+        }
+
+        dialog.showOpenDialog(remote.getCurrentWindow(), {
+          title: 'Import files into project',
+          buttonLabel: 'Import',
+          properties: dialogProperties,
+        }, (filenames) => {
+          if (filenames === undefined) {
+            return;
+          }
+
+          let file = null;
+
+          for (let filename of filenames) {
+            file = this.file.addFile(filename);
+          }
+
+          // select the last imported file
+          if (file !== null) {
+            this.$nextTick(() => {
+              this.$dispatch('fileClicked', file);
+              this.$broadcast('ensureFileVisible', file);
+            })
+          }
+        })
+      }
     },
     watch: {
       editingFilename: function (editingFilename) {
@@ -142,8 +217,9 @@
     events: {
       openFile: function(file) {
         let isThisFile = (file === this.file);
-
         this.selected = isThisFile;
+
+        this.isDestinationForNewFiles = (this.selected || (this.isFolder && this.file.files.includes(file) && file.type !== 'folder'));
 
         return true;
       },
@@ -165,12 +241,29 @@
           this.folderOpen = true;
         }
         return true;
+      },
+      newFile: function (type) {
+        if (this.selected || this.isDestinationForNewFiles) {
+          this.newFile(type);
+        } else {
+          return true;
+        }
+      },
+      importFiles: function () {
+        if (this.selected || this.isDestinationForNewFiles) {
+          this.importFiles();
+        } else {
+          return true;
+        }
       }
     },
     computed: {
       isFolder: function () {
         return (this.file.type == 'folder');
-      }
+      },
+      isRoot: function () {
+        return this.file.isRootFolder;
+      },
     }
   };
 </script>

@@ -147,10 +147,22 @@ option {
 }
 
 .file-row.selected {
+  position: relative;
+  z-index: 1;
+}
+
+.file-row.selected:before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  left: -500px;
+  top: 0;
+  bottom: 0;
+  right: 0;
   background-color: #5A5A5A;
 }
 
-:focus .file-row.selected {
+:focus .file-row.selected:before {
   background-color: #0069d9;
 }
 
@@ -158,6 +170,14 @@ option {
   padding: 0;
   padding-left: 12px;
   margin: 0;
+}
+
+.file.root {
+  min-height: 100%;
+}
+
+.root > .filetree {
+  padding-left: 0px;
 }
 
 /**

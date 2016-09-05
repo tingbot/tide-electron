@@ -336,6 +336,23 @@ class TingappFolder extends TingappFile {
 
         return false;
     }
+
+    get sortedFiles() {
+        // folders at the top of the list, otherwise, alphabetical.
+        let result = this.files.slice();
+
+        return result.sort((a, b) =>  {
+          if (a.type === 'folder' && b.type === 'folder') {
+            return a.name.localeCompare(b.name);
+          } else if (a.type === 'folder') {
+            return -1;
+          } else if (b.type === 'folder') {
+            return 1;
+          } else {
+            return a.name.localeCompare(b.name);
+          }
+        });
+    }
 }
 
 class TingappRootFolder extends TingappFolder {
@@ -343,19 +360,23 @@ class TingappRootFolder extends TingappFolder {
         super(path.basename(rootPath), {path: path.dirname(rootPath)});
     }
 
+    get isRootFolder() {
+        return true;
+    }
+
     get sortedFiles() {
         // we want the main or main.py file to be at the top of the list.
-        // Otherwise, alphabetical.
-        let result = this.files.slice();
-        return result.sort((a, b) =>  {
-          if (a.name === 'main.py' || a.name === 'main') {
-            return -1;
-          } else if (b.name === 'main.py' || b.name === 'main') {
-            return 1;
-          } else {
-            return a.name.localeCompare(b.name);
-          }
-        });
+        // Otherwise, same as the default.
+        const result = super.sortedFiles;
+
+        const mainFileIndex = result.findIndex((a) => (a.name === 'main' || a.name === 'main.py'))
+
+        if (mainFileIndex !== -1) {
+            // move that file to the start of the list
+            result.splice(0, 0, result.splice(mainFileIndex, 1)[0]);
+        }
+
+        return result;
     }
 }
 
