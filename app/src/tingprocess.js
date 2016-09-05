@@ -29,6 +29,7 @@ class TingProcess extends EventEmitter {
     if (process.platform !== 'win32') {
       // pty.js on *nix doesn't want the program name as the first argument
       args.shift();
+    }else{
       // windows cant handle spaces
       args = args.map(function(arg){
         if(arg.indexOf(' ') >= 0){
