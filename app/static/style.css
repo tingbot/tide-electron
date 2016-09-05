@@ -1,20 +1,17 @@
-/*@font-face {
-  font-family: FontAwesome;
-  src: url('../bower_components/fontawesome/fonts/fontawesome-webfont.woff');
-}*/
-/* The following rule disables elastic scrolling on Mac */
-
 html,
 body {
+  /* Disable elastic scrolling on Mac */
   height: 100%;
   overflow: hidden;
 }
 
 body {
   margin: 0px;
-  font: menu;
+
   /* this chooses the system font */
+  font: menu;
   font-size: 12px;
+
   /* disallow text selection to make things a little more native-feeling */
   -webkit-user-select: none;
 }
@@ -88,6 +85,10 @@ option {
   box-sizing: border-box;
 }
 
+/**
+ * Control bar
+ * */
+
 .run-button,
 .upload-button,
 .stop-button {
@@ -136,30 +137,9 @@ option {
   font-size: 16px;
 }
 
-.filetree {
-  padding: 0;
-  padding-left: 12px;
-  margin: 0;
-}
-
-.filetree input[type="checkbox"] {
-  display: none;
-}
-
-.filetree > li input:checked ~ ul {
-  height: auto;
-}
-
-.filetree li {
-  list-style: none;
-}
-
-.filetree label {
-  padding-left: 20px;
-  line-height: 33px;
-  display: inline-block;
-  position: relative;
-}
+/**
+ * Sidebar
+ * */
 
 .file-row {
   padding: 3px;
@@ -172,6 +152,12 @@ option {
 
 :focus .file-row.selected {
   background-color: #0069d9;
+}
+
+.filetree {
+  padding: 0;
+  padding-left: 12px;
+  margin: 0;
 }
 
 /**
@@ -240,71 +226,9 @@ option {
   content: "\f0f6";
 }
 
-.filetree > li input:checked ~ label:before {
-  left: 2px;
-  position: absolute;
-  top: 0;
-}
-
-.filetree label:before {
-  content: "\F07B";
-  font-family: FontAwesome;
-  left: 2px;
-  position: absolute;
-  top: 0;
-}
-
-.filetree input[type="checkbox"] + label {
-  background-position: 0 0;
-  width: 33px;
-  height: 33px;
-}
-
-.filetree input[type="checkbox"]:checked + label {
-  background-position: 0 -33px;
-  width: 30px;
-  height: 30px;
-}
-
-.treefile {
-  position: relative;
-  padding-left: 35px;
-  line-height: 30px;
-  z-index: 1;
-}
-
-.treefile::before {
-  content: "\f0f6";
-  font-family: FontAwesome;
-  left: 20px;
-  position: absolute;
-  top: 0;
-}
-
-.treefile.selected {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 1.0),
-screen and (min--moz-device-pixel-ratio: 1.0),
-screen and (-o-min-device-pixel-ratio: 100/100),
-screen and (min-device-pixel-ratio: 1.0),
-screen and (min-resolution: 1.0dppx) {
-  filetree label {
-    background-image: url('./icon/sprite/icon.png');
-    -webkit-background-size: 33px 63px;
-    -moz-background-size: 33px 63px;
-    background-size: 33px 63px;
-  }
-}
-
-#dragbar {
-  background-color: black;
-  height: 100%;
-  float: right;
-  width: 3px;
-  cursor: col-resize;
-}
+/**
+ * Image viewer
+ * */
 
 #image-viewer {
   display: flex;
