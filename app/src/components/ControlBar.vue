@@ -62,9 +62,11 @@ export default {
     },
     events: {
         'menu-run': function () {
-            if (!this.isRunning) {
-                this.start();
+            if (this.isRunning) {
+                this.stop();
             }
+
+            this.start();
         },
         'menu-stop': function () {
             if (this.isRunning) {

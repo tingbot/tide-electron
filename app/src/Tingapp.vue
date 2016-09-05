@@ -63,21 +63,25 @@ export default {
             this.$emit('resize');
             this.$broadcast('resize');
         },
-        processEnded: function(code, signal) {
-            this.process = null;
+        processEnded: function(endedProcess) {
+            if (this.process === endedProcess) {
+                this.process = null;
+            }
         }
     },
     events: {
         run: function(device) {
             const inProgressPath = this.tingapp.saveInProgressVersion();
+            let newProcess = null;
 
             if (device == 'simulate') {
-                this.process = tbtool.simulate(inProgressPath);
+                newProcess = tbtool.simulate(inProgressPath);
             } else {
-                this.process = tbtool.run(inProgressPath, device);
+                newProcess = tbtool.run(inProgressPath, device);
             }
 
-            this.process.once('exit', this.processEnded);
+            newProcess.once('exit', () => { this.processEnded(newProcess) });
+            this.process = newProcess;
         },
         stop: function() {
             this.process.terminate();

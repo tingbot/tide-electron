@@ -57,30 +57,32 @@
             this.terminal = null;
           }
 
-          this.terminal = new Terminal();
-          this.terminal.open(this.$el);
+          const terminal = new Terminal();
+          terminal.open(this.$el);
 
           newProcess.on('data', this.outputFromProcess);
-          this.terminal.on('key', this.inputFromTerminal);
+          terminal.on('key', this.inputFromTerminal);
 
           newProcess.once('exit', (code, signal) => {
             if (code === null) {
-              this.terminal.write(`\r\nProcess exited.\r\n`);
+              terminal.write(`\r\nProcess exited.\r\n`);
             } else if (code !== 0) {
-              this.terminal.write(`\r\nProcess exited with code ${code}.\r\n`);
+              terminal.write(`\r\nProcess exited with code ${code}.\r\n`);
             } else if (signal !== 0) {
-              this.terminal.write(`\r\nProcess exited due to signal ${signal}.\r\n`);
+              terminal.write(`\r\nProcess exited due to signal ${signal}.\r\n`);
             } else {
-              this.terminal.write(`\r\nProcess exited.\r\n`);
+              terminal.write(`\r\nProcess exited.\r\n`);
             }
             // hide the cursor
-            this.terminal.blur();
+            terminal.blur();
           });
 
           // work around a bug in xterm.js
-          this.terminal.on('blur', () => {
-            this.terminal.blur();
+          terminal.on('blur', () => {
+            terminal.blur();
           });
+
+          this.terminal = terminal;
 
           this.$emit('resize');
           this.$dispatch('ensure-visible', this);
