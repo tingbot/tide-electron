@@ -208,7 +208,7 @@
       drivelist.list(function(error, disks) {
         if (error) throw error;
         console.log({disks});
-        
+
         disks.forEach(function (disk) {
           if (disk.mountpoint) {
             const mountpoints = disk.mountpoint.split(',');
@@ -226,10 +226,9 @@
               });
             });
           }
-
-          setTimeout(checkForSD, 1000);
         });
       });
+      setTimeout(checkForSD, 10000);
     }
 
     //////////////////
