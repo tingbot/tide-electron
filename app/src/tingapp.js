@@ -287,7 +287,7 @@ class TingappFolder extends TingappFile {
             // make empty file at the location
             fs.writeFileSync(filePath, '');
         } else if (type === 'folder') {
-            fs.mkdirSync(folderPath);
+            fs.mkdirSync(filePath);
         } else {
             throw Error("unknown 'type' parameter");
         }
