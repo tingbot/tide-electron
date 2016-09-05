@@ -3,7 +3,7 @@
     <div
         class="file-row"
         v-bind:class="{'is-folder': isFolder, 'folder-open': folderOpen, 'selected': selected}"
-        v-on:click="fileclicked"
+        v-on:click="fileClicked"
         v-on:mousedown="mouseDown"
         v-on:contextmenu="rightClick">
       <span
@@ -58,7 +58,7 @@
         this.folderOpen = !this.folderOpen;
         event.stopPropagation();
       },
-      fileclicked: function(event) {
+      fileClicked: function(event) {
         if (this.parentWasFocusedOnMouseDown && this.selected) {
           this.editingFilename = true;
         } else {
