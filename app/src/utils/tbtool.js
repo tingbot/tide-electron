@@ -67,12 +67,10 @@ function _tbtool(tbtoolArgs) {
 function _python(pythonArgs) {
     pythonArgs = pythonArgs.map(function(arg){
       if(arg.indexOf(' ') >= 0){
-        console.log("derp")
         return '\"'+arg+'\"';
       }
       return arg;
     });
-    console.log(pythonArgs);
     return new TingProcess([pythonExec, ...pythonArgs], {
         extraEnv: pythonEnvironment
     });
