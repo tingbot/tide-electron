@@ -26,6 +26,16 @@ def install_packages(requirements_files):
         os.makedirs(vendor_dir)
     shutil.move(temp_packages_dir, packages_dir)
 
+def remove_packages(packages):
+    project_root = os.path.dirname(os.path.dirname(__file__))
+    vendor_dir = os.path.join(project_root, 'vendor')
+    packages_dir = os.path.join(vendor_dir, 'tide-packages')
+    for p in packages:
+        package_dir = os.path.join(packages_dir,p)
+        subprocess.check_call([
+            'rm',
+            '-rf',
+            package_dir])
 
 def download(url, filename):
     with open(filename, "wb") as f:
@@ -89,6 +99,7 @@ if __name__ == '__main__':
         install_packages([mac_requirements, common_requirements])
     elif sys.platform.startswith('linux'):
         install_packages([common_requirements])
+        remove_packages(['cryptography'])
     elif sys.platform == 'win32':
         win32_create_python_environment()
     else:
