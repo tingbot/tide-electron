@@ -98,6 +98,8 @@
           explorer = 'file manager';
         }
 
+        const type = this.file.type === 'folder' ? 'folder' : 'file';
+
         const menu = new Menu();
 
         menu.append(new MenuItem({
@@ -116,7 +118,7 @@
           click: () => { this.file.revealInExplorer() }
         }));
         menu.append(new MenuItem({
-          label: 'Delete file',
+          label: `Delete ${type}`,
           click: () => { this.file.moveToTrash() }
         }));
 
