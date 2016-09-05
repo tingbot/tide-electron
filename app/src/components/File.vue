@@ -4,7 +4,8 @@
         class="file-row"
         v-bind:class="{'is-folder': isFolder, 'folder-open': folderOpen, 'selected': selected}"
         v-on:click="fileclicked"
-        v-on:mousedown="mouseDown">
+        v-on:mousedown="mouseDown"
+        v-on:contextmenu="rightClick">
       <span
           class="file-disclosure-triangle"
           v-bind:style="{ visibility: isFolder }"
@@ -39,6 +40,7 @@
 
 <script>
   import {TingappFolder} from '../tingapp.js';
+  import {remote} from 'electron';
 
   export default {
     name: 'file',
@@ -83,9 +85,47 @@
       mouseDown: function (event) {
         this.parentWasFocusedOnMouseDown = document.activeElement.contains(this.$el);
       },
+      rightClick: function (event) {
+        const {Menu, MenuItem} = remote;
+
+        let explorer = null;
+        if (process.platform === 'darwin') {
+          explorer = 'Finder';
+        } else if (process.platform === 'win32') {
+          explorer = 'Explorer';
+        } else {
+          // Linux, there are many file managers so use a generic term
+          explorer = 'file manager';
+        }
+
+        const menu = new Menu();
+
+        menu.append(new MenuItem({
+          label: this.file.name,
+          enabled: false
+        }));
+        menu.append(new MenuItem({
+          type: 'separator'
+        }));
+        menu.append(new MenuItem({
+          label: 'Rename',
+          click: () => { this.editingFilename = true }
+        }));
+        menu.append(new MenuItem({
+          label: `Reveal in ${explorer}`,
+          click: () => { this.file.revealInExplorer() }
+        }));
+        menu.append(new MenuItem({
+          label: 'Delete file',
+          click: () => { this.file.moveToTrash() }
+        }));
+
+        menu.popup(remote.getCurrentWindow());
+        event.preventDefault();
+      },
       stopEditingFilename: function (event) {
         this.editingFilename = false;
-      }
+      },
     },
     watch: {
       editingFilename: function (editingFilename) {

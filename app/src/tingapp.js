@@ -3,7 +3,7 @@ import fs from 'fs';
 import crypto from 'crypto';
 import os from 'os';
 import fsextra from 'fs-extra';
-import {remote} from 'electron';
+import {remote, shell} from 'electron';
 import ace from 'brace';
 import pty from 'ptyw.js';
 import uuid from 'node-uuid';
@@ -109,6 +109,18 @@ class TingappFile {
         return 'file';
     }
 
+    moveToTrash() {
+        const success = shell.moveItemToTrash(this.path);
+
+        if (!success) {
+            throw Error(`Failed to delete file ${this.path}`);
+        }
+    }
+
+    revealInExplorer() {
+        shell.showItemInFolder(this.path);
+    }
+
     wasRemoved() {
         this.parent = null;
     }
@@ -166,6 +178,12 @@ class TingappRegularFile extends TingappFile {
         } else if (path !== this.path) {
             fsextra.copySync(this.path, path, {clobber: true});
         }
+    }
+
+    moveToTrash() {
+        // save any unsaved changes to file before moving to trash, so they're not lost
+        this.saveTo(this.path);
+        super.moveToTrash();
     }
 
     wasRemoved() {
