@@ -65,12 +65,6 @@ function _tbtool(tbtoolArgs) {
 }
 
 function _python(pythonArgs) {
-    pythonArgs = pythonArgs.map(function(arg){
-      if(arg.indexOf(' ') >= 0){
-        return '\"'+arg+'\"';
-      }
-      return arg;
-    });
     return new TingProcess([pythonExec, ...pythonArgs], {
         extraEnv: pythonEnvironment
     });
