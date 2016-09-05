@@ -115,6 +115,8 @@ class TingappFile {
         if (!success) {
             throw Error(`Failed to delete file ${this.path}`);
         }
+
+        this.parent._reloadFiles();
     }
 
     revealInExplorer() {
