@@ -109,44 +109,48 @@
 
         const menu = new Menu();
 
-        menu.append(new MenuItem({
-          label: this.file.name,
-          enabled: false
-        }));
-        menu.append(new MenuItem({
-          type: 'separator'
-        }));
-
-        if (this.isFolder) {
+        if (!this.isRoot) {
           menu.append(new MenuItem({
-            label: 'New file',
-            click: () => { this.newFile() }
-          }));
-          menu.append(new MenuItem({
-            label: 'New folder',
-            click: () => { this.newFile('folder') }
-          }));
-          menu.append(new MenuItem({
-            label: 'Import…',
-            click: () => { this.importFiles() }
+            label: this.file.name,
+            enabled: false
           }));
           menu.append(new MenuItem({
             type: 'separator'
           }));
         }
 
-        menu.append(new MenuItem({
-          label: 'Rename',
-          click: () => { this.editingFilename = true }
-        }));
-        menu.append(new MenuItem({
-          label: `Reveal in ${explorer}`,
-          click: () => { this.file.revealInExplorer() }
-        }));
-        menu.append(new MenuItem({
-          label: `Delete ${type}`,
-          click: () => { this.file.moveToTrash() }
-        }));
+        if (this.isFolder) {
+          menu.append(new MenuItem({
+            label: 'New file…',
+            click: () => { this.newFile() }
+          }));
+          menu.append(new MenuItem({
+            label: 'New folder…',
+            click: () => { this.newFile('folder') }
+          }));
+          menu.append(new MenuItem({
+            label: 'Import…',
+            click: () => { this.importFiles() }
+          }));
+        }
+
+        if (!this.isRoot) {
+          menu.append(new MenuItem({
+            type: 'separator'
+          }));
+          menu.append(new MenuItem({
+            label: 'Rename…',
+            click: () => { this.editingFilename = true }
+          }));
+          menu.append(new MenuItem({
+            label: `Reveal in ${explorer}`,
+            click: () => { this.file.revealInExplorer() }
+          }));
+          menu.append(new MenuItem({
+            label: `Delete ${type}`,
+            click: () => { this.file.moveToTrash() }
+          }));
+        }
 
         menu.popup(remote.getCurrentWindow());
         event.preventDefault();
