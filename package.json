@@ -15,6 +15,7 @@
     "extraResources": [
       "default.tingapp",
       "vendor",
+      "vendor/**/.*",
       "assets/TingappIcon.icns"
     ],
     "linux": {
