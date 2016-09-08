@@ -180,6 +180,25 @@ option {
   padding-left: 0px;
 }
 
+.file {
+  position: relative;
+  z-index: 1;
+}
+
+.file.drag-over:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0px; top: 0px; right: 0px; bottom: 0px;
+  border-radius: 0px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.drag-over .file-row.selected:before {
+  background-color: transparent;
+}
+
+
 /**
  * Disclosure triangle
  * */

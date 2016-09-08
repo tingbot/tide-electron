@@ -1,7 +1,10 @@
 <template>
   <div 
       class="file"
-      v-bind:class="{'root': isRoot}"
+      v-bind:class="{'root': isRoot, 'drag-over': dragOver}"
+      v-on:dragenter="fileDragEnter"
+      v-on:dragleave="fileDragLeave"
+      v-on:dragover="fileDragover"
       v-on:drop="fileDropped"
       v-on:contextmenu="rightClick">
     <div
@@ -58,6 +61,7 @@
         editingFilename: false,
         parentWasFocusedOnMouseDown: false,
         isDestinationForNewFiles: false,
+        dragOver: false,
       }
     },
     methods: {
@@ -77,17 +81,40 @@
           }
         }
       },
-      fileDropped: function(event){
-        event.preventDefault();
-        event.stopPropagation();
-        var file = event.dataTransfer.files[0];
-        console.log('File you dragged here is', file.path, "dropped on", this.file.path);
-        if(this.isFolder){
-          this.file.addFile(file.path);
-        }else{
-          this.file.parent.addFile(file.path);
+      fileDragEnter: function(event) {
+        if (this.acceptDrop(event)) {
+          event.dataTransfer.dropEffect = 'copy';
+          this.dragOver = true;
+          event.preventDefault();
+          event.stopPropagation();
         }
-        return false;
+      },
+      fileDragLeave: function(event) {
+        this.dragOver = false;
+      },
+      fileDragover: function(event) {
+        if (this.acceptDrop(event)) {
+          this.dragOver = true;
+          event.dataTransfer.dropEffect = 'copy';
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      },
+      fileDropped: function(event){
+        if (this.acceptDrop(event)) {
+          event.preventDefault();
+          event.stopPropagation();
+          this.dragOver = false;
+          
+          var file = event.dataTransfer.files[0];
+          console.log('File you dragged here is', file.path, "dropped on", this.file.path);
+          if (this.isFolder) {
+            this.file.addFile(file.path);
+          } else {
+            this.file.parent.addFile(file.path);
+          }
+          return false;
+        }
       },
       mouseDown: function (event) {
         this.parentWasFocusedOnMouseDown = document.activeElement.contains(this.$el);
@@ -225,6 +252,9 @@
             })
           }
         })
+      },
+      acceptDrop: function (event) {
+        return this.isFolder && event.dataTransfer.types.includes('Files');
       }
     },
     watch: {

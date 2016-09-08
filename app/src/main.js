@@ -61,14 +61,12 @@ ipcRenderer.on('save-all-documents', function () {
     }
 });
 
-document.addEventListener('drop', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-});
-document.addEventListener('dragover', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-});
+const ignore = (e) => { e.preventDefault(); e.stopPropagation() };
+
+document.addEventListener('dragenter', ignore);
+document.addEventListener('dragover', ignore);
+document.addEventListener('drop', ignore);
+document.addEventListener('dragleave', ignore);
 
 window.addEventListener('beforeunload', function (e) {
   try {
