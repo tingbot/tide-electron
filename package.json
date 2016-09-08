@@ -16,6 +16,7 @@
       "default.tingapp",
       "vendor",
       "vendor/**/.*",
+      "vendor/**/.*/**",
       "assets/TingappIcon.icns"
     ],
     "linux": {
