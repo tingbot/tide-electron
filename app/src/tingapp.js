@@ -10,6 +10,7 @@ import uuid from 'node-uuid';
 import {python} from './utils/tbtool';
 import * as error from './error';
 import minimatch from 'minimatch'
+import resources from './utils/resources';
 
 class Tingapp {
     constructor(path, options = {}) {
@@ -20,16 +21,11 @@ class Tingapp {
         this.isTemporary = isTemporary;
     }
 
-    static newDocument() {
+    static newDocument({template=resources.getPath('default.tingapp')}) {
         const tempDir = remote.app.getPath('temp');
 
         const newDocumentPath = path.join(tempDir, uuid.v1() + '.tingapp');
-        // check for dev to select where to fetch resources from
-        if(/[\\/]electron-prebuilt[\\/]/.test(process.execPath)){
-          fsextra.copySync('./default.tingapp', newDocumentPath);
-        }else{
-          fsextra.copySync(path.join(process.resourcesPath,'default.tingapp'), newDocumentPath);
-        }
+        fsextra.copySync(template, newDocumentPath);
 
         return new Tingapp(newDocumentPath, {isTemporary: true});
     }

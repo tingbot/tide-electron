@@ -6,6 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 const fs = require('fs');
 const path = require('path');
 const autoupdate = require('./autoupdate');
+const examplesMenu = require('./examples');
 
 if (require('electron-squirrel-startup')) return;
 
@@ -45,9 +46,9 @@ function createWindow(on_load) {
     newWindow.loadURL('file://' + __dirname + '/index.html');
 }
 
-function newProject() {
+function newProject(options = {}) {
     createWindow(function(win) {
-        win.webContents.send('new-project');
+        win.webContents.send('new-project', options);
     });
 }
 
@@ -151,6 +152,11 @@ function buildMenuTemplate() {
                         newProject();
                     },
                     accelerator: 'CmdOrCtrl+N'
+                }, {
+                    label: 'Examples',
+                    submenu: examplesMenu(function (exampleToOpen) {
+                        newProject({template: exampleToOpen});
+                    }),
                 }, {
                     label: 'Open…',
                     click: function(item, focusedWindow) {
