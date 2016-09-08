@@ -3,7 +3,7 @@ const path = require('path');
 const resources = require('./src/utils/resources');
 
 module.exports = function examplesMenu(openExampleCallback) {
-	const examplesDir = resources.getPath('examples');
+	const examplesDir = resources.getPath('app', 'examples');
 	const menuItems = [];
 
 	for (let filename of fs.readdirSync(examplesDir).sort()) {
