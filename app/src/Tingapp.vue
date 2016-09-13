@@ -98,8 +98,9 @@ export default {
             }
 
             const inProgressPath = this.tingapp.saveInProgressVersion();
-            this.process = tbtool.install(inProgressPath, device);
-            this.process.once('exit', this.processEnded);
+            const newProcess = tbtool.install(inProgressPath, device);
+            newProcess.once('exit', () => { this.processEnded(newProcess) });
+            this.process = newProcess;
         },
         fileClicked: function(file) {
             this.$broadcast('openFile', file);
