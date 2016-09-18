@@ -6,7 +6,8 @@
     "pack": "npm run build-python && webpack -p && build",
     "dist": "npm run build-python && webpack -p && build",
     "cibuild": "npm run build-python && webpack -p && build --publish never",
-    "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
+    "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'",
+    "test": "karma start ./karma.conf.js --single-run"
   },
   "build": {
     "asar": false,

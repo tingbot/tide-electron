@@ -46,6 +46,7 @@ install:
 - npm install
 - npm prune
 script:
+- npm test
 - npm run cibuild
 deploy:
   skip_cleanup: true
