@@ -47,8 +47,8 @@ install:
 - npm prune
 before_script:
   # Generate a virtual framebuffer X server to collect Electron windows
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
 
   # Wait for Xvfb to start
   - sleep 3
