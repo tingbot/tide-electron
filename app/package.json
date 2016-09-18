@@ -26,12 +26,14 @@
     "brace": "~0.8.0",
     "drivelist": "3.3.3",
     "electron-squirrel-startup": "^1.0.0",
+    "feed-read": "0.0.1",
     "fs-extra": "^0.30.0",
     "jquery": "^3.1.0",
     "mdns-js": "^0.5.0",
     "minimatch": "3.0.3",
+    "node-uuid": "1.4.7",
     "ptyw.js": "0.4.0",
-    "xterm": "github:sourcelair/xterm.js#1.1.2",
-    "node-uuid": "1.4.7"
+    "semver": "^5.3.0",
+    "xterm": "github:sourcelair/xterm.js#1.1.2"
   }
 }
