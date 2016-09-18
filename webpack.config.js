@@ -34,10 +34,10 @@ module.exports = {
         }, {
             test: /\.(png|jpg|gif)$/,
             loader: "file-loader"
-        }, { 
+        }, {
             test: /\.node$/,
             loader: "node-loader"
-        }, { 
+        }, {
             test: /\.(html|css)$/,
             loader: "file-loader"
         }]
@@ -49,7 +49,7 @@ module.exports = {
     plugins: [
         new webpack.ExternalsPlugin('commonjs', [
             'electron',
-            'ptyw.js'
+            //'ptyw.js'
         ])
     ],
     devtool: 'source-map'
