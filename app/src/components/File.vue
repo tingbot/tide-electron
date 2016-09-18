@@ -21,8 +21,8 @@
           v-bind:class="{'folder-open': folderOpen}"
           v-on:click="toggleFolderOpen"></span>
       <span
-          class="file-icon file-icon-{{file.type}}"
-          v-bind:class="{'folder-open': folderOpen}"></span>
+          class="file-icon"
+          v-bind:class="[icon,{'folder-open': folderOpen}]"></span>
 
       <template v-if="editingFilename">
         <input
@@ -319,6 +319,9 @@
       isRoot: function () {
         return this.file.isRootFolder;
       },
+      icon: function(){
+        return "file-icon-"+this.file.type;
+      }
     }
   };
 </script>
