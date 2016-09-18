@@ -376,4 +376,4 @@ class TingappRootFolder extends TingappFolder {
     }
 }
 
-export {Tingapp, TingappFile, TingappFolder};
+export {Tingapp, TingappFile, TingappFolder, TingappRegularFile};

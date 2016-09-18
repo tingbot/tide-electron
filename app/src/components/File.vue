@@ -1,5 +1,7 @@
 <template>
-  <div 
+  <div v-if="!file">Error: No File</div>
+  <div
+      v-if="file"
       class="file"
       v-bind:class="{'root': isRoot, 'drag-over': dragOver}"
       v-on:dragenter="fileDragEnter"
@@ -105,7 +107,7 @@
           event.preventDefault();
           event.stopPropagation();
           this.dragOver = false;
-          
+
           var file = event.dataTransfer.files[0];
           console.log('File you dragged here is', file.path, "dropped on", this.file.path);
           if (this.isFolder) {
@@ -221,7 +223,7 @@
       },
       importFiles: function () {
         let dialogProperties = null;
-        
+
         if (process.platform === 'darwin') {
           dialogProperties = ['openFile', 'openDirectory', 'multiSelections']
         } else {
