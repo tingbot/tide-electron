@@ -3,6 +3,7 @@ const app = electron.app;
 const Menu = electron.Menu;
 const dialog = electron.dialog;
 const BrowserWindow = electron.BrowserWindow;
+const shell = electron.shell;
 const fs = require('fs');
 const path = require('path');
 const autoupdate = require('./autoupdate');
@@ -121,7 +122,7 @@ app.on('ready', function() {
             openProject(projectPath);
         }
     }
-    
+
     appIsReady = true;
 });
 
@@ -258,7 +259,7 @@ function buildMenuTemplate() {
                     label: 'Stop',
                     accelerator: 'CmdOrCtrl+.',
                     click: function(item, focusedWindow) {
-                        if (focusedWindow) { 
+                        if (focusedWindow) {
                             focusedWindow.webContents.send('vue-event', 'menu-stop');
                         }
                     },
