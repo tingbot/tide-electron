@@ -313,10 +313,6 @@ function buildMenuTemplate() {
                 {
                     label: 'Tingbot Documentation',
                     click: function() { shell.openExternal('http://docs.tingbot.com') }
-                },
-                {
-                    label: 'Tingbot Forum',
-                    click: function() { shell.openExternal('http://discuss.tingbot.com') }
                 }
             ]
         },
