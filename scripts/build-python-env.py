@@ -21,6 +21,11 @@ def install_packages(requirements_files):
             '--target', temp_packages_dir,
             '-r', f])
 
+    # add the sitecustomize.py file to control the import path
+    shutil.copyfile(
+        os.path.join(project_root, 'scripts', 'sitecustomize.py'),
+        os.path.join(temp_packages_dir, 'sitecustomize.py'))
+
     # we've completed building the packages dir, move it into place
     if not os.path.exists(vendor_dir):
         os.makedirs(vendor_dir)
