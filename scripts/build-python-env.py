@@ -1,4 +1,4 @@
-import os, sys, subprocess, tempfile, shutil, urllib2
+import os, sys, subprocess, tempfile, shutil, urllib2, stat
 
 
 def install_packages(requirements_files):
@@ -30,6 +30,8 @@ def install_packages(requirements_files):
     if not os.path.exists(vendor_dir):
         os.makedirs(vendor_dir)
     shutil.move(temp_packages_dir, packages_dir)
+
+    os.chmod(packages_dir,stat.S_IRWXU|stat.S_IRGRP|stat.S_IXGRP|stat.S_IROTH|stat.S_IXOTH)
 
 def remove_packages(packages):
     project_root = os.path.dirname(os.path.dirname(__file__))
