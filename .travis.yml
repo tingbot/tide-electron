@@ -5,9 +5,13 @@ language: c
 matrix:
   include:
   - os: linux
-    env: CC=clang CXX=clang++ npm_config_clang=1
+    env: CC=clang CXX=clang++ npm_config_clang=1 ELECTRON_ARCH=x64
+    compiler: clang
+  - os: linux
+    env: CC=clang CXX=clang++ npm_config_clang=1 ELECTRON_ARCH=armv7l
     compiler: clang
   - os: osx
+    env: ELECTRON_ARCH=x64
 cache:
   directories:
   - node_modules
@@ -48,7 +52,7 @@ install:
 - npm install
 - npm prune
 script:
-- npm run cibuild
+- npm run cibuild -- --${ELECTRON_ARCH}
 deploy:
   skip_cleanup: true
   provider: releases
