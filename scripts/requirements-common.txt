@@ -1,4 +1,4 @@
-tingbot-python==1.0.0
+tingbot-python==1.0.1
 requests==2.11.0
 pip==8.1.2
 wheel==0.29.0
