@@ -22,7 +22,7 @@ install:
 build_script:
   - node --version
   - npm --version
-  - npm run cibuild
+  - npm run cibuildwin
 
 artifacts:
   - path: 'dist\win\*.exe'

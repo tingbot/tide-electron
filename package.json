@@ -6,6 +6,7 @@
     "pack": "npm run build-python && webpack -p && build",
     "dist": "npm run build-python && webpack -p && build",
     "cibuild": "npm run build-python && webpack -p && build --publish never",
+    "cibuildwin": "npm run build-python && webpack -p && build --publish never --win --x64 && build --publish never --win --ia32",
     "dev": "concurrently --raw 'webpack --progress --watch' 'npm run start'"
   },
   "build": {
