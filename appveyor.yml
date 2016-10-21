@@ -34,13 +34,13 @@ artifacts:
   - path: 'dist\win\RELEASES'
     name: RELEASES file
 
-  - path: 'dist\win32\*.exe'
+  - path: 'dist\win-ia32\*.exe'
     name: Tide 32-bit Setup
 
-  - path: 'dist\win32\*.nupkg'
+  - path: 'dist\win-ia32\*.nupkg'
     name: Tide 32-bit NUPKG
 
-  - path: 'dist\win32\RELEASES'
+  - path: 'dist\win-ia32\RELEASES'
     name: 32bit RELEASES file
 
 deploy:
