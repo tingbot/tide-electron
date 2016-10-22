@@ -1,6 +1,12 @@
 const path = require('path');
 
-module.exports.getPath = function( /* arguments... */ ) {
+const inDevelopmentMode = function () {
+    return !(/[\\/]electron-prebuilt[\\/]/.test(process.execPath));
+}
+
+module.exports.inDevelopmentMode = inDevelopmentMode;
+
+module.exports.getPath = function getPath( /* arguments... */ ) {
     /**
      * Returns the path for the named resource.
      * If running in development mode, the resource is at '<project_root>/<arg1>/arg2'.
@@ -14,8 +20,7 @@ module.exports.getPath = function( /* arguments... */ ) {
 
     var path_components = Array.from(arguments);
 
-    if (!/[\\/]electron-prebuilt[\\/]/.test(process.execPath)) {
-        // development mode
+    if (inDevelopmentMode()) {
         path_components.unshift(process.resourcesPath); // 'unshift' adds to the front of the list
     } else {
         path_components.unshift(process.cwd());

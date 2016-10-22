@@ -2,6 +2,11 @@ import Vue from 'vue';
 import {default as TingappVue} from './Tingapp.vue';
 import {Tingapp, TingappFile} from './tingapp.js';
 import {ipcRenderer, remote} from 'electron';
+import resources from './utils/resources.js';
+
+if (!resources.inDevelopmentMode()) {
+    require('./utils/exceptionhandling.js').setup();
+}
 
 let vm = window.vueInstance = new Vue({
   el: 'body',
