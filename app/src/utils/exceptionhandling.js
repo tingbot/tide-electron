@@ -2,6 +2,14 @@ const resources = require('./resources.js');
 
 const postToSentry = !resources.inDevelopmentMode();
 
+function shouldAlertUserOfError(err) {
+    if (err.message && err.message.startsWith('trailing tokens')) {
+        // this message is from mdns-js and is benign 
+        return false;
+    }
+    return true;
+}
+
 module.exports.setup = function () {
     if (process.type === 'browser') {
         // main process
@@ -39,12 +47,14 @@ module.exports.setup = function () {
             const remote = require('electron').remote;
             const dialog = remote.dialog;
 
-            dialog.showMessageBox(remote.getCurrentWindow(), {
-                type: 'error',
-                message: 'A JavaScript error occurred in the renderer process',
-                detail: err.stack,
-                buttons: ['OK'],
-            })
+            if (shouldAlertUserOfError(err)) {
+                dialog.showMessageBox(remote.getCurrentWindow(), {
+                    type: 'error',
+                    message: 'A JavaScript error occurred in the renderer process',
+                    detail: err.stack,
+                    buttons: ['OK'],
+                })
+            }
 
             if (previousOnError) {
                 return previousOnError.apply(this, arguments);
