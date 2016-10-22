@@ -24,7 +24,7 @@ function showAutoupdateDialog(releaseName, callback) {
     });
 }
 
-function showNewVersionAvalibleDialog(releaseName, url) {
+function showNewVersionAvailableDialog(releaseName, url) {
   dialog.showMessageBox({
       type: 'question',
       title: 'Update available',
@@ -65,7 +65,7 @@ function setupLinux(){
   feed('http://tide-download.tingbot.com/feed/channel/all.atom',function(err,versions){
     var newest = versions[0].title;
     if(semver.gt(newest,app.getVersion())){
-      showNewVersionAvalibleDialog(newest,'https://github.com/tingbot/tide-electron/releases')
+      showNewVersionAvailableDialog(newest,'https://github.com/tingbot/tide-electron/releases')
     }
   });
 }
