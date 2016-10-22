@@ -8,13 +8,10 @@ const fs = require('fs');
 const path = require('path');
 const autoupdate = require('./autoupdate');
 const examplesMenu = require('./examples');
-const resources = require('./src/utils/resources.js');
 
 if (require('electron-squirrel-startup')) return;
 
-if (!resources.inDevelopmentMode()) {
-    require('./src/utils/exceptionhandling.js').setup();
-}
+require('./src/utils/exceptionhandling.js').setup();
 
 function createWindow(on_load) {
     try {
