@@ -1,7 +1,7 @@
 const path = require('path');
 
 const inDevelopmentMode = function () {
-    return !(/[\\/]electron-prebuilt[\\/]/.test(process.execPath));
+    return (/[\\/]electron-prebuilt[\\/]/.test(process.execPath));
 }
 
 module.exports.inDevelopmentMode = inDevelopmentMode;
@@ -20,7 +20,7 @@ module.exports.getPath = function getPath( /* arguments... */ ) {
 
     var path_components = Array.from(arguments);
 
-    if (inDevelopmentMode()) {
+    if (!inDevelopmentMode()) {
         path_components.unshift(process.resourcesPath); // 'unshift' adds to the front of the list
     } else {
         path_components.unshift(process.cwd());
