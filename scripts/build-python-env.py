@@ -14,12 +14,13 @@ def install_packages(requirements_files):
 
     temp_packages_dir = tempfile.mkdtemp()
 
+    pip_command = ['pip', 'install', '--target', temp_packages_dir]
+
     for f in requirements_files:
-        subprocess.check_call([
-            'pip',
-            'install',
-            '--target', temp_packages_dir,
-            '-r', f])
+        pip_command.append('-r')
+        pip_command.append(f)
+
+    subprocess.check_call(pip_command)
 
     # add the sitecustomize.py file to control the import path
     shutil.copyfile(
