@@ -3,11 +3,18 @@ const resources = require('./resources.js');
 const postToSentry = !resources.inDevelopmentMode();
 
 function shouldAlertUserOfError(err) {
-    if (err.message && err.message.startsWith('trailing tokens')) {
+    if (err.message && (err.message.startsWith('trailing tokens')
+                        || err.message.endsWith('has more than 20 characters')
+                        || err.message.startsWith('protocol must be either "_tcp" or "_udp"'))) {
         // this message is from mdns-js and is benign 
         return false;
     }
-    return true;
+
+    // TODO
+    //   this should be 'return true' but errors raised by mdns-js are causing
+    //   dialogs to be thrown apparently at random, and out of control of the user.
+    //   Once errors are under control, we can reenable this.
+    return false;
 }
 
 module.exports.setup = function () {
