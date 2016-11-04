@@ -70,7 +70,7 @@ document.addEventListener('dragover', ignore);
 document.addEventListener('drop', ignore);
 document.addEventListener('dragleave', ignore);
 
-window.addEventListener('beforeunload', function (e) {
+window.addEventListener('beforeunload', function (event) {
   try {
     if (vm.tingapp.changed) {
       const dialog = remote.dialog;
@@ -92,16 +92,33 @@ window.addEventListener('beforeunload', function (e) {
         }
       } else if (button_index == 1) {
         // Cancel
-        e.returnValue = true; // cancel the window close
+        event.returnValue = true; // cancel the window close
       } else {
         // Don't save
       }
     }
   }
-  catch (e) {
-    // this catch statement halts the debugger if open, otherwise any exceptions above are
-    // discarded.
-    console.log(e);
-    debugger;
+  catch (err) {
+    try {
+      const dialog = remote.dialog;
+      const button_index = dialog.showMessageBox(remote.getCurrentWindow(), {
+        type: "error",
+        buttons: ['Cancel', 'Close without saving'],
+        defaultId: 0,
+        message: `An error occurred while trying to save this app.`,
+        detail: `If you close now you'll lose any unsaved changes.\n\nThe error was ${err.stack}`,
+      });
+
+      if (button_index == 0) {
+        event.returnValue = true; // cancel the window close
+      }
+    }
+    catch (dialogErr) {
+      // this catch statement halts the debugger if open, otherwise any exceptions above are
+      // discarded.
+      console.error(dialogErr);
+      debugger;
+      event.returnValue = true; // cancel the window close
+    }
   }
 });
