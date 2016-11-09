@@ -158,22 +158,6 @@
       setPanel('complete');
     }
 
-    function saveButtonClicked () {
-      var wifiDetails = getWifiNetworks(sdCardMountpoint);
-
-      var network = {}
-      network.ssid = document.getElementById('ssid').value;
-      network.passphrase = document.getElementById('passphrase').value;
-
-      wifiDetails = wifiDetails.filter((n) => n.ssid != network.ssid);
-
-      wifiDetails.unshift(network);
-
-      setWifiNetworks(sdCardMountpoint, wifiDetails);
-
-      setPanel('complete');
-    }
-
     ///////////
     // PANEL //
     ///////////
