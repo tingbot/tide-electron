@@ -20,7 +20,7 @@
       box-sizing: border-box;;
     }
 
-    label {
+    .field-wrapper label {
       display: block;
     }
 
@@ -30,6 +30,12 @@
       box-sizing: border-box;
       font-size: inherit;
       margin: 2px 0;
+    }
+
+    input[type=checkbox] {
+      margin: 2px;
+      transform: translate(0,-1px);
+      margin-top: 3px;
     }
 
     .field-wrapper {
@@ -47,6 +53,10 @@
 
     p:first-child {
       margin-top: 5px;
+    }
+
+    .pull-left {
+      float: left;
     }
   </style>
 </head>
@@ -87,6 +97,13 @@
         <div class="spacer" style="height:5px"></div>
 
         <div class="buttons-row">
+          <div class="pull-left">
+            <input type="checkbox" id="hidden-network" value="second_checkbox">
+            <label for="hidden-network" style="transform: translate(0, 2px)">
+              This is a hidden network
+            </label>
+          </div>
+
           <button type="submit" onclick="saveButtonClicked()">
             Save to SD card
           </button>
@@ -132,9 +149,11 @@
         if (wifiDetails[0]) {
           document.getElementById('ssid').value = wifiDetails[0].ssid || "";
           document.getElementById('passphrase').value = wifiDetails[0].passphrase || "";
+          document.getElementById('hidden-network').checked = wifiDetails[0].hidden || false;
         } else {
           document.getElementById('ssid').value = "";
           document.getElementById('passphrase').value = "";
+          document.getElementById('hidden-network').checked = false;
         }
 
         setPanel('wifi-settings');
@@ -148,6 +167,7 @@
       var network = {}
       network.ssid = document.getElementById('ssid').value;
       network.passphrase = document.getElementById('passphrase').value;
+      network.hidden = document.getElementById('hidden-network').checked;
 
       wifiDetails = wifiDetails.filter((n) => n.ssid != network.ssid);
 
