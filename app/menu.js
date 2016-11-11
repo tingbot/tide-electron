@@ -2,8 +2,10 @@ const electron = require('electron');
 const app = electron.app;
 const Menu = electron.Menu;
 const BrowserWindow = electron.BrowserWindow;
-const examplesMenu = require('./examples');
 const tideApp = require('./app');
+const resources = require('./src/utils/resources');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * This module governs the application menu for Tide.
@@ -109,7 +111,7 @@ function buildMenuTemplate () {
                     },
                     accelerator: 'CmdOrCtrl+N'
                 }, {
-                    label: 'New',
+                    label: 'Examples',
                     submenu: examplesMenu(function (exampleToOpen) {
                         tideApp.newProject({template: exampleToOpen});
                     }),
@@ -335,4 +337,37 @@ function buildMenuTemplate () {
     }
 
     return template;
+}
+
+function examplesMenu() {
+    const examplesDir = resources.getPath('app', 'examples');
+    const menuItems = [];
+
+    for (let filename of fs.readdirSync(examplesDir).sort()) {
+        // parse the name
+        const match = filename.match(/^[0-9]+ (.*?)(\..+)?$/);
+
+        // ignore anything that doesn't start with a number
+        if (!match) continue;
+
+        let name, extension;
+        [, name, extension] = match;
+
+        // if it's a tingapp, add that to the menu
+        if (extension === '.tingapp') {
+            const filepath = path.join(examplesDir, filename);
+
+            menuItems.push({
+                label: `  ${name}`,
+                click: () => { tideApp.openProject(filepath) },
+            })
+        } else {
+            menuItems.push({
+                label: name,
+                enabled: false
+            })
+        }
+    }
+
+    return menuItems;
 }
