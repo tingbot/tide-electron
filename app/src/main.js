@@ -25,7 +25,7 @@ ipcRenderer.on('save-document', function () {
     if (vm.tingapp.isTemporary) {
       saveAs();
     } else {
-      vm.$broadcast("saveFile");
+      vm.tingapp.save();
     }
 });
 
@@ -53,14 +53,6 @@ function saveAs() {
 
 ipcRenderer.on('save-as-document', function () {
     saveAs();
-});
-
-ipcRenderer.on('save-all-documents', function () {
-    if (vm.tingapp.isTemporary) {
-      saveAs();
-    } else {
-      vm.tingapp.save();
-    }
 });
 
 const ignore = (e) => { e.preventDefault(); e.stopPropagation() };

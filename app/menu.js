@@ -41,7 +41,6 @@ function setup () {
     windowMenuItems = {
         save: getMenuItem(menu, ['File', 'Save']),
         saveAs: getMenuItem(menu, ['File', 'Save As…']),
-        saveAll: getMenuItem(menu, ['File', 'Save All']),
         run: getMenuItem(menu, ['App', 'Run']),
         stop: getMenuItem(menu, ['App', 'Stop']),
     }
@@ -135,11 +134,6 @@ function buildMenuTemplate () {
                         focusedWindow.webContents.send('save-as-document');
                     },
                     accelerator: 'CmdOrCtrl+Shift+S'
-                }, {
-                    label: 'Save All',
-                    click: function(item, focusedWindow) {
-                        focusedWindow.webContents.send('save-all-documents');
-                    }
                 }, {
                     type: 'separator'
                 }, {

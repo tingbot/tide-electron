@@ -52,7 +52,6 @@ export default {
             enabledMenuItems: {
                 save: true,
                 saveAs: true,
-                saveAll: true,
                 print: true,
                 run: true
             },
