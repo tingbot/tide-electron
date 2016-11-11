@@ -7,7 +7,7 @@ const shell = electron.shell;
 const fs = require('fs');
 const path = require('path');
 const autoupdate = require('./autoupdate');
-const examplesMenu = require('./examples');
+const menu = require('./menu');
 
 if (require('electron-squirrel-startup')) return;
 
@@ -55,6 +55,8 @@ function newProject(options = {}) {
     });
 }
 
+exports.newProject = newProject
+
 function openProject(pathToOpen) {
     // the user opens the app.tbinfo file on Linux/Windows
     // go up one level and select that as the project
@@ -66,6 +68,25 @@ function openProject(pathToOpen) {
         win.webContents.send('open-project', pathToOpen);
     });
 }
+
+exports.openProject = openProject
+
+function showOpenProjectDialog() {
+    dialog.showOpenDialog({
+        filters: [{
+            name: 'Tingapps',
+            extensions: ['tingapp','tbinfo']
+        }, ],
+        properties: ['openFile']
+    }, function(filenames) {
+        console.log('Open dialog returned filenames', filenames);
+        if (filenames !== undefined && filenames.length > 0) {
+            openProject(filenames[0]);
+        }
+    });
+}
+
+exports.showOpenProjectDialog = showOpenProjectDialog
 
 var wifiSetupWindow = null;
 
@@ -99,6 +120,8 @@ function openWifiSetup() {
     wifiSetupWindow.loadURL('file://' + __dirname + '/wifisetup/index.html');
 }
 
+exports.openWifiSetup = openWifiSetup
+
 var appIsReady = false;
 var projectsToOpenWhenReady = [];
 
@@ -110,12 +133,9 @@ app.on('open-file', function (event, path) {
     }
 });
 
-
 app.on('ready', function() {
     autoupdate.setup();
-
-    const menuTemplate = buildMenuTemplate();
-    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
+    menu.setup();
 
     if (projectsToOpenWhenReady.length === 0) {
         newProject();
@@ -143,254 +163,3 @@ app.on('activate', function() {
         newProject();
     }
 });
-
-function buildMenuTemplate() {
-    let template = [
-        {
-            label: 'File',
-            submenu: [
-                {
-                    label: 'New',
-                    click: function(item, focusedWindow) {
-                        newProject();
-                    },
-                    accelerator: 'CmdOrCtrl+N'
-                }, {
-                    label: 'Examples',
-                    submenu: examplesMenu(function (exampleToOpen) {
-                        newProject({template: exampleToOpen});
-                    }),
-                }, {
-                    label: 'Open…',
-                    click: function(item, focusedWindow) {
-                        dialog.showOpenDialog({
-                            filters: [{
-                                name: 'Tingapps',
-                                extensions: ['tingapp','tbinfo']
-                            }, ],
-                            properties: ['openFile']
-                        }, function(filenames) {
-                            console.log(filenames);
-                            if (filenames !== undefined && filenames.length > 0) {
-                                openProject(filenames[0]);
-                            }
-                        });
-                    },
-                    accelerator: 'CmdOrCtrl+O'
-                }, {
-                    type: 'separator'
-                }, {
-                    label: 'Save',
-                    click: function(item, focusedWindow) {
-                        focusedWindow.webContents.send('save-document');
-                    },
-                    accelerator: 'CmdOrCtrl+S'
-                }, {
-                    label: 'Save As…',
-                    click: function(item, focusedWindow) {
-                        focusedWindow.webContents.send('save-as-document');
-                    },
-                    accelerator: 'CmdOrCtrl+Shift+S'
-                }, {
-                    label: 'Save All',
-                    click: function(item, focusedWindow) {
-                        focusedWindow.webContents.send('save-all-documents');
-                    }
-                }, {
-                    type: 'separator'
-                }, {
-                    label: 'Print…',
-                    click: function(item, focusedWindow) {
-                        focusedWindow.webContents.print();
-                    },
-                    accelerator: 'CmdOrCtrl+P'
-                },
-            ]
-        },
-        {
-            label: 'Edit',
-            submenu: [
-                {
-                    label: 'Undo',
-                    accelerator: 'CmdOrCtrl+Z',
-                    role: 'undo'
-                },
-                {
-                    label: 'Redo',
-                    accelerator: 'Shift+CmdOrCtrl+Z',
-                    role: 'redo'
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    label: 'Cut',
-                    accelerator: 'CmdOrCtrl+X',
-                    role: 'cut'
-                },
-                {
-                    label: 'Copy',
-                    accelerator: 'CmdOrCtrl+C',
-                    role: 'copy'
-                },
-                {
-                    label: 'Paste',
-                    accelerator: 'CmdOrCtrl+V',
-                    role: 'paste'
-                },
-                {
-                    label: 'Select All',
-                    accelerator: 'CmdOrCtrl+A',
-                    role: 'selectall'
-                },
-            ]
-        },
-        {
-            label: 'App',
-            submenu: [
-                {
-                    label: 'Run',
-                    accelerator: 'CmdOrCtrl+R',
-                    click: function(item, focusedWindow) {
-                        if (focusedWindow) {
-                            focusedWindow.webContents.send('vue-event', 'menu-run');
-                        }
-                    },
-                },
-                {
-                    label: 'Stop',
-                    accelerator: 'CmdOrCtrl+.',
-                    click: function(item, focusedWindow) {
-                        if (focusedWindow) {
-                            focusedWindow.webContents.send('vue-event', 'menu-stop');
-                        }
-                    },
-                },
-            ]
-        },
-        {
-            label: 'Window',
-            role: 'window',
-            submenu: [
-                {
-                    label: 'Minimize',
-                    accelerator: 'CmdOrCtrl+M',
-                    role: 'minimize'
-                },
-                {
-                    label: 'Close',
-                    accelerator: 'CmdOrCtrl+W',
-                    role: 'close'
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    label: 'Reload',
-                    accelerator: 'CmdOrCtrl+Shift+R',
-                    click: function(item, focusedWindow) {
-                        if (focusedWindow)
-                            focusedWindow.reload();
-                    }
-                },
-                {
-                    label: 'Toggle Developer Tools',
-                    accelerator: (function() {
-                        if (process.platform == 'darwin')
-                            return 'Alt+Command+I';
-                        else
-                            return 'Ctrl+Shift+I';
-                    })(),
-                    click: function(item, focusedWindow) {
-                        if (focusedWindow)
-                            focusedWindow.toggleDevTools();
-                    }
-                },
-            ]
-        },
-        {
-            label: 'Help',
-            role: 'help',
-            submenu: [
-                {
-                    label: 'Tingbot Documentation',
-                    click: function() { shell.openExternal('http://docs.tingbot.com') }
-                }
-            ]
-        },
-    ];
-
-    if (process.platform === 'darwin') {
-        var name = app.getName();
-        template.unshift({
-            label: name,
-            submenu: [
-                {
-                    label: 'About ' + name,
-                    role: 'about'
-                },
-                {
-                    label: 'Tingbot WiFi settings…',
-                    click: function(item, focusedWindow) {
-                        openWifiSetup()
-                    }
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    label: 'Services',
-                    role: 'services',
-                    submenu: []
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    label: 'Hide ' + name,
-                    accelerator: 'Command+H',
-                    role: 'hide'
-                },
-                {
-                    label: 'Hide Others',
-                    accelerator: 'Command+Shift+H',
-                    role: 'hideothers'
-                },
-                {
-                    label: 'Show All',
-                    role: 'unhide'
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    label: 'Quit',
-                    accelerator: 'Command+Q',
-                    click: function() { app.quit(); }
-                },
-            ]
-        });
-        var windowMenu = template.find(function(m) { return m.role === 'window' })
-        if (windowMenu) {
-            windowMenu.submenu.push(
-                {
-                    type: 'separator'
-                },
-                {
-                    label: 'Bring All to Front',
-                    role: 'front'
-                }
-            );
-        }
-    } else {
-        // add to the file menu
-        template[0].submenu.push({
-            label: 'Tingbot WiFi settings…',
-            click: function(item, focusedWindow) {
-                openWifiSetup()
-            }
-        });
-    }
-
-    return template;
-}
