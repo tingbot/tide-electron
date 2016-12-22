@@ -85,7 +85,6 @@ function enableMenuItemsBasedOnFocusedWindow () {
     if (focusedWindow && focusedWindow.enabledMenuItems) {
         enabledMenuItems = focusedWindow.enabledMenuItems
     }
-    console.log({focusedWindow, enabledMenuItems})
 
     for (let menuItemId in windowMenuItems) {
         const menuItem = windowMenuItems[menuItemId]
