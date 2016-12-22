@@ -1,5 +1,3 @@
-
-
 <template>
 
 <div class="top" id="top-menu">
@@ -23,7 +21,16 @@
 
     <select v-model="selectedDevice" id="device-list" name="device-list">
         <option value="simulate" selected>Tingbot Simulator</option>
-        <option v-for='device in devices' value="{{device.target}}">Tingbot @ {{device.target}}</option>
+
+        <!-- Nearby and previous devices -->
+        <option v-for='device in nearbyAndPreviousDevices' value="{{device}}">Tingbot @ {{device}}</option>
+
+        <optgroup label="Nearby devices" v-if="newDevices.length > 0">
+            <option v-for='device in newDevices' value="{{device}}">Tingbot @ {{device}}</option>
+        </optgroup>
+        <optgroup label="Previous devices" v-if="lostDevices.length > 0">
+            <option v-for='device in lostDevices' value="{{device}}">Tingbot @ {{device}}</option>
+        </optgroup>
     </select>
 </div>
 
@@ -36,15 +43,15 @@ import {
 }
 from '../utils/tingfinder.js';
 export default {
-    props: ['isRunning'],
+    props: ['isRunning', 'previousDevices'],
     data() {
         return {
             selectedDevice: "simulate",
-            devices: []
+            nearbyDevices: []
         };
     },
     created() {
-        this.finder = new TingFinder(this.devices);
+        this.finder = new TingFinder(this.nearbyDevices);
     },
     destroyed() {
         this.finder.stop();
@@ -74,10 +81,19 @@ export default {
             }
         },
     },
-    computed:{
+    computed: {
         canUpload: function(){
             return !this.isRunning && this.selectedDevice !== 'simulate';
-        }
+        },
+        nearbyAndPreviousDevices: function () {
+            return this.nearbyDevices.filter((el) => this.previousDevices.includes(el))
+        },
+        lostDevices: function () {
+            return this.previousDevices.filter((el) => !this.nearbyDevices.includes(el))
+        },
+        newDevices: function () {
+            return this.nearbyDevices.filter((el) => !this.previousDevices.includes(el))
+        },
     }
     // watch: {
     //   selectedDevice: function(currentValue) {

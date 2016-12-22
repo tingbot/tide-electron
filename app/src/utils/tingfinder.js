@@ -10,7 +10,6 @@ export class TingFinder {
         this.refreshTimer = null;
 
         browser.on('ready', function onReady() {
-            console.log('browser is ready');
             browser.discover();
 
             // send a discover packet every 10 seconds
@@ -20,19 +19,13 @@ export class TingFinder {
         });
 
         browser.on('update', function onUpdate(data) {
-            console.log('data:', data);
             if (!service.matches(data.type[0])) return;
+
             var ip = data.addresses[0];
-            var host = data.host;
-            for (var i in devices) {
-                if (devices[i].target === ip) {
-                    return;
-                }
+
+            if (!devices.includes(ip)) {
+                devices.push(ip);   
             }
-            devices.push({
-                name: host,
-                target: ip
-            });
         });
     }
 

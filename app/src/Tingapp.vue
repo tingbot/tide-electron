@@ -3,7 +3,7 @@
 <template>
 
 <div id="app" class="platform-{{platform}}">
-    <control-bar :is-running='processIsRunning'>
+    <control-bar :is-running='processIsRunning' :previous-devices='previousDevices'>
     </control-bar>
     <sidebar :root='tingapp.root' tabindex=0>
     </sidebar>
@@ -27,6 +27,7 @@ import ControlBar from './components/ControlBar.vue';
 import Editor from './components/Editor.vue';
 import Terminal from './components/Terminal.vue';
 import VerticalSplit from './components/VerticalSplit.vue';
+import storage from 'electron-json-storage';
 
 import * as tbtool from './utils/tbtool.js';
 import {remote} from 'electron';
@@ -55,11 +56,23 @@ export default {
                 print: true,
                 run: true
             },
+            previousDevices: [],
         };
     },
     ready: function() {
         window.addEventListener('resize', this.handleResize);
         this.$emit('resize');
+
+        storage.get('previousDevices', (error, data) => {
+            if (error) {
+                console.error('Failed to get previous devices', error)
+                return
+            }
+
+            if (data['list']) {
+                this.previousDevices = data['list']   
+            }
+        })
     },
     beforeDestroy: function() {
         window.removeEventListener('resize', this.handleResize);
@@ -73,6 +86,17 @@ export default {
             if (this.process === endedProcess) {
                 this.process = null;
             }
+        },
+        addPreviousDevice: function(previousDevice) {
+            if (!this.previousDevices.includes(previousDevice)) {
+                this.previousDevices.push(previousDevice)
+
+                storage.set('previousDevices', {list: this.previousDevices}, (error) => {
+                    if (error) {
+                        console.log('Failed to set previous devices', error)
+                    }
+                })
+            }
         }
     },
     events: {
@@ -84,6 +108,7 @@ export default {
                 newProcess = tbtool.simulate(inProgressPath);
             } else {
                 newProcess = tbtool.run(inProgressPath, device);
+                this.addPreviousDevice(device);
             }
 
             newProcess.once('exit', () => { this.processEnded(newProcess) });
@@ -107,6 +132,7 @@ export default {
             const newProcess = tbtool.install(inProgressPath, device);
             newProcess.once('exit', () => { this.processEnded(newProcess) });
             this.process = newProcess;
+            this.addPreviousDevice(device);
         },
         fileClicked: function(file) {
             this.$broadcast('openFile', file);
