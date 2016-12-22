@@ -150,11 +150,12 @@ class TingappRegularFile extends TingappFile {
     }
 
     get editSession(){
-      if(this.session){
+      if (this.session) {
         return this.session;
-      }else{
-        this.session = new ace.EditSession("Loading Data","ace/mode/python");
+      } else {
+        this.session = new ace.EditSession("Loading Data", "ace/mode/python");
         this.session.setUndoManager(new ace.UndoManager());
+        
         fs.readFile(this.path, (err,data) => {
             this.session.setValue(data.toString('utf8'));
 
