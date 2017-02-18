@@ -9,19 +9,17 @@
 import tingbot
 from tingbot import *
 
-state = {'number': 0}
+screen.fill(color='black')
+screen.text('Waiting for a button...')
 
 @left_button.press
 def press():
-    state['number'] -= 1
+    screen.fill(color='black')
+    screen.text('Left button')
 
 @right_button.press
 def press():
-    state['number'] += 1
-
-@every(seconds=1.0/30)
-def loop():
     screen.fill(color='black')
-    screen.text(state['number'], color='green')
+    screen.text('Right button')
 
 tingbot.run()
