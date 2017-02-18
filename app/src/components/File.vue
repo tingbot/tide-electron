@@ -19,8 +19,8 @@
           v-bind:class="{'folder-open': folderOpen}"
           v-on:click="toggleFolderOpen"></span>
       <span
-          class="file-icon file-icon-{{file.type}}"
-          v-bind:class="{'folder-open': folderOpen}"></span>
+          class="file-icon"
+          v-bind:class="{'folder-open': folderOpen, [`file-icon-${file.type}`]: true}"></span>
 
       <template v-if="editingFilename">
         <input
