@@ -73,8 +73,9 @@ class Tingapp {
     }
 
     get inProgressVersionPath() {
+        const tempDir = remote.app.getPath('temp');
         const pathHash = crypto.createHash('md5').update(this.root.path).digest('hex');
-        return path.join(os.tmpdir(), 'tide', pathHash, this.root.name);
+        return path.join(tempDir, pathHash, this.root.name);
     }
 }
 
