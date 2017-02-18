@@ -11,12 +11,14 @@
   import ace from 'brace';
   import 'brace/mode/python';
   import 'brace/theme/monokai';
+  import { isValidUTF8 } from '../utils/utils';
 
   var editor = {};
 
   export default {
     data: function () {
-      return {file: {type: 'file'},
+      return {
+        file: {type: 'file'},
         document: new ace.EditSession("Something went wrong :S","ace/mode/python")};
     },
     ready: function () {
@@ -41,7 +43,6 @@
       },
       saveFile: function(){
         console.log("Saving file: "+ this.file.path);
-        console.log(this.document.getValue());
         this.file.saveTo(this.file.path);
       },
       resize: function () {
@@ -50,7 +51,24 @@
     },
     computed: {
       editorVisible: function () {
-        return this.file.type != 'image';
+        // always use the code editor when the file type is code or text
+        if (this.file.type == 'code' || this.file.type == 'text') {
+          return true;
+        }
+        // never use the editor when type is image
+        if (this.file.type == 'image') {
+          return false;
+        }
+
+        // otherwise, opportunistically use it if can round-trip file->editor->file
+        // without any data loss
+        if (this.file.readSync) {
+          const fileData = this.file.readSync();
+          return isValidUTF8(fileData);
+        } else {
+          // can't read the file
+          return false;
+        }
       }
     },
     watch: {

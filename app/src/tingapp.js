@@ -166,6 +166,10 @@ class TingappRegularFile extends TingappFile {
       }
     }
 
+    readSync() {
+        return fs.readFileSync(this.path);
+    }
+
     saveTo(path) {
         if (this.session) {
             fs.writeFileSync(path, this.session.getValue());
