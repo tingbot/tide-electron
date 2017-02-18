@@ -140,6 +140,9 @@ export default {
         resize: function () {
             this.windowWidth = window.innerWidth;
             this.windowHeight = window.innerHeight;
+        },
+        addPreviousDevice: function (device) {
+            this.addPreviousDevice(device);
         }
     },
     computed: {

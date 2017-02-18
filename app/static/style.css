@@ -137,6 +137,15 @@ option {
   font-size: 16px;
 }
 
+.manual-ip-form {
+  position: absolute;
+  right: 10px;
+  top: 9px;
+}
+
+.manual-ip-form-field {
+}
+
 /**
  * Sidebar
  * */
