@@ -5,7 +5,8 @@ const postToSentry = !resources.inDevelopmentMode();
 function shouldAlertUserOfError(err) {
     if (err.message && (err.message.startsWith('trailing tokens')
                         || err.message.endsWith('has more than 20 characters')
-                        || err.message.startsWith('protocol must be either "_tcp" or "_udp"'))) {
+                        || err.message.startsWith('protocol must be either "_tcp" or "_udp"'))
+        || err.stack && (err.stack.includes('at UDP.onMessage'))) {
         // this message is from mdns-js and is benign 
         return false;
     }
@@ -29,12 +30,14 @@ module.exports.setup = function () {
         process.on('uncaughtException', (err) => {
             const dialog = require('electron').dialog;
 
-            dialog.showMessageBox({
-                type: 'error',
-                message: 'A JavaScript error occurred in the main process',
-                detail: err.stack,
-                buttons: ['OK'],
-            })
+            if (shouldAlertUserOfError(err)) {
+                dialog.showMessageBox({
+                    type: 'error',
+                    message: 'A JavaScript error occurred in the main process',
+                    detail: err.stack,
+                    buttons: ['OK'],
+                })
+            }
         });
     } else if (process.type === 'renderer') {
         // renderer process
