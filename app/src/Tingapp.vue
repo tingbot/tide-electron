@@ -54,7 +54,8 @@ export default {
                 save: true,
                 saveAs: true,
                 print: true,
-                run: true
+                run: true,
+                stop: false,
             },
             previousDevices: [],
         };
