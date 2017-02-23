@@ -110,9 +110,7 @@ function buildMenuTemplate () {
                     accelerator: 'CmdOrCtrl+N'
                 }, {
                     label: 'Examples',
-                    submenu: examplesMenu(function (exampleToOpen) {
-                        tideApp.newProject({template: exampleToOpen});
-                    }),
+                    submenu: examplesMenu(),
                 }, {
                     label: 'Open…',
                     click: function(item, focusedWindow) {
@@ -352,7 +350,7 @@ function examplesMenu() {
 
             menuItems.push({
                 label: `  ${name}`,
-                click: () => { tideApp.openProject(filepath) },
+                click: () => { tideApp.newProject({template: filepath}) },
             })
         } else {
             menuItems.push({
