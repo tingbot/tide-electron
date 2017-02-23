@@ -52,6 +52,8 @@ install:
 - npm install
 - npm prune
 script:
+- echo $PATH
+- ls -la node_modules/.bin/
 - npm run cibuild -- --${ELECTRON_ARCH}
 deploy:
   skip_cleanup: true
