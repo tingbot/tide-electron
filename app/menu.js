@@ -48,7 +48,7 @@ function setup () {
     enableMenuItemsBasedOnFocusedWindow()
 
     app.on('enabledMenuItemsChanged', function (browserWindow) {
-        if (BrowserWindow.getFocusedWindow() === browserWindow) {
+        if (focusedWindow === browserWindow) {
             enableMenuItemsBasedOnFocusedWindow()
         }
     })
@@ -60,6 +60,12 @@ function setup () {
     app.on('browser-window-focus', function (event, browserWindow) {
         focusedWindow = browserWindow;
         enableMenuItemsBasedOnFocusedWindow();
+    });
+    app.on('browser-window-created', function (event, browserWindow) {
+        if (browserWindow.isFocused()) {
+            focusedWindow = browserWindow;
+            enableMenuItemsBasedOnFocusedWindow();
+        }
     });
 }
 
