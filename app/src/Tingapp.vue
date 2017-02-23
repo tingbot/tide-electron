@@ -188,7 +188,6 @@ export default {
         changed: function(changed) {
             const win = remote.getCurrentWindow();
             this.enabledMenuItems.save = changed;
-            this.enabledMenuItems.saveAs = changed;
 
             if (win.setDocumentEdited) {
                 win.setDocumentEdited(changed);
