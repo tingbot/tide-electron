@@ -8,45 +8,20 @@ const fs = require('fs');
 const path = require('path');
 const autoupdate = require('./autoupdate');
 const menu = require('./menu');
+const TingappWindow = require('./TingappWindow');
 
 if (require('electron-squirrel-startup')) return;
 
 require('./src/utils/exceptionhandling.js').setup();
 
 function createWindow(on_load) {
-    try {
-        var electronDevtoolsInstaller = require('electron-devtools-installer');
-        var installExtension = electronDevtoolsInstaller.default;
-        installExtension(electronDevtoolsInstaller.VUEJS_DEVTOOLS)
-            .then((name) => console.log(`Added Extension:  ${name}`))
-            .catch((err) => console.log('An error occurred: ', err));
-    } catch (e) {
-        if (e.code === 'MODULE_NOT_FOUND') {
-            // electron-devtools-installer isn't available in production builds,
-            // ignore this error
-        } else {
-            throw e;
-        }
-    }
-
-    const newWindow = new BrowserWindow({
-        width: 700,
-        height: 600,
-        minWidth: 450,
-        minHeight: 300,
-        darkTheme: true,
-        backgroundColor: '#1c1c1c',
-        title: 'Tide',
-    });
+    const newWindow = new TingappWindow();
 
     if (on_load) {
         newWindow.webContents.on('did-finish-load', function() {
             on_load(newWindow);
         });
     }
-
-    // render index.html which will contain our root Vue component
-    newWindow.loadURL('file://' + __dirname + '/index.html');
 }
 
 function newProject(options = {}) {
@@ -136,6 +111,21 @@ app.on('open-file', function (event, path) {
 app.on('ready', function() {
     autoupdate.setup();
     menu.setup();
+
+    try {
+        var electronDevtoolsInstaller = require('electron-devtools-installer');
+        var installExtension = electronDevtoolsInstaller.default;
+        installExtension(electronDevtoolsInstaller.VUEJS_DEVTOOLS)
+            .then((name) => console.log(`Added Extension:  ${name}`))
+            .catch((err) => console.log('An error occurred: ', err));
+    } catch (e) {
+        if (e.code === 'MODULE_NOT_FOUND') {
+            // electron-devtools-installer isn't available in production builds,
+            // ignore this error
+        } else {
+            throw e;
+        }
+    }
 
     if (projectsToOpenWhenReady.length === 0) {
         newProject();
