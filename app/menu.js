@@ -226,6 +226,27 @@ function buildMenuTemplate () {
                     type: 'separator'
                 },
                 {
+                    label: 'Zoom in',
+                    accelerator: 'CmdOrCtrl+=',
+                    click: function(item, focusedWindow) {
+                        if (focusedWindow && focusedWindow.zoomIn) {
+                            focusedWindow.zoomIn();
+                        }
+                    }
+                },
+                {
+                    label: 'Zoom out',
+                    accelerator: 'CmdOrCtrl+-',
+                    click: function(item, focusedWindow) {
+                        if (focusedWindow && focusedWindow.zoomOut) {
+                            focusedWindow.zoomOut();
+                        }
+                    }
+                },
+                {
+                    type: 'separator'
+                },
+                {
                     label: 'Reload',
                     accelerator: 'CmdOrCtrl+Shift+R',
                     click: function(item, focusedWindow) {
