@@ -38,6 +38,7 @@ class TingappWindow extends BrowserWindow {
       backgroundColor: '#1c1c1c',
       title: 'Tide',
       webPreferences: {
+        // if zoom factor is available synchronously, use that
         zoomFactor: _defaultZoomFactor || undefined, 
       }
     };
@@ -50,13 +51,15 @@ class TingappWindow extends BrowserWindow {
     // render index.html which will contain our root Vue component
     this.loadURL('file://' + __dirname + '/index.html');
 
-    // set the zoomFactor to the default
-    this.webContents.on('did-finish-load', () => {
-      getDefaultZoomFactor((zoomFactor) => {
-        console.log('setting zoomFactor to ', zoomFactor);
-        this.webContents.setZoomFactor(zoomFactor);
+    // if zoom factor isn't loaded yet, use the async method to load/set
+    if (_defaultZoomFactor === null) {
+      this.webContents.on('did-finish-load', () => {
+        getDefaultZoomFactor((zoomFactor) => {
+          console.log('setting zoomFactor to ', zoomFactor);
+          this.webContents.setZoomFactor(zoomFactor);
+        });
       });
-    });
+    }
   }
 
   resetZoom() {
