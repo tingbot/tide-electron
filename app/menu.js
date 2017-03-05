@@ -76,7 +76,6 @@ function getMenuItem (menu, keyPath) {
     let menuItem = null
 
     while (keyPath.length > 0) {
-        console.log(keyPath, menu)
         const key = keyPath.shift()
         menuItem = menu.items.find(function (m) { return m.label === key })
         menu = menuItem.submenu
