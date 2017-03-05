@@ -11,11 +11,7 @@ function shouldAlertUserOfError(err) {
         return false;
     }
 
-    // TODO
-    //   this should be 'return true' but errors raised by mdns-js are causing
-    //   dialogs to be thrown apparently at random, and out of control of the user.
-    //   Once errors are under control, we can reenable this.
-    return false;
+    return true;
 }
 
 module.exports.setup = function () {
