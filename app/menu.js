@@ -226,7 +226,16 @@ function buildMenuTemplate () {
                     type: 'separator'
                 },
                 {
-                    label: 'Zoom in',
+                    label: 'Reset Zoom',
+                    accelerator: 'CmdOrCtrl+0',
+                    click: function(item, focusedWindow) {
+                        if (focusedWindow && focusedWindow.resetZoom) {
+                            focusedWindow.resetZoom();
+                        }
+                    }
+                },
+                {
+                    label: 'Zoom In',
                     accelerator: 'CmdOrCtrl+=',
                     click: function(item, focusedWindow) {
                         if (focusedWindow && focusedWindow.zoomIn) {
@@ -235,7 +244,7 @@ function buildMenuTemplate () {
                     }
                 },
                 {
-                    label: 'Zoom out',
+                    label: 'Zoom Out',
                     accelerator: 'CmdOrCtrl+-',
                     click: function(item, focusedWindow) {
                         if (focusedWindow && focusedWindow.zoomOut) {
