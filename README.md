@@ -4,7 +4,26 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 
 [![Build Status](https://travis-ci.org/tingbot/tide-electron.svg?branch=master)](https://travis-ci.org/tingbot/tide-electron) [![Build status](https://ci.appveyor.com/api/projects/status/30p5htkdcq5y2kq8?svg=true)](https://ci.appveyor.com/project/joerick/tide-electron)
 
-## Setup a development environment
+## Changelog
+
+### 0.5.2
+
+- Added zoom options in Window menu
+- Fix: Tingbot docs link
+
+### 0.5.1
+
+- Fix: menu items enabling for new documents (#70)
+- Fix: examples open as new documents (#71)
+
+### 0.5.0
+
+- **Feature** You can now enter a Tingbot IP address manually. This allows Tingbot to work on managed WiFi networks! (#66)
+- Fix: permissions problem on Linux with multiple users (#64)
+- Fix: bug where font files could become corrupt when opened in the editor (#62)
+- Update: Tingbot-python libraries to 1.1.1
+
+## How to setup a development environment
 
 ### Windows
 
