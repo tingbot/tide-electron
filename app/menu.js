@@ -6,6 +6,7 @@ const tideApp = require('./app');
 const resources = require('./src/utils/resources');
 const fs = require('fs');
 const path = require('path');
+const shell = electron.shell;
 
 /**
  * This module governs the application menu for Tide.

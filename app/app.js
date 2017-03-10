@@ -3,7 +3,6 @@ const app = electron.app;
 const Menu = electron.Menu;
 const dialog = electron.dialog;
 const BrowserWindow = electron.BrowserWindow;
-const shell = electron.shell;
 const fs = require('fs');
 const path = require('path');
 const autoupdate = require('./autoupdate');
