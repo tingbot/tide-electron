@@ -7,14 +7,14 @@ const fs = require('fs');
 const path = require('path');
 const autoupdate = require('./autoupdate');
 const menu = require('./menu');
-const TingappWindow = require('./TingappWindow');
+const newTingappWindow = require('./TingappWindow');
 
 if (require('electron-squirrel-startup')) return;
 
 require('./src/utils/exceptionhandling.js').setup();
 
 function createWindow(on_load) {
-    const newWindow = new TingappWindow();
+    const newWindow = newTingappWindow();
 
     if (on_load) {
         newWindow.webContents.on('did-finish-load', function() {

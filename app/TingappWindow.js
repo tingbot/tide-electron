@@ -27,59 +27,58 @@ function setDefaultZoomFactor(zoomFactor) {
   });
 }
 
-class TingappWindow extends BrowserWindow {
-  constructor(options) {
-    const defaultOptions = {
-      width: 700,
-      height: 600,
-      minWidth: 450,
-      minHeight: 300,
-      darkTheme: true,
-      backgroundColor: '#1c1c1c',
-      title: 'Tide',
+function newTingappWindow(options) {
+  const defaultOptions = {
+    width: 700,
+    height: 600,
+    minWidth: 450,
+    minHeight: 300,
+    darkTheme: true,
+    backgroundColor: '#1c1c1c',
+    title: 'Tide',
       webPreferences: {
         // if zoom factor is available synchronously, use that
         zoomFactor: _defaultZoomFactor || undefined, 
       }
-    };
+  };
+  options = Object.assign({}, defaultOptions, options);
 
-    // supply default options (but prefer options already there)
-    options = Object.assign({}, defaultOptions, options);
+  const win = new BrowserWindow(options);
 
-    super(options);
-
-    // render index.html which will contain our root Vue component
-    this.loadURL('file://' + __dirname + '/index.html');
-
-    // if zoom factor isn't loaded yet, use the async method to load/set
-    if (_defaultZoomFactor === null) {
-      this.webContents.on('did-finish-load', () => {
-        getDefaultZoomFactor((zoomFactor) => {
-          console.log('setting zoomFactor to ', zoomFactor);
-          this.webContents.setZoomFactor(zoomFactor);
-        });
+  // if zoom factor isn't loaded yet, use the async method to load/set
+  if (_defaultZoomFactor === null) {
+    win.webContents.on('did-finish-load', () => {
+      getDefaultZoomFactor((zoomFactor) => {
+        console.log('setting zoomFactor to ', zoomFactor);
+        win.webContents.setZoomFactor(zoomFactor);
       });
-    }
+    });
   }
 
-  resetZoom() {
-    this.webContents.setZoomFactor(1.0);
-    setDefaultZoomFactor(1.0);
-  }
-  zoomIn() {
-    this.webContents.getZoomFactor((zoomFactor) => {
-      zoomFactor *= 1.1;
-      this.webContents.setZoomFactor(zoomFactor);
-      setDefaultZoomFactor(zoomFactor);
-    })
-  }
-  zoomOut() {
-    this.webContents.getZoomFactor((zoomFactor) => {
-      zoomFactor /= 1.1;
-      this.webContents.setZoomFactor(zoomFactor);
-      setDefaultZoomFactor(zoomFactor);
-    })
-  }
+  // add some extra methods to win
+  Object.assign(win, {
+    resetZoom() {
+      this.webContents.setZoomFactor(1.0);
+      setDefaultZoomFactor(1.0);
+    },
+    zoomIn() {
+      this.webContents.getZoomFactor((zoomFactor) => {
+        zoomFactor *= 1.1;
+        this.webContents.setZoomFactor(zoomFactor);
+        setDefaultZoomFactor(zoomFactor);
+      })
+    },
+    zoomOut() {
+      this.webContents.getZoomFactor((zoomFactor) => {
+        zoomFactor /= 1.1;
+        this.webContents.setZoomFactor(zoomFactor);
+        setDefaultZoomFactor(zoomFactor);
+      })
+    },
+  });
+
+  win.loadURL('file://' + __dirname + '/index.html');
+  return win;
 }
 
-module.exports = TingappWindow;
+module.exports = newTingappWindow;
