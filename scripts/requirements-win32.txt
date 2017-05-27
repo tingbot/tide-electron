@@ -1,2 +1,2 @@
 
-https://pypi.python.org/packages/49/d7/e48d747d5ff3c95269ec365897bd24519dffca59530ac1fb924af0f2b8f4/pygame-1.9.2b1-cp27-cp27m-win32.whl#md5=97ab8b1b4062576323559ef63c208c24
+https://pypi.python.org/packages/90/da/7ce9b01cc57cd88e21ff2a6f1296460c256407b3df0888a81e4fd3f525f1/pygame-1.9.3-cp27-cp27m-win32.whl#md5=e0da4ff36f39e2e1ba0622af8b326656
