@@ -6,6 +6,10 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 
 ## Changelog
 
+### 0.5.3
+
+- Updated bundled pygame to 1.9.3 to fix problems with pygame.mixer
+
 ### 0.5.2
 
 - Added zoom options in Window menu
