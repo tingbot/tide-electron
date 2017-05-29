@@ -1,3 +1,4 @@
+
 # Tide
 
 A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://github.com/atom/electron).
@@ -5,6 +6,10 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 [![Build Status](https://travis-ci.org/tingbot/tide-electron.svg?branch=master)](https://travis-ci.org/tingbot/tide-electron) [![Build status](https://ci.appveyor.com/api/projects/status/30p5htkdcq5y2kq8?svg=true)](https://ci.appveyor.com/project/joerick/tide-electron)
 
 ## Changelog
+
+### 0.5.4
+
+- Update tingbot-python to 1.2.0
 
 ### 0.5.3
 
