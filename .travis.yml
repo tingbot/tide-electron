@@ -49,6 +49,8 @@ install:
 - nvm install 6
 - npm install npm -g
 - npm install electron-builder@7.10.0
+# ensure on mac that the system python is used to install the python deps
+- export PATH=/usr/bin:$PATH
 - npm install
 - npm prune
 script:
