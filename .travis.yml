@@ -48,7 +48,7 @@ before_install:
 install:
 - nvm install 6
 - npm install npm -g
-- npm install electron-builder@next
+- npm install electron-builder@7.10.0
 - npm install
 - npm prune
 script:
