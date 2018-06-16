@@ -14,7 +14,7 @@ def install_packages(requirements_files):
 
     temp_packages_dir = tempfile.mkdtemp()
 
-    pip_command = ['pip', 'install', '--target', temp_packages_dir]
+    pip_command = [sys.executable, '-m', 'pip', 'install', '--target', temp_packages_dir]
 
     for f in requirements_files:
         pip_command.append('-r')
