@@ -7,6 +7,10 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 
 ## Changelog
 
+### 0.5.7
+
+- Updated bundled requests to 2.19.1 for improved SSL support
+
 ### 0.5.4
 
 - Update tingbot-python to 1.2.0
