@@ -27,8 +27,10 @@ function findPython() {
     console.log("Using System Python");
     if (process.platform === 'win32') {
         return 'python.exe';
+    } else if (process.platform === 'darwin') {
+        return '/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python';
     } else {
-        return 'python';
+        return 'python2.7';
     }
 }
 

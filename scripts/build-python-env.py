@@ -1,5 +1,9 @@
 import os, sys, subprocess, tempfile, shutil, urllib2, stat
 
+python = sys.executable
+# homebrew-installed python can't install with --target. use system python instead.
+if sys.platform == 'darwin':
+    python = '/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python'
 
 def install_packages(requirements_files):
     project_root = os.path.dirname(os.path.dirname(__file__))
@@ -14,7 +18,7 @@ def install_packages(requirements_files):
 
     temp_packages_dir = tempfile.mkdtemp()
 
-    pip_command = [sys.executable, '-m', 'pip', 'install', '--target', temp_packages_dir]
+    pip_command = [python, '-m', 'pip', 'install', '--isolated', '--target', temp_packages_dir]
 
     for f in requirements_files:
         pip_command.append('-r')
