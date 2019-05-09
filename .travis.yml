@@ -11,7 +11,7 @@ matrix:
     env: CC=clang CXX=clang++ npm_config_clang=1 ELECTRON_ARCH=armv7l
     compiler: clang
   - os: osx
-    env: ELECTRON_ARCH=x64
+    env: ELECTRON_ARCH=x64 CXXFLAGS="-mmacosx-version-min=10.9" LDFLAGS="-mmacosx-version-min=10.9"
 cache:
   directories:
   - node_modules
