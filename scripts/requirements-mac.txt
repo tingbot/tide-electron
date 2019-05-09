@@ -5,7 +5,7 @@
 # system, besides those that the platform provides.
 
 # pygame wheel that bundles SDL libs
-https://pypi.python.org/packages/20/0d/628d9e6c69a60b097b2af8ce71be06268a30f5865186cb78bc9e74ec6b81/pygame-1.9.3-cp27-cp27m-macosx_10_9_intel.whl#md5=2ca9a8c750464cd9fa552a2fbef6d4d7
+https://github.com/pygame/pygame/releases/download/2.0.0.dev1/pygame-2.0.0.dev1-cp27-cp27m-macosx_10_11_intel.whl
 
 # libzmq wheel that bundles zmq
 https://pypi.python.org/packages/a2/43/90e61a2adc24148a9b1e5603542f52427f86c93090cbea097e47de51ae41/pyzmq-15.4.0-cp27-cp27m-macosx_10_6_intel.whl#md5=e4169be2025a4066db304e3d74c6118c
