@@ -37,11 +37,6 @@ addons:
     paths:
     - $(find dist -maxdepth 2 -and '(' -iname '*.zip' -or -iname '*.dmg' -or -iname '*.deb' -or -iname '*.rpm' ')' | tr "\n" ":")
 before_install:
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install git-lfs; fi
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then git lfs pull; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then curl -L https://github.com/github/git-lfs/releases/download/v1.2.0/git-lfs-linux-amd64-1.2.0.tar.gz | tar -xz; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then git-lfs-1.2.0/git-lfs pull; fi
 - curl https://bootstrap.pypa.io/get-pip.py | sudo /usr/bin/python
 - python --version
 - pip --version
