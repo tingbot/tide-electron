@@ -42,18 +42,24 @@ A cross-platform IDE for Tingbot, built in Javascript using [Electron](https://g
 
 This project uses Node.js, Python 2.7 and some modules. For now, these have to be manually installed.  
 
-* Download Node.js from: https://nodejs.org/en/
+* Download Node 6 from: https://nodejs.org/en/
 * Install python 2.7.* from: https://www.python.org/  
   **IMPORTANT:** During the installation there is an opt-in to add Python to the path variable. You have to do this otherwise the project can't find Python. If you get errors later call ``setx PATH "%PATH%;C:\Python33\Scripts"`` from the terminal. This will add Python to your path.
 * If you don't have Visual Studio installed, `npm install --global --production windows-build-tools`
 
 ### Mac
 
+Node v6 is required to build and run, and some custom flags to build.
+
 * Install [Homebrew](http://brew.sh/)
 * `brew install node`
+* Install [nvm](http://nvm.sh)
+* ``nvm install 6``
+* ``export CXXFLAGS="-mmacosx-version-min=10.9" LDFLAGS="-mmacosx-version-min=10.9"``
 
 ## Running
 
+ * ``nvm install 6``
  * ``npm run build-python``
  * ``npm install``
  * ``./node_modules/.bin/webpack``
